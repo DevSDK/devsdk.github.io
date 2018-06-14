@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>라운드 로빈 스케줄러와 시분할 ContextSwitching | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="라운드 로빈 스케줄러와 시분할 ContextSwitching" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="ko" />
+<meta name="description" content="SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다." />
+<meta property="og:description" content="SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다." />
+<link rel="canonical" href="https://devsdk.github.io/devsdk.test.blog/ko/development/2017/09/19/Scheduler.html" />
+<meta property="og:url" content="https://devsdk.github.io/devsdk.test.blog/ko/development/2017/09/19/Scheduler.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-19T07:46:20+09:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"라운드 로빈 스케줄러와 시분할 ContextSwitching","dateModified":"2017-09-19T07:46:20+09:00","datePublished":"2017-09-19T07:46:20+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/devsdk.test.blog/ko/development/2017/09/19/Scheduler.html"},"url":"https://devsdk.github.io/devsdk.test.blog/ko/development/2017/09/19/Scheduler.html","author":{"@type":"Person","name":"Seokho Song"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/devsdk.test.blog/ko/images/avator.jpeg"},"name":"Seokho Song"},"description":"SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/devsdk.test.blog/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/devsdk.test.blog/ko/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  라운드-로빈-스케줄러와-시분할-contextswitching">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/devsdk.test.blog/ko/about">About</a></li><li><a href="/devsdk.test.blog/ko/">Home</a></li><li><a href="/devsdk.test.blog/ko/posts/">Posts</a></li><li><a href="/devsdk.test.blog/ko/categories/">Categories</a></li><li><a href="/devsdk.test.blog/ko/tags/">Tags</a></li><li><a href="/devsdk.test.blog/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/devsdk.test.blog/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/devsdk.test.blog/ko/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/devsdk.test.blog/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">라운드 로빈 스케줄러와 시분할 ContextSwitching
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/devsdk.test.blog/ko/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">9 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-09-19T07:46:20+09:00"><a class="u-url" href="">September 19, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/devsdk.test.blog/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#performance" title="Pages tagged Performance" rel="tag">Performance</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#task" title="Pages tagged Task" rel="tag">Task</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#scheduling" title="Pages tagged Scheduling" rel="tag">Scheduling</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#multicore" title="Pages tagged MultiCore" rel="tag">MultiCore</a></li><li class="page-taxonomy"><a href="/devsdk.test.blog/ko/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/devsdk.test.blog/development/2017/09/19/Scheduler.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+ <a href="/devsdk.test.blog/ko/development/2017/09/19/Scheduler.html" >한국어</a> </li>
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <p>SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.</p>
+
+<p>사실 좀 논것도 있지만.</p>
+
+<p>이번에 개발한 양이라던가, 생각할게 좀 많아서 시간이 걸리기도 했다.</p>
+
+<p>아무튼 이번에 개발한 부분은 MultiTasking을 위한 Round Robin Scheduler 구현과</p>
+
+<p>IRQ0 TimerInterrupt를 이용한 시분할 스케줄링의 구현이다.</p>
+
+<p>구현되서 동작하는 모습이다. 셸과는 별개로 저 글자가 움직인다.(동시에 움직인다).</p>
+
+<p><img src="/uploads/2017-09-18/0SOS/TaskWork.png" alt="동작함!" /></p>
+
+<p>MultiLevel이 아니기 때문에 일단, 모든 Task는 5ms의 CPU 시간을 가질 수 있다고 지정했다.</p>
+
+<p>위키백과의 말을 빌려 스케줄링이란 다중 프로그래밍이 가능하게 해주는 OS의 동작 기법이라고 한다.</p>
+
+<p>뭐 대충 요약하자면 말그대로 여러 Task를 동시에 쓰는거처럼 만들고 싶은거다.</p>
+
+<p>그 기법도 다양하다 FCFS, SJF … 등등 많인데, 그중에 Round Robin 기법을 사용할 것이다.</p>
+
+<p>우선순위는 고려하지 않고 일단 같은 CPU 시간을 부여하는 방식이다. 뭐, 나중에 멀티레벨 큐를 구성하면</p>
+
+<p>우선순위를 적용 시킬 수 있을것이라고 생각한다.</p>
+
+<p>이것도 고려해야할게 생각보다 많다.</p>
+
+<p>일단 데이터가 (테스크가) 수시로 추가 및 제거가 될것이기 때문에 배열기반 자료구조 보단</p>
+
+<p>연결리스트 기반의 자료구조를 구성한다.</p>
+
+<p>따라서 먼저 Linked List를 구현했다.</p>
+
+<p>네이밍이 좀 구린거 같긴한데 딱히 다른거 안떠올라서 LinkedList라 LList로 짧게 만들었다.</p>
+
+<p>LList는 범용 자료구조에 속해서 /GDS/ 디렉터리 안에 구현했다.</p>
+
+<p>다음은 LList의 해더파일이다.</p>
+
+<p>node에 list 해더를 심게끔 만들어서 범용성을 좀더 꾀해보려고 했다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __LINKEDLIST_H__
+#define __LINKEDLIST_H__
+#include &lt;Types.h&gt;
+</span>
+
+<span class="cp">#pragma pack(push, 1)
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_struct_Single_LinekdListNode</span>
+<span class="p">{</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">NextNode</span><span class="p">;</span> <span class="c1">//Single Link Linked List</span>
+    <span class="n">QWORD</span> <span class="n">ID</span><span class="p">;</span> <span class="c1">//Address or Data</span>
+<span class="p">}</span>   <span class="n">LLIST_NODE_HEADER</span><span class="p">;</span>
+
+<span class="cm">/*
+    exmple of element data structure.
+
+typedef struct _Example_Data
+{
+    LLIST_DATA_HEADER header;
+    
+    int data1;
+    char data2;
+
+} Example;
+*/</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_struct_LinkedListDescriptor</span>
+<span class="p">{</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">FirstNode</span><span class="p">;</span> 
+    <span class="kt">void</span><span class="o">*</span> <span class="n">LastNode</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">Count</span><span class="p">;</span> 
+<span class="p">}</span> <span class="n">LLIST</span><span class="p">;</span>
+
+<span class="cp">#pragma pack(pop)
+</span>
+<span class="kt">void</span> <span class="n">InitializeLList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">Push_Back_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Item</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">Push_Front_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Item</span><span class="p">);</span>
+<span class="kt">void</span><span class="o">*</span> <span class="n">Remove_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">);</span>
+<span class="kt">void</span><span class="o">*</span> <span class="n">Remove_Front_LList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">);</span>
+<span class="kt">void</span><span class="o">*</span> <span class="n">Remove_Back_LList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="o">*</span> <span class="n">FindLList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">);</span>
+
+
+<span class="cp">#endif </span><span class="cm">/*__LINKEDLIST_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+<p>Example 구조체처럼 데이터 노드에 해당하는 구조체 앞에 LLIST_NODE_HEADER를 정의해줘야한다.</p>
+
+<p>Linked List를 굳이 길게 이야기 할 필요는 없어보인다.</p>
+
+<p>다음은 /GDS/LinkedList.c의 내용이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "LinkedList.h"
+#include &lt;Console/Console.h&gt;
+</span><span class="kt">void</span> <span class="nf">InitializeLList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span>  <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>   
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">Push_Back_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Item</span><span class="p">)</span>
+<span class="p">{</span>   
+    <span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Item</span><span class="p">;</span>
+    <span class="n">header</span><span class="o">-&gt;</span><span class="n">NextNode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span>  <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span>     <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span><span class="p">;</span>
+    <span class="n">header</span><span class="o">-&gt;</span><span class="n">NextNode</span> <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span> <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Push_Front_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Item</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Item</span><span class="p">;</span>
+    <span class="n">header</span><span class="o">-&gt;</span><span class="n">NextNode</span> <span class="o">=</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span>  <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span>   <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+        <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span>      <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">=</span> <span class="n">_Item</span><span class="p">;</span>
+    <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span><span class="o">*</span> <span class="nf">Remove_LList</span><span class="p">(</span><span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">pre_headaer</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">iter_header</span> <span class="o">=</span> <span class="n">pre_headaer</span><span class="p">;</span> <span class="n">iter_header</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">iter_header</span> <span class="o">=</span> <span class="n">iter_header</span><span class="o">-&gt;</span><span class="n">NextNode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">iter_header</span><span class="o">-&gt;</span><span class="n">ID</span> <span class="o">==</span> <span class="n">_ID</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">((</span><span class="n">iter_header</span> <span class="o">==</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">iter_header</span> <span class="o">==</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span><span class="p">)</span> <span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+                <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span>  <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>   
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">iter_header</span> <span class="o">==</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span> <span class="o">=</span> <span class="n">iter_header</span><span class="o">-&gt;</span><span class="n">NextNode</span><span class="p">;</span>
+                
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">iter_header</span> <span class="o">==</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">_Ld</span> <span class="o">-&gt;</span><span class="n">LastNode</span> <span class="o">=</span> <span class="n">pre_headaer</span><span class="p">;</span>
+
+            <span class="p">}</span> 
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">pre_headaer</span><span class="o">-&gt;</span><span class="n">NextNode</span> <span class="o">=</span> <span class="n">iter_header</span><span class="o">-&gt;</span><span class="n">NextNode</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span><span class="o">--</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">iter_header</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">pre_headaer</span> <span class="o">=</span> <span class="n">iter_header</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span><span class="o">*</span> <span class="nf">Remove_Front_LList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">Remove_LList</span><span class="p">(</span><span class="n">_Ld</span><span class="p">,</span> <span class="n">header</span><span class="o">-&gt;</span><span class="n">ID</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span><span class="o">*</span> <span class="nf">Remove_Back_LList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">header</span>    <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span><span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">LastNode</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">Remove_LList</span><span class="p">(</span><span class="n">_Ld</span><span class="p">,</span> <span class="n">header</span><span class="o">-&gt;</span><span class="n">ID</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="o">*</span> <span class="nf">FindLList</span><span class="p">(</span><span class="k">const</span> <span class="n">LLIST</span><span class="o">*</span> <span class="n">_Ld</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span> <span class="n">iter</span> <span class="o">=</span> <span class="p">(</span><span class="n">LLIST_NODE_HEADER</span><span class="o">*</span><span class="p">)</span> <span class="n">_Ld</span><span class="o">-&gt;</span><span class="n">FirstNode</span><span class="p">;</span> <span class="n">iter</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">iter</span><span class="o">-&gt;</span><span class="n">NextNode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">iter</span><span class="o">-&gt;</span><span class="n">ID</span> <span class="o">==</span> <span class="n">_ID</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">iter</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>일단 연결리스트 자체는 구현이 어렵지 않게 구현했다. 하지만 난관이 하나 있다.</p>
+
+<p>바로 0SOS엔 Heap Allocator가 없단것. 즉, 동적 할당이 불가능하다.</p>
+
+<p>이걸 해결하고, 효율적으로 메모리를 관리하기 위해서 TCB Pooling을 사용하기로 한다.</p>
+
+<p>(정적으로 특정 영역을 지정해두고, 이 부분을 케이크처럼 잘라서 할당해주는것.)</p>
+
+<p>8MB 이후 영역부터 TCB Pool 그리고, TCB Pool 위에 TaskStackPool을 구성하도록 한다.</p>
+
+<p>대충 그림으로 표현하자면.</p>
+
+<p><img src="/uploads/2017-09-18/0SOS/MemoryMap.png" alt="MemoryMap" /></p>
+
+<p>OneNote로 그렸는데 흠… 괜찮나</p>
+
+<p>아무튼 다음과 같은 구조를 가지게 된다.</p>
+
+<p>(8MB이후 영역 크기 계산이 귀찮아서 그냥 대충 저렇게 표현했다)</p>
+
+<p>여기서 2MB영억부터  0x205C19까지는 64비트(IA-32e모드)커널 영역이다.</p>
+
+<p><img src="/uploads/2017-09-18/0SOS/InstructionLast.png" alt="Instruction" /></p>
+
+<p>아, 그리고 책에선 ID부분을 32비트 32비트로 나눠서 앞의 32비트 영역이 0이 아니면 할당되었다</p>
+
+<p>이런식으로 처리하길레 내 마음에 들게 고쳤다.</p>
+
+<p>앞0비트부터 55비트까진 ID의 Index 뒤 56비트부터 63비트까진 Status를 나타내는 비트로 정의했다</p>
+
+<p>그림으로 나타내면 다음과 같다.</p>
+
+<p><img src="/uploads/2017-09-18/0SOS/TCBID.png" alt="TCBID" /></p>
+
+<p>그렇게 Task.h와 Task.c에 내용을 추가했다.</p>
+
+<p>다음은 Tasking/Task.h 내용이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __TASK_H__
+#define __TASK_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+#include &lt;GDS/LinkedList.h&gt;
+</span><span class="c1">//SS, RSP, RFLAGS, CS, RIP.. 등등 Context</span>
+<span class="cp">#define CONTEXT_REGISTER_COUNT     24
+#define CONTEXT_REGISTER_SIZE       8
+</span>
+<span class="cp">#define CONTEXT_OFFSET_GS           0
+#define CONTEXT_OFFSET_FS           1
+#define CONTEXT_OFFSET_ES           2
+#define CONTEXT_OFFSET_DS           3
+#define CONTEXT_OFFSET_R15          4
+#define CONTEXT_OFFSET_R14          5
+#define CONTEXT_OFFSET_R13          6
+#define CONTEXT_OFFSET_R12          7
+#define CONTEXT_OFFSET_R11          8
+#define CONTEXT_OFFSET_R10          9
+#define CONTEXT_OFFSET_R9           10
+#define CONTEXT_OFFSET_R8           11
+#define CONTEXT_OFFSET_RSI          12
+#define CONTEXT_OFFSET_RDI          13
+#define CONTEXT_OFFSET_RDX          14
+#define CONTEXT_OFFSET_RCX          15
+#define CONTEXT_OFFSET_RBX          16
+#define CONTEXT_OFFSET_RAX          17
+#define CONTEXT_OFFSET_RBP          18
+#define CONTEXT_OFFSET_RIP          19
+#define CONTEXT_OFFSET_CS           20
+#define CONTEXT_OFFSET_RFLAG        21
+#define CONTEXT_OFFSET_RSP          22
+#define CONTEXT_OFFSET_SS           23
+</span>
+<span class="cp">#define TASK_TCBPOOL_ADDRESS        0x800000
+#define TASK_TCBPOOL_COUNT          4096
+</span>
+<span class="cp">#define TASK_STACK_ADRESS           (TASK_TCBPOOL_ADDRESS + sizeof(TCB) * TASK_TCBPOOL_COUNT)
+#define TASK_STACK_SIZE             8192
+</span>
+<span class="cp">#define TASK_INVALID_ID             0xFFFFFFFFFFFFFFFF
+</span>
+
+<span class="c1">//----- TCB STATUS DEFINITION</span>
+
+<span class="cp">#define TASK_FREE                   0x0000000000000000
+#define TASK_ALLOCATED              0x0100000000000000
+</span>
+<span class="cp">#define TASK_STATE_MASK             0xFF00000000000000
+#define TASK_INDEX_MASK             0x00FFFFFFFFFFFFFF
+</span>
+
+<span class="cp">#pragma pack(push,1)
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__CONTEXT_STRUCT</span>
+<span class="p">{</span>
+    <span class="c1">//RegisterData</span>
+    <span class="n">QWORD</span> <span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_REGISTER_COUNT</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">CONTEXT</span><span class="p">;</span>
+
+<span class="c1">//Include Linked List Header.</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__TCB_STRUCT</span>
+<span class="p">{</span>
+    <span class="n">LLIST_NODE_HEADER</span>   <span class="n">list_header</span><span class="p">;</span>
+    <span class="n">QWORD</span>               <span class="n">Flags</span><span class="p">;</span>
+    <span class="n">CONTEXT</span>             <span class="n">Context</span><span class="p">;</span>
+
+    <span class="kt">void</span><span class="o">*</span>               <span class="n">StackAddress</span><span class="p">;</span>
+    <span class="n">QWORD</span>               <span class="n">StackSize</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">TCB</span><span class="p">;</span>  
+
+<span class="c1">//Management TCB Poll</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__TCB_POOL_MANAGER</span>
+<span class="p">{</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">StartAddress</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">MaxCount</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">Count</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">AllocatedCount</span><span class="p">;</span>
+<span class="p">}</span><span class="n">TCB_POOL_MANAGER</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__SchedulerStruct</span>
+<span class="p">{</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">Current_Runing_Task</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">CpuTime</span><span class="p">;</span>
+    
+    <span class="n">LLIST</span> <span class="n">task_list</span><span class="p">;</span>
+<span class="p">}</span><span class="n">SCHEDULER</span><span class="p">;</span>
+
+<span class="cp">#pragma pack(pop)
+</span>
+<span class="c1">/// TASK POOL &amp; TASK </span>
+
+
+<span class="kt">void</span> <span class="n">InitTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_StackAddress</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_StackSize</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">InitializeTCBPool</span><span class="p">();</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="n">AllocateTCB</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">FreeTCB</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_ID</span><span class="p">);</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="n">CreateTask</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">);</span>
+
+
+<span class="c1">//Link Assembly File</span>
+<span class="kt">void</span> <span class="n">ContextSwitch</span><span class="p">(</span><span class="n">CONTEXT</span><span class="o">*</span> <span class="n">_CurrentContext</span><span class="p">,</span> <span class="n">CONTEXT</span><span class="o">*</span> <span class="n">_NextContext</span><span class="p">);</span>
+<span class="cp">#endif </span><span class="cm">/*__TASK_H__*/</span><span class="cp">
+</span>
+</code></pre></div></div>
+<p>AllocateTCB,FreeTCB, InitializeTCB 등등의 함수와 TCB_POOL_MANAGER 등등의 구조체를 정의했다.</p>
+
+<p>그리고 TCB ID를 위한 MASK.</p>
+
+<p>다음은 c코드이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "Task.h"
+#include &lt;Utility/Memory.h&gt;
+#include &lt;Descriptor/GDT.h&gt;
+#include &lt;Console/Console.h&gt;
+</span>
+<span class="k">static</span> <span class="n">TCB_POOL_MANAGER</span> <span class="n">g_TcbPoolManager</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">InitTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_StackAddress</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_StackSize</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_MemSet</span><span class="p">(</span><span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">));</span>
+    
+    <span class="c1">//초기화 과정의 RSP, RBP 해당 Task의 Stack Pointer 기 떄문에 + Size </span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RSP</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_StackAddress</span> <span class="o">+</span> <span class="n">_StackSize</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RBP</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_StackAddress</span> <span class="o">+</span> <span class="n">_StackSize</span><span class="p">;</span>
+    
+    <span class="c1">//Segment Register Setup in Context </span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_CS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_CODE_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_DS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_ES</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_FS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_GS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_SS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    
+    <span class="c1">//Next run instruction setup</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RIP</span><span class="p">]</span> <span class="o">=</span> <span class="n">_EntryPointAddress</span><span class="p">;</span>
+
+    <span class="c1">// 0 NT  IOPL  OF DF IF TF SF ZF 0  AF 0  PF 1  CF</span>
+    <span class="c1">// 0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RFLAG</span><span class="p">]</span> <span class="o">|=</span> <span class="mh">0x0200</span><span class="p">;</span>   
+    <span class="c1">//Setup TCB Block</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">StackAddress</span>  <span class="o">=</span> <span class="n">_StackAddress</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">StackSize</span>     <span class="o">=</span> <span class="n">_StackSize</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Flags</span>         <span class="o">=</span> <span class="n">_Flags</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="kt">void</span> <span class="nf">InitializeTCBPool</span><span class="p">()</span>
+ <span class="p">{</span>
+     <span class="c1">//8MB부터 시작되는 Task Pool 영역 초기화 및 Mananger 초기화</span>
+    <span class="n">_MemSet</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">));</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span> <span class="o">=</span> <span class="p">(</span><span class="n">TCB</span><span class="o">*</span><span class="p">)</span><span class="n">TASK_TCBPOOL_ADDRESS</span><span class="p">;</span>
+
+    <span class="n">_MemSet</span><span class="p">(</span><span class="n">TASK_TCBPOOL_ADDRESS</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">TCB</span><span class="p">)</span> <span class="o">*</span> <span class="n">TASK_TCBPOOL_COUNT</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">TASK_TCBPOOL_COUNT</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">MaxCount</span> <span class="o">=</span> <span class="n">TASK_TCBPOOL_COUNT</span><span class="p">;</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">AllocatedCount</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+ <span class="c1">//       STATE</span>
+ <span class="c1">//63 ------------ 55 -------0</span>
+ <span class="c1">// 0 0 0 0 0 0 0 0 | address|</span>
+
+ <span class="n">TCB</span><span class="o">*</span> <span class="nf">AllocateTCB</span><span class="p">()</span>
+ <span class="p">{</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">EmptyTCB</span><span class="p">;</span>
+    <span class="c1">//TCBPool이 가득 찼다면 NULL을 반환  </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">Count</span> <span class="o">==</span> <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">MaxCount</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="c1">//Free 상태인 TCB를 TCBPool에서 선형탐색</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">MaxCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">&amp;</span> <span class="n">TASK_STATE_MASK</span><span class="p">)</span> <span class="o">==</span> <span class="n">TASK_FREE</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">EmptyTCB</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//Allocate Count를 이용하여 ID값을 만듬 또한 TASK_ALLOCATED를 or 해서 ALOCATOED 상태로 전환함</span>
+    <span class="n">QWORD</span> <span class="n">id</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span> <span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">AllocatedCount</span><span class="p">);</span>
+    <span class="n">EmptyTCB</span><span class="o">-&gt;</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="p">((</span> <span class="n">id</span> <span class="o">|</span> <span class="n">TASK_ALLOCATED</span><span class="p">));</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">Count</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">AllocatedCount</span><span class="o">++</span><span class="p">;</span>
+
+    
+    <span class="k">if</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">AllocatedCount</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">AllocatedCount</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="n">EmptyTCB</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">FreeTCB</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_ID</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//_ID에서 Index 부분만 추출</span>
+    <span class="n">QWORD</span> <span class="n">index</span> <span class="o">=</span> <span class="n">_ID</span> <span class="o">&amp;</span> <span class="n">TASK_INDEX_MASK</span><span class="p">;</span>
+    <span class="c1">//TCB Context 초기화</span>
+    <span class="n">_MemSet</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">Context</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">CONTEXT</span><span class="p">));</span>
+    <span class="c1">//할당 해제</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">StartAddress</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+    <span class="n">g_TcbPoolManager</span><span class="p">.</span><span class="n">Count</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="nf">CreateTask</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">task</span> <span class="o">=</span> <span class="n">AllocateTCB</span><span class="p">();</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="c1">//스택 어드레스를 구함. TCBPool이 끝나는 주소가 시작주소 + STACKSIZE * INDEX</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">StackAddress</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="n">TASK_STACK_ADRESS</span> <span class="o">+</span> 
+        <span class="p">(</span><span class="n">TASK_STACK_SIZE</span> <span class="o">*</span> <span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">&amp;</span> <span class="n">TASK_INDEX_MASK</span><span class="p">)));</span>
+    
+    <span class="n">InitTask</span><span class="p">(</span><span class="n">task</span><span class="p">,</span>  <span class="n">_Flags</span><span class="p">,</span> <span class="n">_EntryPointAddress</span><span class="p">,</span> <span class="n">StackAddress</span><span class="p">,</span> <span class="n">TASK_STACK_SIZE</span><span class="p">);</span>
+    
+    <span class="c1">//스케줄러에 등록</span>
+    <span class="n">AddTaskToScheduler</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">task</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+</code></pre></div></div>
+
+<p>구체적인 설명은 위에서 했기때문에, 생략하겠다.</p>
+
+<p>이제 가장 핵심인 스케줄러 코드다.</p>
+
+<p>뭐랄까, 생각보다 크게 특별한 내용은 없다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __SCHEDULER_H__
+#define __SCHEDULER_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+#include &lt;Tasking/Task.h&gt;
+</span>
+<span class="c1">//Default CPU Time</span>
+<span class="cp">#define TASK_TIME                   5
+</span>
+
+<span class="kt">void</span> <span class="n">InitializeScheduler</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">SetCurrentRunningTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">);</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="n">GetCurrentRunningTask</span><span class="p">();</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="n">GetNextTask</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">AddTaskToScheduler</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">Schedule</span><span class="p">();</span>
+<span class="n">BOOL</span> <span class="n">ScheduleInInterrupt</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">DecreaseProcessorTime</span><span class="p">();</span>
+<span class="n">BOOL</span> <span class="n">IsProcessorTimeExpired</span><span class="p">();</span>
+
+
+<span class="cp">#endif </span><span class="cm">/*__SCHEDULER_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>해더파일이다. 스케줄링을 위한 여러 함수와 초기화 함수, Round Robin Scheduling을 위한</p>
+
+<p>최대 CPU 사용시간을 지정해준다.</p>
+
+<p>그냥 코드에서 Schedule 함수가 호출됬을때랑</p>
+
+<p>IRQ0 TimerInterrupt에서 호출됬을때 ContextSwitching 기법이 약간 다르다.</p>
+
+<p>코드에서 Schedule 하는건 그냥 ContextSwitch 하면 되지만, Interrupt때는</p>
+
+<p>IST에 있는 Context 변경해주면서 Context를 지정해주어야한다.</p>
+
+<p>이걸 그림으로 그리려했으나 표현력이 딸려서… ( 젠장 )</p>
+
+<p>좀더 쉽게말하면 Interrupt 에 쓰이는 IST 영역에 Context가 저장되니까 그걸 변경하면 Interrupt 종료시 자동으로</p>
+
+<p>Contxt Switch가 된다는 이야기.</p>
+
+<p>소스코드로 보자.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "Scheduler.h"
+#include &lt;Tasking/Task.h&gt;
+#include &lt;Interrupt/Interrupt.h&gt;
+#include &lt;Descriptor/IDT.h&gt;
+#include &lt;Utility/Memory.h&gt;
+#include &lt;Console/Console.h&gt;
+</span><span class="k">static</span> <span class="n">SCHEDULER</span> <span class="n">g_Scheduler</span><span class="p">;</span>
+<span class="c1">//TCBPool 초기화 및 TaskList초기화</span>
+<span class="kt">void</span> <span class="nf">InitializeScheduler</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">InitializeTCBPool</span><span class="p">();</span>
+    <span class="n">InitializeLList</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">task_list</span><span class="p">));</span>
+    <span class="c1">//Shell Task를 현제 Task로 지정함</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span> <span class="o">=</span> <span class="n">AllocateTCB</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">SetCurrentRunningTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span> <span class="o">=</span> <span class="n">_Tcb</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="nf">GetCurrentRunningTask</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">TCB</span><span class="o">*</span> <span class="nf">GetNextTask</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">task_list</span><span class="p">.</span><span class="n">Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">TCB</span><span class="o">*</span><span class="p">)</span> <span class="n">Remove_Front_LList</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">task_list</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">AddTaskToScheduler</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Push_Back_LList</span><span class="p">(</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">task_list</span><span class="p">),</span> <span class="n">_Tcb</span><span class="p">);</span>
+<span class="p">}</span>   
+<span class="kt">void</span> <span class="nf">Schedule</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//스케줄링 리스트가 비어있다면 반환함</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">task_list</span><span class="p">.</span><span class="n">Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="c1">//인터럽트 비활성화</span>
+    <span class="n">BOOL</span> <span class="n">interrupt_status</span> <span class="o">=</span> <span class="n">SetInterruptFlag</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">task</span> <span class="o">=</span> <span class="n">GetNextTask</span><span class="p">();</span> 
+    <span class="c1">//다음 Task가 NULL이라면</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//Interrupt를 복구하고 반환</span>
+        <span class="n">SetInterruptFlag</span><span class="p">(</span><span class="n">interrupt_status</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//현제 테스크를 스케줄링 리스트에 등록</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">pre_task</span> <span class="o">=</span> <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span><span class="p">;</span>
+    <span class="n">AddTaskToScheduler</span><span class="p">(</span><span class="n">pre_task</span><span class="p">);</span>   
+    
+    <span class="c1">//현제 수행중인 Task 변경</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span> <span class="o">=</span> <span class="n">task</span><span class="p">;</span>
+    <span class="c1">//Context Switch</span>
+    <span class="n">ContextSwitch</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">pre_task</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">),</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">));</span>
+    <span class="c1">//Cputime 초기화</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">CpuTime</span> <span class="o">=</span> <span class="n">TASK_TIME</span><span class="p">;</span>
+    <span class="c1">//인터럽트 복구</span>
+    <span class="n">SetInterruptFlag</span><span class="p">(</span><span class="n">interrupt_status</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="c1">//인터럽트에 의해 호출됨</span>
+<span class="n">BOOL</span> <span class="nf">ScheduleInInterrupt</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//다음 테스크를 가져옴</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">task</span> <span class="o">=</span> <span class="n">GetNextTask</span><span class="p">();</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    
+    <span class="c1">//IST STACK에 저장된 CONTEXT ADDRESS</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">ContextAddress</span> <span class="o">=</span> <span class="n">IST_POINTER</span> <span class="o">+</span> <span class="n">IST_SIZE</span> <span class="o">-</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">CONTEXT</span><span class="p">);</span>
+    
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">running_task</span> <span class="o">=</span> <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span><span class="p">;</span>
+    <span class="c1">//CONTEXT 저장</span>
+    <span class="n">_MemCpy</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">running_task</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">),</span> <span class="n">ContextAddress</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">CONTEXT</span><span class="p">));</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">Current_Runing_Task</span> <span class="o">=</span> <span class="n">task</span><span class="p">;</span>
+    <span class="n">AddTaskToScheduler</span><span class="p">(</span><span class="n">running_task</span><span class="p">);</span>
+    <span class="c1">//Context 전환 후 복원</span>
+    <span class="n">_MemCpy</span><span class="p">(</span><span class="n">ContextAddress</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">),</span><span class="k">sizeof</span><span class="p">(</span><span class="n">CONTEXT</span><span class="p">));</span>
+    <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">CpuTime</span> <span class="o">=</span> <span class="n">TASK_TIME</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">DecreaseProcessorTime</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">CpuTime</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">g_Scheduler</span><span class="p">.</span><span class="n">CpuTime</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">BOOL</span> <span class="nf">IsProcessorTimeExpired</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_Scheduler</span><span class="p">.</span><span class="n">CpuTime</span>  <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>   
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>주석을 구체적으로 달아뒀다고 생각한다. 흠…</p>
+
+<p>이제 Scheduling을 위한 준비는 끝났다.</p>
+
+<p>이제 IRQ0 Timer Interrupt 와 이어서 시분할 멀티테스킹이 가능하게 해줬다.</p>
+
+<p>Interrupt/InterruptHandler.c에 다음 함수를 추가했다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">TimerInterruptHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="n">SendPIC_EOI</span><span class="p">(</span><span class="n">_Vector</span> <span class="o">-</span> <span class="n">PIC_IRQ_VECTOR</span><span class="p">);</span>
+
+    <span class="n">DecreaseProcessorTime</span><span class="p">();</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IsProcessorTimeExpired</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="n">ScheduleInInterrupt</span><span class="p">();</span>    
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Interrupt/InterruptService.asm 에서 IRQ0인터럽트</p>
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ISRTimer</span><span class="o">:</span>
+    <span class="n">SAVECONTEXT</span>
+    <span class="k">mov</span> <span class="n">rdi</span><span class="p">,</span> <span class="mi">32</span>
+    <span class="k">call</span> <span class="n">TimerInterruptHandler</span>
+    <span class="n">LOADCONTEXT</span>
+    <span class="k">iretq</span>
+
+</code></pre></div></div>
+
+<p>이제 시분할을 위한 준비도 끝났으니, Shell 코드에 다음 내용을 추가했다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="kt">void</span> <span class="nf">TestTask1</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">data</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span>  <span class="mi">0</span><span class="p">,</span> <span class="n">ix</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">iy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">iMargin</span><span class="p">;</span>
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">video</span> <span class="o">=</span> <span class="p">(</span><span class="n">CHARACTER_MEMORY</span><span class="o">*</span><span class="p">)</span><span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">;</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">task</span> <span class="o">=</span> <span class="n">GetCurrentRunningTask</span><span class="p">();</span>
+    <span class="n">iMargin</span> <span class="o">=</span> <span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">&amp;</span> <span class="n">TASK_INDEX_MASK</span><span class="p">)</span> <span class="o">%</span><span class="mi">10</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">switch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ix</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ix</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">CONSOLE_WIDTH</span> <span class="o">-</span> <span class="n">iMargin</span><span class="p">))</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">iy</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">iy</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">CONSOLE_WIDTH</span> <span class="o">-</span> <span class="n">iMargin</span><span class="p">))</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>    
+            <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">ix</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">iy</span><span class="o">&lt;</span><span class="n">iMargin</span><span class="p">)</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">iy</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">iy</span> <span class="o">&lt;</span> <span class="n">iMargin</span><span class="p">)</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>   
+        <span class="n">video</span><span class="p">[</span><span class="n">iy</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span> <span class="o">+</span> <span class="n">ix</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+        <span class="n">video</span><span class="p">[</span><span class="n">iy</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span> <span class="o">+</span> <span class="n">ix</span><span class="p">].</span><span class="n">bAttribute</span> <span class="o">=</span> <span class="n">data</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">;</span>
+        <span class="n">data</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">Schedule</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">TestTask2</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">iOffset</span><span class="p">;</span>
+    
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">video</span> <span class="o">=</span> <span class="p">(</span><span class="n">CHARACTER_MEMORY</span> <span class="o">*</span><span class="p">)</span><span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">;</span>
+    <span class="n">TCB</span><span class="o">*</span> <span class="n">task</span> <span class="o">=</span> <span class="n">GetCurrentRunningTask</span><span class="p">();</span>
+    <span class="kt">char</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">'-'</span><span class="p">,</span><span class="sc">'\\'</span><span class="p">,</span><span class="sc">'/'</span><span class="p">,</span><span class="sc">'|'</span><span class="p">};</span>
+
+    <span class="n">iOffset</span> <span class="o">=</span> <span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">list_header</span><span class="p">.</span><span class="n">ID</span> <span class="o">&amp;</span> <span class="n">TASK_INDEX_MASK</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">iOffset</span> <span class="o">=</span> <span class="n">CONSOLE_WIDTH</span> <span class="o">*</span> <span class="n">CONSOLE_HEIGHT</span> <span class="o">-</span> <span class="p">(</span><span class="n">iOffset</span> <span class="o">%</span> <span class="p">(</span><span class="n">CONSOLE_WIDTH</span> <span class="o">*</span> <span class="n">CONSOLE_HEIGHT</span><span class="p">));</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">video</span><span class="p">[</span><span class="n">iOffset</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span><span class="mi">4</span><span class="p">];</span>
+        <span class="n">video</span><span class="p">[</span><span class="n">iOffset</span><span class="p">].</span><span class="n">bAttribute</span> <span class="o">=</span> <span class="p">(</span><span class="n">iOffset</span> <span class="o">%</span> <span class="mi">15</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">Schedule</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+
+
+<span class="kt">void</span> <span class="nf">Command_CreateTask</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PARAMETERLIST</span> <span class="n">parameter_list</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">type</span><span class="p">[</span><span class="mi">30</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="n">count</span><span class="p">[</span><span class="mi">30</span><span class="p">];</span>
+    <span class="n">InitializeParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">parameter_list</span><span class="p">,</span> <span class="n">_Parameter</span><span class="p">);</span>
+    <span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">parameter_list</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+    <span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">parameter_list</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+
+    <span class="kt">long</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">_atoi</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">idx</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">_atoi</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cnt</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="k">switch</span> <span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span><span class="p">(</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">cnt</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">CreateTask</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">TestTask1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>      
+            <span class="n">_Printf</span><span class="p">(</span><span class="s">"Task 1 %d Created</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">for</span><span class="p">(</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">cnt</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">CreateTask</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">TestTask2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>      
+            <span class="n">_Printf</span><span class="p">(</span><span class="s">"Task 2 %d Created</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>대충 createtask (타입 1,2 중 하나) 개수</p>
+
+<p>명령어로 task를 생성한다.</p>
+
+<p>타입 2는 바람개비같은걸 만들고</p>
+
+<p>타입 1은 빙글빙글 돌아다니는 글자 열? 같은거다.</p>
+
+<p>바람개비는 테스크 하나당 하나를 담당한다.</p>
+
+<p>아무튼, 위에는 깔끔하게 잘 동작하는 코드들일 뿐이다.</p>
+
+<p>동작하게끔 하기까지 수많은 시련이 있었는데,</p>
+
+<p><img src="/uploads/2017-09-18/0SOS/Exception7.png" alt="Excepton7" /></p>
+
+<p>Exception7 이였다.</p>
+
+<p>구체적인 내용은 x86 시스템에서 7코드인 “Device Not Available” 문제였다.</p>
+
+<p>찾아보면 FPU관련된 문제라고들 하는데, 아직 내 OS는 FPU를 제공하지 않으니</p>
+
+<p>왜그런걸까 고민해봤다.</p>
+
+<p>잘 찾아보니까 이럴수가</p>
+
+<p>Task.h 에서 범용 레지스터 개수는 24개인데 DEFINE에는 25개로 정의해버렸다.</p>
+
+<p>젠장.</p>
+
+<p>고치고 난뒤, 이번엔 Exception 14 Page Falult가 뜬다.</p>
+
+<p>찾아보고 메모리 뜯어보니까 연결리스트가 문제였다.</p>
+
+<p>고치고 나니까, 멀정해졌다.</p>
+
+<p>뭐, 디버깅 과정에서 메모리 맵 뜯고 난리 쳣지만</p>
+
+<p>결론적으론, 함수호출 하나 잘못한거랑 링크드 리스트 문제가 있었다는거 말곤 없어서</p>
+
+<p>구체적으로 쓰진 않겠다.</p>
+
+<p>휴, 드디어 멀티테스킹이 동작한다.</p>
+
+<p>이제 이 프로젝트는 잠깐 동결될 듯 하다.</p>
+
+<p>소프트웨어 마에스트로 프로젝트를 진행해야해서 아마 내년 1월달에나 재개되지 않을까 싶은데,</p>
+
+<p>소마에서 하는 프로젝트도 LinuxKernel 기반의 운영체제니 뭐…</p>
+
+<p>시간 봐서 종종 일지 올리겠다.</p>
+
+
+        </div>
+
+        
+
+        
+          
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/devsdk.test.blog/ko/development/2017/08/23/BeginTask.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> TCB와 Context, 그리고 ContextSwitch
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/devsdk.test.blog/ko/development/2018/02/19/NaverWordBookExtractor.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        NaverWordBookExtractor 개발기
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/devsdk.test.blog/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2018 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/devsdk.test.blog/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
