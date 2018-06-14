@@ -34,6 +34,8 @@ google_analytics: UA-43719770-2 # Google Analytics id, e.g. "UA-NNNNNNNN-N"
 disqus:
   shortname: DevSDK  # Disqus shortname, e.g. "my_disqus_shortname"
 
+languages: ["en", "ko"]
+exclude_from_localizations: ["uploads", "images", "assets"]
 
 # Liquid
 liquid:
@@ -72,6 +74,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-multiple-languages-plugin
 # Collections
 collections:
   recipes:
