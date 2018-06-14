@@ -1252,6 +1252,7 @@ th {
 
 .page-title {
   margin-bottom: 0.5em;
+  word-wrap: break-word;
   font-family: "Ubuntu", sans-serif;
   font-weight: bold;
   letter-spacing: -2px; }

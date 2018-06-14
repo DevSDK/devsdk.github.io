@@ -1,1 +1,1 @@
-Sitemap: https://devsdk.github.io/devsdk.test.blog/ko/sitemap.xml
+Sitemap: /ko/sitemap.xml
