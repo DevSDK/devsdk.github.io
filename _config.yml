@@ -35,7 +35,7 @@ disqus:
   shortname: DevSDK  # Disqus shortname, e.g. "my_disqus_shortname"
 
 languages: ["en", "ko"]
-exclude_from_localizations: ["uploads", "images", "assets"]
+exclude_from_localizations: ["./uploads", "./images", "./assets"]
 
 # Liquid
 liquid:
