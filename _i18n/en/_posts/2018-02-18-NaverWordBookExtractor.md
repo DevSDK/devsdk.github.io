@@ -1,6 +1,6 @@
 ---
 layout: post
-title: NaverWordBookExtractor 개발기
+title: NaverWordBookExtractor devlog
 date:   2018-02-18 22:46:20		
 categories: development
 tags:
