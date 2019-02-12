@@ -3,6 +3,9 @@ layout: post
 title: 라운드 로빈 스케줄러와 시분할 ContextSwitching
 date:   2017-09-18 22:46:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

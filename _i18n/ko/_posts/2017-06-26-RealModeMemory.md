@@ -3,6 +3,9 @@ layout: post
 title: 리얼모드에서 메모리 접근하는 방식	
 date:   2017-06-26 20:02:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

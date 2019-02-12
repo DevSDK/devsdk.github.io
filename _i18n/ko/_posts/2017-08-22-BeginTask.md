@@ -3,6 +3,9 @@ layout: post
 title: TCB와 Context, 그리고 ContextSwitch
 date:   2017-08-22 20:00:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

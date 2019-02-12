@@ -3,6 +3,9 @@ layout: post
 title: PortIO 메모리와 PS/2 Keyboard IO 입력처리
 date:   2017-07-04 22:00:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

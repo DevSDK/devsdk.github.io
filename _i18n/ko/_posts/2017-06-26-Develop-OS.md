@@ -3,6 +3,9 @@ layout: post
 title: OS개발-Frame Buffer에 때려박자.	
 date:   2017-06-26 17:20:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

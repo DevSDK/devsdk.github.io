@@ -8,7 +8,7 @@ I've started learning English since **Feb 2018**.
 
 Please understand me when I use wrong words or grammar.
 
-If you find some wrong or non-understandable sentence, please write comments below.
+If you find some mistake or non-understandable sentence, please write comments below.
 
 ---
 <br>

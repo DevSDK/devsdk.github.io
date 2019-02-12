@@ -1251,7 +1251,8 @@ th {
   max-width: 1024px; }
 
 .page-title {
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
+  text-align: center;
   word-wrap: break-word;
   font-family: "Ubuntu", sans-serif;
   font-weight: bold;

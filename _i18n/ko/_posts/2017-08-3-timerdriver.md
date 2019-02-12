@@ -3,6 +3,9 @@ layout: post
 title: 	시간과 관련된 드라이버 개발 완료.
 date:   2017-08-03 11:11:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

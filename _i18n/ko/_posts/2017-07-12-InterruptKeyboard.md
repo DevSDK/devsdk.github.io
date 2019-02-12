@@ -3,6 +3,9 @@ layout: post
 title: 키보드 드라이버의 업데이트-인터럽트 방식	
 date:   2017-07-12 23:49:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - 0SOS
 - OS

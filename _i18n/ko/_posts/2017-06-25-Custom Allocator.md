@@ -3,11 +3,14 @@ layout: post
 title: Comet Engine에 들어간 Custom Allocator에 대한 이야기	
 date:   2017-06-25 21:12:20		
 categories: development
+languages:
+- english
+- korean
 tags:
 - CometEngine
 - GameEngine
 - Memory
-- Optimazation
+- Optimization
 - 최적화
 ---		
 
@@ -37,7 +40,7 @@ Context Switch 비용도 무시할 수 없을 뿐더러, 우리가 모르는 부
 
 후보로는 Pool Based Memory Allocator, Stack Based Memory Allocator 그리고 아예 OS가 하는것 마냥
 
-운영체제마냥Pageing Address 심고 세그멘테이션 해버리게 해볼까도 고민했었는데 나중에 free라던가, 
+운영체제마냥 Paging Address 심고 세그멘테이션 해버리게 해볼까도 고민했었는데 나중에 free라던가, 
 
 연속된 메모리 블록일경우라던가 고려할게 많았다.
 
@@ -118,7 +121,7 @@ allocator.dealloc(void*);
 
 약 10배 차이난다.
 
-| System Alloc | Custom Alloc | System Free | System Free |
+| System Alloc | Custom Alloc | System Free | Custom Free |
 |------------|------------|-----------|-----------|
 |   0.0120 s |  0.0015 s  | 0.0091 s  | 0.0013 s  |
 
