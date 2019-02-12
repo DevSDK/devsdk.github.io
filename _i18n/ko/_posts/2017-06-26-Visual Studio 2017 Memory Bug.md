@@ -3,6 +3,7 @@ layout: post
 title: Visual Studio 2017 사용중 발생했던 메모리 버그.	
 date:   2017-06-26 10:41:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

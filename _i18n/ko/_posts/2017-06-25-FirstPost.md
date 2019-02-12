@@ -3,6 +3,7 @@ layout: post
 title: DevSDK 블로그, 시작합니다.	
 date:   2017-06-25 19:00:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

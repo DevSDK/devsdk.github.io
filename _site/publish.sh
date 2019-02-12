@@ -3,8 +3,7 @@
 
 git checkout gh-pages
 rm -rf _site/
-jekyll build
-jekyll build -s 'ko'
+JEKYLL_ENV=production jekyll build
 git add .
 git commit -m "`date` $1"
 git push stable gh-pages

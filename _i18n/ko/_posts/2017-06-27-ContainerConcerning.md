@@ -3,6 +3,7 @@ layout: post
 title: Comet Engine에 만들 컨테이너 라이브러리 고민
 date:   2017-06-27 18:42:27		
 categories: development
+comments: true
 languages:
 - english
 - korean

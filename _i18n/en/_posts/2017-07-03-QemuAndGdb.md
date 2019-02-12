@@ -3,6 +3,7 @@ layout: post
 title: Make a debugging environment using QEMU + GDB
 date:   2017-07-03 12:40:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

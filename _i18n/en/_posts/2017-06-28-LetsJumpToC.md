@@ -3,6 +3,7 @@ layout: post
 title: Now 0SOS will be written by C Langauge.
 date:   2017-06-29 00:51:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

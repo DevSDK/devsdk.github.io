@@ -3,6 +3,7 @@ layout: post
 title: Comet Engine에 구현할 컨테이너의 구조를 대충 생각했다.
 date:   2017-06-27 22:52:27		
 categories: development
+comments: true
 languages:
 - english
 - korean

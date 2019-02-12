@@ -3,6 +3,7 @@ layout: post
 title:  Port IO memory and Input input process PS/2 Keyboard IO.
 date:   2017-07-04 22:00:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

@@ -3,6 +3,7 @@ layout: post
 title: Memory bug on the Visual Studio 2017    
 date:   2017-06-26 10:41:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

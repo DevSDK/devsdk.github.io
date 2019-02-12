@@ -3,6 +3,7 @@ layout: post
 title: How to access memory in Real-Mode    
 date:   2017-06-26 20:02:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

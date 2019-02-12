@@ -3,6 +3,7 @@ layout: post
 title: PIC Interrupt, Interrupt Handling, Active Interrupt
 date:   2017-07-11 22:34:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

@@ -3,6 +3,7 @@ layout: post
 title: TCB와 Context and ContextSwitch
 date:   2017-08-22 20:00:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

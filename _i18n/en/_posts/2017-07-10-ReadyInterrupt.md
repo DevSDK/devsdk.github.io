@@ -3,6 +3,7 @@ layout: post
 title: Changing GDT & Defining GDT & Setting TSS    
 date:   2017-07-10 11:40:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

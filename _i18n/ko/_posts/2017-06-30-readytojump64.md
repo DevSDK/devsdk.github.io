@@ -3,6 +3,7 @@ layout: post
 title: Page 관련 자료구조 정의, 64비트로 시동 걸 준비.
 date:   2017-06-30 09:21:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

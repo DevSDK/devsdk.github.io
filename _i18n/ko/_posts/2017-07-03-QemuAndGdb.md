@@ -3,6 +3,7 @@ layout: post
 title: QEMU + GDB로 디버깅 환경 조성
 date:   2017-07-03 12:40:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

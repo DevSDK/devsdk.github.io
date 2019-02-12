@@ -3,6 +3,7 @@ layout: post
 title: PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화
 date:   2017-07-11 22:34:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

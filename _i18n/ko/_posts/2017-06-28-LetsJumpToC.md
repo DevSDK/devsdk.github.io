@@ -3,6 +3,7 @@ layout: post
 title: 0SOS가 이제 C언어 코드 엔트리로 넘어갑니다. 이제 C언어다
 date:   2017-06-29 00:51:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

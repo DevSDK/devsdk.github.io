@@ -3,6 +3,7 @@ layout: post
 title: Approximately, I thought an idea for the container of Comet Engine.
 date:   2017-06-27 22:52:27        
 categories: development
+comments: true
 languages:
 - english
 - korean

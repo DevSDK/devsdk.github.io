@@ -3,6 +3,7 @@ layout: post
 title: Thinking about Container Library in Comet Engine
 date:   2017-06-27 18:42:27        
 categories: development
+comments: true
 languages:
 - english
 - korean

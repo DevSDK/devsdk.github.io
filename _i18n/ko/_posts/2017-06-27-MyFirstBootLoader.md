@@ -3,6 +3,7 @@ layout: post
 title: 0SOS의 첫 BootLoader.
 date:   2017-06-27 10:20:27		
 categories: development
+comments: true
 languages:
 - english
 - korean

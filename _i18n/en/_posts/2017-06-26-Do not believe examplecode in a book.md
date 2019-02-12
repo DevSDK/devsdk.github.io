@@ -3,6 +3,7 @@ layout: post
 title: When you read a book and find something odd check if it was a misprint
 date:   2017-06-26 22:52:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

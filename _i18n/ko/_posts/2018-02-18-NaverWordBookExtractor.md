@@ -3,6 +3,7 @@ layout: post
 title: NaverWordBookExtractor 개발기
 date:   2018-02-18 22:46:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

@@ -3,6 +3,7 @@ layout: post
 title: OS DevLog-Let's push into the frame buffer.    
 date:   2017-06-26 17:20:20        
 categories: development
+comments: true
 tags:
 - 0SOS
 - OS

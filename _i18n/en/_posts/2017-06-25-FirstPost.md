@@ -3,6 +3,7 @@ layout: post
 title: Start up! DevSDK's blog     
 date:   2017-06-25 19:00:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

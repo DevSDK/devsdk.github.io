@@ -3,6 +3,7 @@ layout: post
 title: 그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다.
 date:   2017-06-26 22:52:20		
 categories: development
+comments: true
 languages:
 - english
 - korean

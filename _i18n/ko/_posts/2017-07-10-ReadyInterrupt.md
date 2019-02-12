@@ -3,6 +3,7 @@ layout: post
 title: GDT 변경 & IDT 정의 TSS 설정	
 date:   2017-07-10 11:40:20		
 categories: development
+comments: true
 languages:
 - english
 - korean
