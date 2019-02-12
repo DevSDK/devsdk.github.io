@@ -1,0 +1,716 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>시간과 관련된 드라이버 개발 완료. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="시간과 관련된 드라이버 개발 완료." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="ko" />
+<meta name="description" content="후 드디어 OS개발에 손댈 수 있는 시간이 났다." />
+<meta property="og:description" content="후 드디어 OS개발에 손댈 수 있는 시간이 났다." />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-03T20:11:20+09:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html","dateModified":"2017-08-03T20:11:20+09:00","datePublished":"2017-08-03T20:11:20+09:00","headline":"시간과 관련된 드라이버 개발 완료.","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html"},"author":{"@type":"Person","name":"Seokho Song"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.jpeg"},"name":"Seokho Song"},"description":"후 드디어 OS개발에 손댈 수 있는 시간이 났다.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  시간과-관련된-드라이버-개발-완료">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">시간과 관련된 드라이버 개발 완료.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">7 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-08-03T20:11:20+09:00"><a class="u-url" href="">August 3, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/ko/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/ko/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/ko/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/ko/tags/#paging" title="Pages tagged Paging" rel="tag">Paging</a></li><li class="page-taxonomy"><a href="/ko/tags/#timer" title="Pages tagged Timer" rel="tag">Timer</a></li><li class="page-taxonomy"><a href="/ko/tags/#interrupt" title="Pages tagged Interrupt" rel="tag">Interrupt</a></li><li class="page-taxonomy"><a href="/ko/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/08/03/timerdriver.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/08/03/timerdriver.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>후 드디어 OS개발에 손댈 수 있는 시간이 났다.</p>
+
+<p>그동안 이곳 저곳 다니고 일정이 계속 겹쳐서 시간이 나질 않았다.</p>
+
+<p>사실 노트북 들고다니면서 중간 중간 만지긴 했는데 큰 변화는 아니라서 글 쓰진 않았다.</p>
+
+<p>본문이 시작되기 전에 변경된건</p>
+
+<p>Types.h 에 정의되어있는 BOOL 타입을 unsigned char 을 c99 이후 정의된 _Bool 타입으로 변경했다.</p>
+
+<p>그 이유는 말하자면 조금 복잡한데.</p>
+
+<p>여러이유가 있겠지만 unsigned char 에 대한 ! 연산을 이유로 들겠다.</p>
+
+<p>보통 Not 연산을 진행할때 n xor 1 로 처리하개 되면 빠르게 연산 할 수 있다.</p>
+
+<p>그런데 얼마전에 unsigned char (이전의 BOOL) 에 대한! 연산자랑 n xor 1 의 차이를 보았다.</p>
+
+<p><img src="/uploads/2017-08-03/OS/UC_NOT.png" alt="UC_NotOp" /></p>
+
+<p><img src="/uploads/2017-08-03/OS/UC_XOR.png" alt="UC_XorOp" /></p>
+
+<p>두 코드를 살펴보면 확실하게 차이가 난다.</p>
+
+<p>물론 컴파일러 최적화 옵션인 -O3 같은 옵션을 붙이면 아마 xor로 변하겠지만, 아무래도 최적화 옵션을 적용했을때 의도하지 않은 동작을 할 가능성이 높다.</p>
+
+<p>일단 최적화 옵션을 붙이지 않는 가정 하에 not 연산은 딱봐도 연산이 많다.</p>
+
+<p>cmp 후 setne를 통해 데이터를 설정하게 되는데, 이는 시스템에서 t/f 를 구분할때 쓰는 비트 외에도 사용 될 수 있음을 가정한 것이라고 정리할 수 있다.</p>
+
+<p>이건 _Bool 타입으로 변경하면서 해결(컴파일 하면 두 코드가 동일하게 컴파일 된다. 기억상으론 xor을 썻던 것 같다.)</p>
+
+<hr />
+
+<p>이제 드디어 본문이다.</p>
+
+<p>이번에는 전반적으로 타이머, 시간과 관련된 부분을 개발했다.</p>
+
+<p>좀더 구체적으로</p>
+
+<p>PIT(Programmable Interval Timer) Driver 의 개발과 Timestamp 그리고 RTC(Real Time Clock) Driver 의 개발이다.</p>
+
+<p>이번에 개발한 드라이버 묶음의 소스 트리이다.</p>
+
+<p><img src="/uploads/2017-08-03/OS/TimeTree.png" alt="SourceTree" /></p>
+
+<p>일단 PIT에 접근하는 건</p>
+
+<p>PortIO Driver를 통해 0x43, 0x40, 0x41, 0x42 로 접근 가능하다.</p>
+
+<p>뭐 PortMapIO 가 그렇듯 여러 비트를 열씸히 설정해 주어야 한다. 그중 가장 많으 쓰일것 같은 0x43 컨트롤 필드는</p>
+
+<p>7,6 - SC : Select Counter 커멘드의 대상이 되는 카운터</p>
+
+<p>5,4 - RW : Read/Write 읽기 쓰기 여부</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    00: 카운터의 현제 값을 읽음 (2byte)
+
+    01: 카운터의 하위 바이트를 R/W (1Byte)
+
+    10: 카운터의 상위 바이트를 R/W (1Byte)
+
+    11: 카운터의 하위 바이트에서 상위 바이트 순으로 R/W (2Byte)
+</code></pre></div></div>
+
+<p>3,2,1-Mode: PIT 컨트롤러의 카운트 모드 설정</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    000: 모드 0 (Interrupt during counting)
+
+    001: 모드 1 (Programmable monoflop)
+
+    010: 모드 2 (Clock rate generator)
+
+    011: 모드 3 (Square wave generator)
+
+    100: 모드 4 (Software-triggered impulse)
+
+    101: 모드 5 (Hardware-triggered impulse)
+</code></pre></div></div>
+
+<p>0   - BCD : 카운터의 값을 바이너리 도는 BCD 포멧으로 설정한다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BCD 포멧은 0~9999 까지
+
+    바이너리 타입은 0x00~0xFFFF 까지
+</code></pre></div></div>
+
+<p>각 필드에 대한 자세한 설명은 생략하겠다.</p>
+
+<p>아무튼 SC 필드에 의해 카운터가 선택이 되고 아래는 그 옵션이라고 보면 된다.</p>
+
+<p>아래는 PIT관련된 상수 정의와 함수의 정의가 담겨있는 Driver/Time/PIT.h 이다.</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __PIT_H__
+#define __PIT_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+</span><span class="c1">//PIT의 동작 속도 1.193182MHz </span>
+<span class="cp">#define PIT_FREQUENCY 1193182
+</span>
+<span class="cp">#define MS_TO_COUNT(x) (PIT_FREQUENCY * (x)/1000)
+#define US_TO_COUNT(x) (PIT_FREQUENCY * (x)/1000000)
+</span>
+<span class="cp">#define PIT_PORT_CONTROL    0x43
+#define PIT_PORT_COUNTER0   0x40
+#define PIT_PORT_COUNTER1   0x41
+#define PIT_PORT_COUNTER2   0x42
+</span>
+<span class="cp">#define PIT_CONTROL_SC_COUNTER0   0x00
+#define PIT_CONTROL_SC_COUNTER1   0x40
+#define PIT_CONTROL_SC_COUNTER2   0x80
+</span>
+<span class="cp">#define PIT_CONTROL_RW_BIT11      0x30
+#define PIT_CONTROL_RW_BIT00      0x00
+</span>
+<span class="cp">#define PIT_CONTROL_MODE_0        0x00
+#define PIT_CONTROL_MODE_2        0x04
+</span>
+<span class="cp">#define PIT_CONTROL_BCD_FALSE     0x00
+#define PIT_CONTROL_BCD_TRUE      0x01
+</span>
+<span class="cp">#define PIT_COUNTER0_FLAG_ONCE  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT11 | PIT_CONTROL_MODE_0 | PIT_CONTROL_BCD_FALSE)
+#define PIT_COUNTER0_FLAG_INTERVAL  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT11 | PIT_CONTROL_MODE_2 | PIT_CONTROL_BCD_FALSE)
+#define PIT_COUNTER0_FLAG_LATCH  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT00 )
+</span>
+
+
+
+<span class="c1">// SET PIT Counter 0 = _Count and Cange state Interval</span>
+<span class="kt">void</span> <span class="n">InitializePIT</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">,</span> <span class="n">BOOL</span> <span class="n">_IsInterval</span><span class="p">);</span>
+
+<span class="n">WORD</span> <span class="n">ReadTimerCount0</span><span class="p">();</span>
+
+
+<span class="cm">/*
+    Should be disable Interrupt
+    Parameter _Count : &lt; 50ms
+*/</span>
+
+<span class="kt">void</span> <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">);</span>
+
+
+
+<span class="cp">#endif </span><span class="cm">/*__PIT_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>PIT 장치의 동작 클록은 1.19318 Mhz로 동작하며 매회 카운터의 값을 1씩 감소시켜 0이 될때 신호를 발생시킨다.</p>
+
+<p>클록을 기준으로 동작하는 PIC를 우리가 통상 사용하는 ‘시간’으로 사용하기 위해서 t = 1193182 * rate ( ex: 1ms rate = 0.001 ) 식을 쓴다.</p>
+
+<p>0SOS는 카운터 0를 사용할 것이며 이전부터 카운터 1과 2는 메인 메모리와 PC 스피커를 위해 쓰인다고 한다.</p>
+
+<p>뭐 위 함수 구현하는건 어쩌피 열씸히 PortMapIO를 통해 데이터를 읽고 쓰고 하는 것 뿐이라 복잡하지 않다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "PIT.h"
+#include &lt;Driver/IO/PortIO.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">InitializePIT</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">,</span> <span class="n">BOOL</span> <span class="n">_IsInterval</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//만약 주기적으로 실행되어야 한다면 모드 2 아니면 모드 0</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_IsInterval</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span>
+        <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_INTERVAL</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_ONCE</span><span class="p">);</span>
+    <span class="c1">//카운터의 하위 비트와 상위 비트를 설정</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">,</span> <span class="n">_Count</span><span class="p">);</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">,</span> <span class="n">_Count</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">WORD</span> <span class="nf">ReadTimerCount0</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">;</span>
+    <span class="n">WORD</span> <span class="n">ret</span> <span class="o">=</span> <span class="mh">0x0000</span><span class="p">;</span>
+    <span class="c1">//Counter 0 의 데이터를 읽어온다.</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_LATCH</span><span class="p">);</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">);</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">);</span>
+    <span class="c1">//상위 비트 하위 비트 묶어서 2바이트로 변환</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">high</span><span class="p">;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="n">low</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//0~0xFFFF 까지 반복</span>
+
+    <span class="n">WORD</span> <span class="n">CurrentCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+    <span class="k">const</span> <span class="n">WORD</span> <span class="n">LastCounter0</span> <span class="o">=</span> <span class="n">ReadTimerCount0</span><span class="p">();</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//Get Counter 0 Value</span>
+        <span class="n">CurrentCounter</span> <span class="o">=</span> <span class="n">ReadTimerCount0</span><span class="p">();</span>
+        <span class="c1">//시간이 흐름에 따라 값이 커짐  </span>
+        <span class="k">if</span><span class="p">(((</span><span class="n">LastCounter0</span> <span class="o">-</span> <span class="n">CurrentCounter</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">_Count</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>    
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>보면 크게 복잡한 건 없다.</p>
+
+<p>PIT 타이머를 초기화 하는 함수와 Counter 0 의 값을 읽어오는 함수, 그리고 그럴 이용해 ms 단위 대기 함수가 끝.</p>
+
+<p>그럼 다음은 타임 스탬프다.</p>
+
+<p>타임 스탬프는 클록 과 버스 속도 비율에 따라 올라간다고 한다. 따라서 정확하게 올라가는데, 이를 통해 정확한 속도 측정이 가능하다.</p>
+
+<p>코드는 정말로 간단한데,</p>
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">;Driver/Time/TSC.asm</span>
+<span class="err">[</span><span class="n">BITS</span> <span class="mi">64</span><span class="err">]</span>
+
+<span class="kr">SECTION</span> <span class="p">.</span><span class="n">text</span>
+
+<span class="kr">global</span> <span class="n">ReadTSC</span>
+
+<span class="c">;타임 스탬프 카운터를 읽어서 반환</span>
+<span class="n">ReadTSC</span><span class="o">:</span>
+    <span class="k">push</span> <span class="n">rdx</span>
+    <span class="k">rdtsc</span>   <span class="c">;타임 스탬프 카운터의 값을 rdx:rax에 저장</span>
+    <span class="k">shl</span> <span class="n">rdx</span><span class="p">,</span> <span class="mi">32</span> <span class="c">; rdx 레지스터의 상위 32비트 tsc 값과 rax레지스터의</span>
+    <span class="k">or</span> <span class="n">rax</span><span class="p">,</span> <span class="n">rdx</span> <span class="c">; 하위 32비트 tsc값을 rax에 저장</span>
+    <span class="k">pop</span> <span class="n">rdx</span>
+    <span class="k">ret</span>
+</code></pre></div></div>
+
+<p>RDTSC 명령어를 이용해 불러오게 된다.</p>
+
+<p>그 다음으론 RTC 드라이버인데,</p>
+
+<p>RTC 컨트롤러는 시간 저장을 담당하는 컨트롤러다. 또한 PC가 꺼진 이후에도 기록하기 위해 전원을 쓴다.</p>
+
+<p>맞다 그 메인보드의 수은전지 와 같은것 말이다.</p>
+
+<p>CMOS 메모리 안에 RTC 데이터가 가 기록되어 있다. CMOS 에 접근해서 RTC 데이터를 가져와야 한다.</p>
+
+<p>CMOS 메모리는 는 ProtIO Driver로 접근 가능하며 메모리 어드레스 포트 0x70 과 메모리 데이터 포트 0x71로 접근이 가능하다.</p>
+
+<p>RTC 관련된 주소 필드 표다.</p>
+
+<p><img src="/uploads/2017-08-03/OS/CMOSField.png" alt="CMOSMemory" /></p>
+
+<p>위 표를 참고해서 만들면 된다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Driver/Time/RTC.h</span>
+<span class="cp">#ifndef __RTC_H__
+#define __RTC_H__
+#include &lt;Types.h&gt;
+</span>
+<span class="cp">#define  PORT_CMOS_ADDRESS      0x70
+#define  PORT_CMOS_DATA         0x71
+</span>
+<span class="cp">#define  CMOS_ADDRESS_RTC_SECOND       0x00
+#define  CMOS_ADDRESS_RTC_MINUTE        0x02
+#define  CMOS_ADDRESS_RTC_HOUR          0x04
+#define  CMOS_ADDRESS_RTC_DAY_OF_WEEK   0x06
+#define  CMOS_ADDRESS_RTC_DAY_OF_MONTH  0x07
+#define  CMOS_ADDRESS_RTC_MONTH         0x08
+#define  CMOS_ADDRESS_RTC_YEAR          0x09
+</span>
+<span class="c1">//BCD 코드 변환 - BCD 코드: 1바이트를 4비트씩 잘라서 10진수 2자리로 표현 ex) 0010 0001 이면 21</span>
+<span class="cp">#define  BCD_TO_BIN(x) ((((x) &gt;&gt; 4) * 10) + ((x)  &amp; 0x0F ))
+</span><span class="kt">void</span> <span class="n">ReadRTCTime</span><span class="p">(</span><span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Hour</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Minute</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Second</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ReadRTCDate</span><span class="p">(</span><span class="n">WORD</span><span class="o">*</span> <span class="n">_Out_Year</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Month</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfMonth</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfWeek</span><span class="p">);</span>
+<span class="kt">char</span><span class="o">*</span> <span class="n">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_DayOfWeek</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/*__RTC_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>주소 필드를 정의하는 것과 데이터를 가져오는것, 요일을 문자열로 변경하는역할을 한다.</p>
+
+<p>그리고 CMOS에서 가져온 RTC 데이터는 BCD 코드여서 바이너리로 변경하는 코드가 필요하다.</p>
+
+<p>뭐 이것도 portIO로 열씸히 가져오는거라 딱히 뭐 말할건 없다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Driver/Time/RTC.c</span>
+<span class="cp">#include "RTC.h"
+</span>
+<span class="kt">void</span> <span class="nf">ReadRTCTime</span><span class="p">(</span><span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Hour</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Minute</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Second</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">data</span><span class="p">;</span>
+    <span class="c1">//CMOS 메모리에서 시간에 관련된 정보를 읽어오는 함수 값은 BCD 코드</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_HOUR</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Hour</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_MINUTE</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Minute</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_SECOND</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Second</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>    
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">ReadRTCDate</span><span class="p">(</span><span class="n">WORD</span><span class="o">*</span> <span class="n">_Out_Year</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Month</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfMonth</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfWeek</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">data</span><span class="p">;</span>
+    <span class="c1">//CMOS 메모리에서 날자와 관련된 정보를 읽어오는 함수 값은 BCD 코드</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_YEAR</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Year</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2000</span><span class="p">;</span> <span class="c1">//연도에 2000을 더해 2000년도를 표현</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_MONTH</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Month</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_DAY_OF_MONTH</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_DayOfMonth</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+    
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_DAY_OF_WEEK</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_DayOfWeek</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>    
+<span class="p">}</span>
+<span class="kt">char</span><span class="o">*</span> <span class="nf">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_DayOfWeek</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//날자를 요일 문자열로 바꿔주는 함수</span>
+    <span class="k">static</span> <span class="kt">char</span><span class="o">*</span> <span class="n">WeekStringTable</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"NULL"</span><span class="p">,</span> <span class="s">"Sunday"</span><span class="p">,</span> <span class="s">"Monday"</span><span class="p">,</span> <span class="s">"Tushday"</span><span class="p">,</span> <span class="s">"Wednesday"</span><span class="p">,</span> <span class="s">"Thursday"</span><span class="p">,</span> <span class="s">"Friday"</span><span class="p">,</span> <span class="s">"Saturday"</span><span class="p">};</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">_DayOfWeek</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">WeekStringTable</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">return</span> <span class="n">WeekStringTable</span><span class="p">[</span><span class="n">_DayOfWeek</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>이로서 드라이버가 완성이 되었다!!</p>
+
+<p>이제 이 드라이버를 열씸히 활용하는 셸 커멘드를 만들었다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="kt">void</span> <span class="nf">Command_SetTimer</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ParameterBuffer</span><span class="p">[</span><span class="mi">200</span><span class="p">];</span>
+    <span class="n">PARAMETERLIST</span> <span class="n">pList</span><span class="p">;</span>
+    <span class="n">InitializeParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span> <span class="n">_Parameter</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"settimer {time(ms)} {interval}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">long</span> <span class="n">value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"settimer {time(ms)} {interval}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">long</span> <span class="n">interval_value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">interval_value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter is not Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">interval_value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time = %d ms. Interval = %s Change Complate</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">interval_value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">?</span> <span class="s">"False"</span><span class="o">:</span> <span class="s">"True"</span><span class="p">);</span> 
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_PITWait</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ParameterBuffer</span><span class="p">[</span><span class="mi">200</span><span class="p">];</span>
+    <span class="n">PARAMETERLIST</span> <span class="n">pList</span><span class="p">;</span>
+    <span class="n">InitializeParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span> <span class="n">_Parameter</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"wait {time(ms)}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">long</span> <span class="n">value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter is not Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"%d ms Sleep Start...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+
+    <span class="n">DisableInterrupt</span><span class="p">();</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">value</span><span class="o">/</span><span class="mi">30L</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="n">value</span> <span class="o">%</span> <span class="mi">30</span><span class="p">));</span>
+    
+    
+    <span class="n">EnableInterrupt</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"%d ms Sleep Complate.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span> 
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_ReadTimeStamp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">QWORD</span> <span class="n">tsc</span> <span class="o">=</span>  <span class="n">ReadTSC</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time Stamp Counter = %q </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">tsc</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_CPUSpeed</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">QWORD</span> <span class="n">last_tsc</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">total_tsc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Now Calculate."</span><span class="p">);</span>
+    <span class="n">DisableInterrupt</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">last_tsc</span> <span class="o">=</span> <span class="n">ReadTSC</span><span class="p">();</span>
+        <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">50</span><span class="p">));</span>
+        <span class="n">total_tsc</span><span class="o">+=</span> <span class="n">ReadTSC</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_tsc</span><span class="p">;</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">TRUE</span><span class="p">);</span>
+    <span class="n">EnableInterrupt</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> Cpu Clock = %d MHz </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">total_tsc</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">1000</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_ShowDateTime</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">Second</span><span class="p">,</span> <span class="n">Minute</span><span class="p">,</span> <span class="n">Hour</span><span class="p">;</span>
+    <span class="n">BYTE</span> <span class="n">DayOfWeek</span><span class="p">,</span> <span class="n">DayOfMonth</span><span class="p">,</span> <span class="n">Month</span><span class="p">;</span>
+    <span class="n">WORD</span> <span class="n">Year</span><span class="p">;</span>
+
+    <span class="n">ReadRTCTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Hour</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Minute</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Second</span><span class="p">);</span>
+    <span class="n">ReadRTCDate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Year</span><span class="p">,</span><span class="o">&amp;</span><span class="n">Month</span><span class="p">,</span><span class="o">&amp;</span><span class="n">DayOfMonth</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">DayOfWeek</span><span class="p">);</span>
+
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Date: %d-%d-%d %s, "</span><span class="p">,</span> <span class="n">Year</span><span class="p">,</span> <span class="n">Month</span><span class="p">,</span> <span class="n">DayOfMonth</span><span class="p">,</span> <span class="n">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">));</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time: %d:%d:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">Hour</span><span class="p">,</span> <span class="n">Minute</span><span class="p">,</span> <span class="n">Second</span><span class="p">);</span>
+    
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>복잡시럽게 보이지만 자세히 보면 양만 많지 단순히 값을 받아와서 출력하는것에 불과하다.</p>
+
+<p><img src="/uploads/2017-08-03/OS/HelpCommand.png" alt="결과!" /></p>
+
+<p>커멘드는 이렇게 추가 되었으며 rdtsc 명령어가 멀쩡히 동작한다.</p>
+
+<p><img src="/uploads/2017-08-03/OS/TimeCommands.png" alt="결과!" /></p>
+
+<p>다른 명령어에 대한 결과이다.</p>
+
+<p>date를 멋지게 받아오기도 하고</p>
+
+<p>cpu clock 측정도 하고</p>
+
+<p>특정 ms 동안 대기하기도 한다.</p>
+
+<p>settimer 명령어도 멀쩡히 동작하나, 이미지로 보여주기엔 한계가 있어서 뺏다.</p>
+
+<p>개발하면서 두가지의 버그를 수정했는데, 하나는 _Printf 함수에 대한 unsigned 값의 의도하지 않은 동작이다.</p>
+
+<p>이는 %q 출력 문자와 _u_itoa 함수를 호출하면서 해결을 하였다.</p>
+
+<p>또 하나는 PIT 에서 컨트롤러0 의 값을 가져올때 실수로 control port를 넣어야 할걸 counter port 를 넣게 되어 계속 리셋이 되는 버그가 있었다.</p>
+
+<p>이는 control 포트로 고치면서 해결했다.</p>
+
+<p>아무튼 여기까지 왔다.</p>
+
+<p>이제 테스크, 멀티쓰래드, 동기화, 실수 연산으로 나아간다.</p>
+
+<p>기대중임.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2017/07/18/shell.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> 운영체제 다운 모습을 드디어! 셸 개발 완료!
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2017/08/23/BeginTask.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        TCB와 Context, 그리고 ContextSwitch
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2019 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script>
+  if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43719770-2', 'auto');
+    ga('send', 'pageview');
+  }
+  </script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
