@@ -1,13 +1,14 @@
 #sh 
 #blish.sh
 
-git checkout site
+git checkout gh-pages
 rm -rf _site/
 jekyll build
+jekyll build -s 'ko'
 git add .
 git commit -m "`date` $1"
-git push test site:master
+git push stable gh-pages
 
-git subtree split --prefix _site/ -b gh-pages 
-git push -f test  gh-pages:gh-pages 
-git branch -D gh-pages
+git subtree split --prefix _site/ -b master
+git push -f stable master
+git branch -D master

@@ -1,11 +1,3 @@
----
-layout: post
-title: About
-permalink: /ko/about/
-languages:
-- english
-- korean
----
 
 안녕하세요 송석호 입니다.
 
@@ -22,4 +14,5 @@ languages:
 편하게 읽어주시고 실수한 것이 있다면 아래에 댓글을 달아주세요.
 
 Contact  : 0xdevssh@gmail.com
+
 Github   : https://github.com/DevSDK

@@ -3,6 +3,7 @@ layout: post
 title: About Custom Allocator in Comet Engine    
 date:   2017-06-25 21:12:20        
 categories: development
+comments: true
 languages:
 - english
 - korean

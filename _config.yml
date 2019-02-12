@@ -18,8 +18,8 @@ theme: jekyll-theme-so-simple
 locale: en-US
 title: "Seokho's blog"
 description: "Development and Tech blog"
-baseurl: "" #"/devsdk.test.blog" # the subpath of your site, e.g. "/blog"
-url: #"https://devsdk.github.io"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl: "" # the subpath of your site, e.g. "/blog"
+url: "https://devsdk.github.io"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 logo: "/images/avator.jpeg" # path of site logo, e.g. "/assets/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: true
@@ -32,7 +32,7 @@ google_fonts:
     weights: "400,400i,700,700i"
 google_analytics: UA-43719770-2 # Google Analytics id, e.g. "UA-NNNNNNNN-N"
 disqus:
-  shortname: DevSDK  # Disqus shortname, e.g. "my_disqus_shortname"
+  shortname: devsdk  # Disqus shortname, e.g. "my_disqus_shortname"
 
 languages: ["en", "ko"]
 exclude_from_localizations: ["./uploads", "./images", "./assets"]
