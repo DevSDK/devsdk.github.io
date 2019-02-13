@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-13T18:53:27+09:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Dev log of NaverWordBookExtractor</title><link href="https://devsdk.github.io/development/2018/02/19/NaverWordBookExtractor.html" rel="alternate" type="text/html" title="Dev log of NaverWordBookExtractor" /><published>2018-02-19T07:46:20+09:00</published><updated>2018-02-19T07:46:20+09:00</updated><id>https://devsdk.github.io/development/2018/02/19/NaverWordBookExtractor</id><content type="html" xml:base="https://devsdk.github.io/development/2018/02/19/NaverWordBookExtractor.html">&lt;p&gt;Wow, It’s quite loooong time to write this article in here.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-13T10:49:05+00:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Printing A + B with no limitation.</title><link href="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html" rel="alternate" type="text/html" title="Printing A + B with no limitation." /><published>2019-02-13T10:12:20+00:00</published><updated>2019-02-13T10:12:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/13/algorithm%20sum%20of%20a%20and%20b</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html">&lt;p&gt;Today, I’ve started an algorithm study.&lt;/p&gt;
+
+&lt;p&gt;I’ve learned something didn’t know before.&lt;/p&gt;
+
+&lt;p&gt;Today’s problem is this:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;problem&quot;&gt;Problem&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Write a program printing sum of A and B which are inputted.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;input&quot;&gt;Input&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Input values consist of multiple test-case. 
+Each test-case is a single line and will be given value A and B (0 &amp;lt; A, B&amp;lt;10)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;output&quot;&gt;Output&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Print A + B by each test-case.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-input&quot;&gt;Example input&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1 1
+2 3
+3 4
+9 8
+5 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-output&quot;&gt;Example output&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2
+5
+7
+17
+7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From &lt;a href=&quot;https://www.acmicpc.net/problem/10951&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;So, Let’s think about it.&lt;/p&gt;
+
+&lt;p&gt;When I met this problem, I’m just shocked.&lt;/p&gt;
+
+&lt;p&gt;Honestly, I have no idea for solving this problem.&lt;/p&gt;
+
+&lt;p&gt;Because this problem didn’t have information about the limitation of input.&lt;/p&gt;
+
+&lt;p&gt;So I try to find how can I solve this problem on Google and an answer sheet.&lt;/p&gt;
+
+&lt;p&gt;And I got Idea.&lt;/p&gt;
+
+&lt;p&gt;An &lt;strong&gt;Eof&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This fact makes me a little bit annoying because I can’t find any information about &lt;strong&gt;Eof&lt;/strong&gt; in that judgment site.&lt;/p&gt;
+
+&lt;p&gt;So this problem’s solution is this.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
+        &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The answer has a quite funny fact.&lt;/p&gt;
+
+&lt;p&gt;The » operator that was overridden return istream itself.&lt;/p&gt;
+
+&lt;p&gt;That makes possible we can write like this.&lt;/p&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	&lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Did you find anything weird?&lt;/p&gt;
+
+&lt;p&gt;operator »  have been used the condition of the while loop.&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&quot;https://en.cppreference.com/w/cpp/io/basic_ios/operator_bool&quot;&gt;reference&lt;/a&gt;, We can find the return value of overridden bool operation that is selected by an error state of  ios_base::iostate flag.&lt;/p&gt;
+
+&lt;p&gt;So If the state value of ‘cin’ is eof, we can escape from the while loop.&lt;/p&gt;
+
+&lt;p&gt;I didn’t know istream’s functions before, so this problem gave me the knowledge and it’s quite happy :D.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="algorithm" /><category term="solving problem" /><summary type="html">Today, I’ve started an algorithm study.</summary></entry><entry><title type="html">Dev log of NaverWordBookExtractor</title><link href="https://devsdk.github.io/development/2018/02/18/NaverWordBookExtractor.html" rel="alternate" type="text/html" title="Dev log of NaverWordBookExtractor" /><published>2018-02-18T22:46:20+00:00</published><updated>2018-02-18T22:46:20+00:00</updated><id>https://devsdk.github.io/development/2018/02/18/NaverWordBookExtractor</id><content type="html" xml:base="https://devsdk.github.io/development/2018/02/18/NaverWordBookExtractor.html">&lt;p&gt;Wow, It’s quite loooong time to write this article in here.&lt;/p&gt;
 
 &lt;p&gt;As you know 0SOS development was paused.&lt;/p&gt;
 
@@ -257,7 +347,7 @@ ad1ca063118c32asdd51a8c53119faa8bc9c8cb0f743d8f1b89db53cc8f4647784ab08b0f4704e2a
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/NaverWordBookExtractor/blob/master/NaverWordBookExtractor.py&quot;&gt;SourceCode&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;IDK this article is quite readable. Because I didn’t sleep.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Naver" /><category term="Web" /><category term="Parsing" /><category term="python" /><summary type="html">Wow, It’s quite loooong time to write this article in here.</summary></entry><entry><title type="html">Round robin scheduling and Timeslice Context-Switching</title><link href="https://devsdk.github.io/development/2017/09/19/Scheduler.html" rel="alternate" type="text/html" title="Round robin scheduling and Timeslice Context-Switching" /><published>2017-09-19T07:46:20+09:00</published><updated>2017-09-19T07:46:20+09:00</updated><id>https://devsdk.github.io/development/2017/09/19/Scheduler</id><content type="html" xml:base="https://devsdk.github.io/development/2017/09/19/Scheduler.html">&lt;p&gt;I’ve got working hard in Software maestro.&lt;/p&gt;
+&lt;p&gt;IDK this article is quite readable. Because I didn’t sleep.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Naver" /><category term="Web" /><category term="Parsing" /><category term="python" /><summary type="html">Wow, It’s quite loooong time to write this article in here.</summary></entry><entry><title type="html">Round robin scheduling and Timeslice Context-Switching</title><link href="https://devsdk.github.io/development/2017/09/18/Scheduler.html" rel="alternate" type="text/html" title="Round robin scheduling and Timeslice Context-Switching" /><published>2017-09-18T22:46:20+00:00</published><updated>2017-09-18T22:46:20+00:00</updated><id>https://devsdk.github.io/development/2017/09/18/Scheduler</id><content type="html" xml:base="https://devsdk.github.io/development/2017/09/18/Scheduler.html">&lt;p&gt;I’ve got working hard in Software maestro.&lt;/p&gt;
 
 &lt;p&gt;So I took this time to time.&lt;/p&gt;
 
@@ -1030,7 +1120,7 @@ typedef struct _Example_Data
 
 &lt;p&gt;IDK.&lt;/p&gt;
 
-&lt;p&gt;If I try to develop, I’ll write this.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">I’ve got working hard in Software maestro.</summary></entry><entry><title type="html">TCB와 Context and ContextSwitch</title><link href="https://devsdk.github.io/development/2017/08/23/BeginTask.html" rel="alternate" type="text/html" title="TCB와 Context and ContextSwitch" /><published>2017-08-23T05:00:20+09:00</published><updated>2017-08-23T05:00:20+09:00</updated><id>https://devsdk.github.io/development/2017/08/23/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/development/2017/08/23/BeginTask.html">&lt;p&gt;Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.&lt;/p&gt;
+&lt;p&gt;If I try to develop, I’ll write this.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">I’ve got working hard in Software maestro.</summary></entry><entry><title type="html">TCB and Context and ContextSwitch</title><link href="https://devsdk.github.io/development/2017/08/22/BeginTask.html" rel="alternate" type="text/html" title="TCB and Context and ContextSwitch" /><published>2017-08-22T20:00:20+00:00</published><updated>2017-08-22T20:00:20+00:00</updated><id>https://devsdk.github.io/development/2017/08/22/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/development/2017/08/22/BeginTask.html">&lt;p&gt;Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.&lt;/p&gt;
 
 &lt;p&gt;So I changed UDS to GDS.&lt;/p&gt;
 
@@ -1342,7 +1432,7 @@ typedef struct _Example_Data
 
 &lt;p&gt;So It’s done of context-switching.&lt;/p&gt;
 
-&lt;p&gt;Huh.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.</summary></entry><entry><title type="html">Implemented timer driver.</title><link href="https://devsdk.github.io/development/2017/08/03/timerdriver.html" rel="alternate" type="text/html" title="Implemented timer driver." /><published>2017-08-03T20:11:20+09:00</published><updated>2017-08-03T20:11:20+09:00</updated><id>https://devsdk.github.io/development/2017/08/03/timerdriver</id><content type="html" xml:base="https://devsdk.github.io/development/2017/08/03/timerdriver.html">&lt;p&gt;Finally, I’ve got time for OS developing.&lt;/p&gt;
+&lt;p&gt;Huh.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.</summary></entry><entry><title type="html">Implemented timer driver.</title><link href="https://devsdk.github.io/development/2017/08/03/timerdriver.html" rel="alternate" type="text/html" title="Implemented timer driver." /><published>2017-08-03T11:11:20+00:00</published><updated>2017-08-03T11:11:20+00:00</updated><id>https://devsdk.github.io/development/2017/08/03/timerdriver</id><content type="html" xml:base="https://devsdk.github.io/development/2017/08/03/timerdriver.html">&lt;p&gt;Finally, I’ve got time for OS developing.&lt;/p&gt;
 
 &lt;p&gt;I’m so busy so I can’t make time.&lt;/p&gt;
 
@@ -1795,7 +1885,7 @@ So I didn’t write an article.&lt;/p&gt;
 
 &lt;p&gt;Now we are going to make Task, multithread, synchronize and floating point.&lt;/p&gt;
 
-&lt;p&gt;I expect that.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Timer" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Finally, I’ve got time for OS developing.</summary></entry><entry><title type="html">Finally It looks OS! Shell development complete!</title><link href="https://devsdk.github.io/development/2017/07/18/shell.html" rel="alternate" type="text/html" title="Finally It looks OS! Shell development complete!" /><published>2017-07-18T20:00:20+09:00</published><updated>2017-07-18T20:00:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/18/shell</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/18/shell.html">&lt;p&gt;This article should be huge.&lt;/p&gt;
+&lt;p&gt;I expect that.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Timer" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Finally, I’ve got time for OS developing.</summary></entry><entry><title type="html">Finally It looks OS! Shell development complete!</title><link href="https://devsdk.github.io/development/2017/07/18/shell.html" rel="alternate" type="text/html" title="Finally It looks OS! Shell development complete!" /><published>2017-07-18T11:00:20+00:00</published><updated>2017-07-18T11:00:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/18/shell</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/18/shell.html">&lt;p&gt;This article should be huge.&lt;/p&gt;
 
 &lt;p&gt;Shell.&lt;/p&gt;
 
@@ -2558,7 +2648,7 @@ So I didn’t write an article.&lt;/p&gt;
 
 &lt;p&gt;and next…. timer device driver and next is finally task…&lt;/p&gt;
 
-&lt;p&gt;Let’s do this!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="CLI" /><category term="Shell" /><category term="64bit" /><summary type="html">This article should be huge.</summary></entry><entry><title type="html">Keyboard Driver Update-Interrupt</title><link href="https://devsdk.github.io/development/2017/07/13/InterruptKeyboard.html" rel="alternate" type="text/html" title="Keyboard Driver Update-Interrupt" /><published>2017-07-13T08:49:20+09:00</published><updated>2017-07-13T08:49:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/13/InterruptKeyboard</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/13/InterruptKeyboard.html">&lt;p&gt;I think this article was short.&lt;/p&gt;
+&lt;p&gt;Let’s do this!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="CLI" /><category term="Shell" /><category term="64bit" /><summary type="html">This article should be huge.</summary></entry><entry><title type="html">Keyboard Driver Update-Interrupt</title><link href="https://devsdk.github.io/development/2017/07/12/InterruptKeyboard.html" rel="alternate" type="text/html" title="Keyboard Driver Update-Interrupt" /><published>2017-07-12T23:49:20+00:00</published><updated>2017-07-12T23:49:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/12/InterruptKeyboard</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/12/InterruptKeyboard.html">&lt;p&gt;I think this article was short.&lt;/p&gt;
 
 &lt;p&gt;Today I cannot focus strangely.&lt;/p&gt;
 
@@ -2863,7 +2953,7 @@ So I didn’t write an article.&lt;/p&gt;
 
 &lt;p&gt;I think I can use it when I write USB Keyboard Driver.&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">I think this article was short.</summary></entry><entry><title type="html">PIC Interrupt, Interrupt Handling, Active Interrupt</title><link href="https://devsdk.github.io/development/2017/07/12/InterruptHandling.html" rel="alternate" type="text/html" title="PIC Interrupt, Interrupt Handling, Active Interrupt" /><published>2017-07-12T07:34:20+09:00</published><updated>2017-07-12T07:34:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/12/InterruptHandling</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/12/InterruptHandling.html">&lt;p&gt;In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.&lt;/p&gt;
+&lt;p&gt;Thanks for reading.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">I think this article was short.</summary></entry><entry><title type="html">PIC Interrupt, Interrupt Handling, Active Interrupt</title><link href="https://devsdk.github.io/development/2017/07/11/InterruptHandling.html" rel="alternate" type="text/html" title="PIC Interrupt, Interrupt Handling, Active Interrupt" /><published>2017-07-11T22:34:20+00:00</published><updated>2017-07-11T22:34:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/11/InterruptHandling</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/11/InterruptHandling.html">&lt;p&gt;In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.&lt;/p&gt;
 
 &lt;p&gt;In this time, I succeeded in PCI interrupt handling.&lt;/p&gt;
 
@@ -3332,7 +3422,7 @@ So I didn’t write an article.&lt;/p&gt;
 
 &lt;p&gt;And Next is the Long-awaited SHELL!!&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading this long story.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.</summary></entry><entry><title type="html">Changing GDT &amp;amp; Defining GDT &amp;amp; Setting TSS</title><link href="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html" rel="alternate" type="text/html" title="Changing GDT &amp; Defining GDT &amp; Setting TSS" /><published>2017-07-10T20:40:20+09:00</published><updated>2017-07-10T20:40:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/10/ReadyInterrupt</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html">&lt;p&gt;Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.&lt;/p&gt;
+&lt;p&gt;Thanks for reading this long story.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.</summary></entry><entry><title type="html">Changing GDT &amp;amp; Defining GDT &amp;amp; Setting TSS</title><link href="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html" rel="alternate" type="text/html" title="Changing GDT &amp; Defining GDT &amp; Setting TSS" /><published>2017-07-10T11:40:20+00:00</published><updated>2017-07-10T11:40:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/10/ReadyInterrupt</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html">&lt;p&gt;Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.&lt;/p&gt;
 
 &lt;p&gt;so I write this now.&lt;/p&gt;
 
@@ -3858,7 +3948,7 @@ undefined reference to ....
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS&quot;&gt;You can check full-source-code on here&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;The left thing is the keyboard process using interrupt.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.</summary></entry><entry><title type="html">Port IO memory and Input input process PS/2 Keyboard IO.</title><link href="https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html" rel="alternate" type="text/html" title="Port IO memory and Input input process PS/2 Keyboard IO." /><published>2017-07-05T07:00:20+09:00</published><updated>2017-07-05T07:00:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html">&lt;p&gt;This is a result until today from yesterday thinking a lot.&lt;/p&gt;
+&lt;p&gt;The left thing is the keyboard process using interrupt.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.</summary></entry><entry><title type="html">Port IO memory and Input input process PS/2 Keyboard IO.</title><link href="https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard.html" rel="alternate" type="text/html" title="Port IO memory and Input input process PS/2 Keyboard IO." /><published>2017-07-04T22:00:20+00:00</published><updated>2017-07-04T22:00:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard.html">&lt;p&gt;This is a result until today from yesterday thinking a lot.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/Keyboard.png&quot; alt=&quot;Keyboard Input&quot; /&gt;&lt;/p&gt;
 
@@ -4107,85 +4197,4 @@ undefined reference to ....
 
 &lt;p&gt;Anyway, the next thing was inttrupt… It should be hard.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS/tree/master/02_Kernel64&quot;&gt;Full Source Code of Kernel64&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Input" /><category term="Keyboard" /><category term="64bit" /><summary type="html">This is a result until today from yesterday thinking a lot.</summary></entry><entry><title type="html">Make a debugging environment using QEMU + GDB</title><link href="https://devsdk.github.io/development/2017/07/03/QemuAndGdb.html" rel="alternate" type="text/html" title="Make a debugging environment using QEMU + GDB" /><published>2017-07-03T21:40:20+09:00</published><updated>2017-07-03T21:40:20+09:00</updated><id>https://devsdk.github.io/development/2017/07/03/QemuAndGdb</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/03/QemuAndGdb.html">&lt;p&gt;Currently, in progress, OS was made on Ubuntu(Windows bash) + VIM.&lt;/p&gt;
-
-&lt;p&gt;Until now, I can handle it, but I felt limitation so I think I need debugging tools.&lt;/p&gt;
-
-&lt;p&gt;QEMU itself has some debugging tools but it is weak than professional tools.&lt;/p&gt;
-
-&lt;p&gt;Before, We can check the value in the memory using qemu’s function.&lt;/p&gt;
-
-&lt;p&gt;You can use that function to press ALT + 2 to enter the QEMU console and you can check the value using command-line x [address]&lt;/p&gt;
-
-&lt;p&gt;I think maybe I can make 64bit kernel much faster if I use a debugger.&lt;/p&gt;
-
-&lt;p&gt;Well, Qemu has a function of gdb hosting itself.&lt;/p&gt;
-
-&lt;p&gt;If you want to use that, type the initial qemu options:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-gdb tcp::[prot]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And a GDB side, launch gdb,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) target remote tcp::[port]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and you can successfully connect that.&lt;/p&gt;
-
-&lt;p&gt;For now, Debugging is available.&lt;/p&gt;
-
-&lt;p&gt;Like handling memory.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) break *0x200000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can make a breakpoint on that address,&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) continue
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and you can enter the debugging console when it executes that address.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/AddressBreaking.png&quot; alt=&quot;memory&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;But it hasn’t symbol data so you cannot break on particular expression or function, so I felt that is a half.&lt;/p&gt;
-
-&lt;p&gt;And I cannot use many functions as a list.&lt;/p&gt;
-
-&lt;p&gt;For adding symbol, first, add a gcc option -g in makeifle, now the OS containing debugging information.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/DebugInfo.png&quot; alt=&quot;debuging&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The picture above is the result of opening .elf file using objdump.&lt;/p&gt;
-
-&lt;p&gt;and when you launch gdb, you can connect with that.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-gdb -s [location]
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can address the .elf file that completed linking.&lt;/p&gt;
-
-&lt;p&gt;For me, I thought I’ll develop 64-bit mode, So I appoint ‘02_Kernel64/Obj/Kernel64.elf’&lt;/p&gt;
-
-&lt;p&gt;Well,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/64BitKErnelSymble.png&quot; alt=&quot;it worked&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We can make a breaking point using the function name.&lt;/p&gt;
-
-&lt;p&gt;And progress the GDB using the command ‘continue’, and reach that point,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;list
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;below image is the result of command the ‘list’&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/GDBList.png&quot; alt=&quot;good work as well!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now I made a debugging environment.&lt;/p&gt;
-
-&lt;p&gt;I’m worried about the first time of GDB using as well.&lt;/p&gt;
-
-&lt;p&gt;If you try to use the connection between gdb and qemu, I hope this article will help.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Debug" /><category term="64bit" /><summary type="html">Currently, in progress, OS was made on Ubuntu(Windows bash) + VIM.</summary></entry></feed>
+&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS/tree/master/02_Kernel64&quot;&gt;Full Source Code of Kernel64&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Input" /><category term="Keyboard" /><category term="64bit" /><summary type="html">This is a result until today from yesterday thinking a lot.</summary></entry></feed>

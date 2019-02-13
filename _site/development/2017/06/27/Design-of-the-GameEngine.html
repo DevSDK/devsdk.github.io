@@ -1,0 +1,330 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Approximately, I thought an idea for the container of Comet Engine. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Approximately, I thought an idea for the container of Comet Engine." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Recently, I’m enjoying developing the OS. Is the reason fresh?" />
+<meta property="og:description" content="Recently, I’m enjoying developing the OS. Is the reason fresh?" />
+<link rel="canonical" href="https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html" />
+<meta property="og:url" content="https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-27T22:52:27+00:00" />
+<script type="application/ld+json">
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/images/avator.jpeg"},"name":"Seokho Song"},"@type":"BlogPosting","url":"https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html","headline":"Approximately, I thought an idea for the container of Comet Engine.","dateModified":"2017-06-27T22:52:27+00:00","datePublished":"2017-06-27T22:52:27+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html"},"author":{"@type":"Person","name":"Seokho Song"},"description":"Recently, I’m enjoying developing the OS. Is the reason fresh?","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  approximately-i-thought-an-idea-for-the-container-of-comet-engine">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Approximately, I thought an idea for the container of Comet Engine.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">1 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-06-27T22:52:27+00:00"><a class="u-url" href="">June 27, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#cometengine" title="Pages tagged CometEngine" rel="tag">CometEngine</a></li><li class="page-taxonomy"><a href="/tags/#gameengine" title="Pages tagged GameEngine" rel="tag">GameEngine</a></li><li class="page-taxonomy"><a href="/tags/#container" title="Pages tagged Container" rel="tag">Container</a></li><li class="page-taxonomy"><a href="/tags/#library" title="Pages tagged Library" rel="tag">Library</a></li><li class="page-taxonomy"><a href="/tags/#optimization" title="Pages tagged Optimization" rel="tag">Optimization</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/06/27/Design-of-the-GameEngine.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/06/27/Design-of-the-GameEngine.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			
+			<hr />
+
+<h3 id="this-post-was-written-by-english-beginner">This post was written by English beginner</h3>
+
+<p><strong>This announcement is showen on English page only.</strong></p>
+
+<p>I’ve started learning English since <strong>Feb 2018</strong>.</p>
+
+<p>Please understand me when I use wrong words or grammar.</p>
+
+<p>If you find some mistake or non-understandable sentence, please write comments below.</p>
+
+<hr />
+<p><br /></p>
+
+			
+			<p>Recently, I’m enjoying developing the OS. Is the reason fresh?</p>
+
+<p>So I think this project will be freeze…</p>
+
+<p>I mean, It is not completely frozen. I’ll make it very slowly.</p>
+
+<p>I can take it after a few weeks rest.</p>
+
+<p>Um, I  a few weeks too much. Hum.. a few days? I guess?</p>
+
+<p>Today, I decided to focus on the Game Engine.</p>
+
+<p>First of all, I fixed warnings in Custom Memory on Visual Studio.</p>
+
+<p>When I change c style casting to static_cast, that error has been removed.</p>
+
+<p>Anyway, I should make the library that wasn’t tiny, called Container.</p>
+
+<p>So, I drew UML instead of the code.</p>
+
+<p>Reference is Java’s Container and C#’s Collection.</p>
+
+<p>Also, I referred to C++’s STL.</p>
+
+<p><img src="/uploads/2017-06-27/CometEngine/UML.png" alt="This sturcture" /></p>
+
+<p>It wasn’t’ had detail like the name of the functions and member. It just had a silhouette…</p>
+
+<p>After that, I should consider this with paper writing.</p>
+
+<p>I’ll add patterns like Iterator later.</p>
+
+<p>Anyway, I make a Custom Allocator, so why don’t I develop the Container.</p>
+
+<p>Well, Because custom allocator has a limitation of the memory size (They require the Memory blocks), I should implement the wrapper for the resizable memory structure.</p>
+
+<p>Haa, I guess I’ll get a headache even I just concern about it.</p>
+
+<p>As you know, the Array List is easy for that but Linked List is……</p>
+
+<p>Roughly, I should write abstraction for memory require code.</p>
+
+<p>I’m not sure how can I solve when the memory pointer address is changed.</p>
+
+<p>One of the solution:</p>
+
+<p>On the user-side must not access in data address.</p>
+
+<p>Well, I’m not implementing the foundation of this system yet.</p>
+
+<p>Also, something that I should concern is how can I guarantee thread-safe between containers.</p>
+
+<p>I think I should get gray hair…..</p>
+
+<p>I need to draw a simple design of functions and requirements,</p>
+
+<p>or not immediately…</p>
+
+<p>If I read and examine STL’s internal source code, it’ll give some inspiration I guess, but I don’t want to do like that because they had a lot of damm template.</p>
+
+<p>The aim is faster than STL.</p>
+
+<p>I felt some depression when I thought that I should touch my game engine project sometimes</p>
+
+<p>Also, I want to develop the OS at the same time…</p>
+
+<p>I need more time to split.</p>
+
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html';
+        this.page.identifier = 'https://devsdk.github.io/development/2017/06/27/Design-of-the-GameEngine.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/06/27/ContainerConcerning.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Thinking about Container Library in Comet Engine
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/06/28/Hello32BIt.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        0SOS’s 32bit mode, Hello 32bit ProtectedMode
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2019 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script>
+  if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43719770-2', 'auto');
+    ga('send', 'pageview');
+  }
+  </script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

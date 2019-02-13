@@ -1,0 +1,14 @@
+  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  {% capture link2 %}{{ site.baseurl_root }}{{ page.url  }}{% endcapture %}
+	  <a href="{{ link2 }}" >English</a> </li>
+	<li class="page-taxonomy">
+	  {% if page.languages contains "korean" %}
+
+		{% capture link1 %}{{ site.baseurl_root }}/ko{{ page.url}}{% endcapture %}
+			 <a href="{{ link1 }}" >한국어</a> </li>
+	  {% else %}
+				<p><del>한국어</del>(번역 준비중)</p>
+	  {% endif %}
+  </ul>
