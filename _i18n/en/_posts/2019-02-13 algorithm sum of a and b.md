@@ -108,3 +108,4 @@ From [reference](https://en.cppreference.com/w/cpp/io/basic_ios/operator_bool), 
 
 So If the state value of 'cin' is eof, we can escape from the while loop.
 
+I didn't know istream's functions before, so this problem gave me the knowledge and it's quite happy :D.
