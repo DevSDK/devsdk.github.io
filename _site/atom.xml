@@ -1,4 +1,123 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-13T10:49:05+00:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Printing A + B with no limitation.</title><link href="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html" rel="alternate" type="text/html" title="Printing A + B with no limitation." /><published>2019-02-13T10:12:20+00:00</published><updated>2019-02-13T10:12:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/13/algorithm%20sum%20of%20a%20and%20b</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html">&lt;p&gt;Today, I’ve started an algorithm study.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-14T11:15:14+00:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Printing stars with single output function.</title><link href="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html" rel="alternate" type="text/html" title="Printing stars with single output function." /><published>2019-02-14T11:13:20+00:00</published><updated>2019-02-14T11:13:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/14/printing%20stars</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html">&lt;p&gt;Today I’ve solved bit algorithm problems.&lt;/p&gt;
+
+&lt;p&gt;I’ll write my solution one of those problems.&lt;/p&gt;
+
+&lt;p&gt;So Let’s begin.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;problem&quot;&gt;Problem&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Print the &quot;*&quot; by inferring example's rule.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;input&quot;&gt;Input&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Value N(1 ≤ N ≤ 100)  will be given.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;output&quot;&gt;Output&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Print from the first line to N line.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-input-1&quot;&gt;Example Input 1&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example--output-1&quot;&gt;Example  Output 1&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; *
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-input-2&quot;&gt;Example Input 2&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-output-2&quot;&gt;Example Output 2&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; *
+* *
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;example-input-3&quot;&gt;Example Input 3&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;example-output-3&quot;&gt;Example Output 3&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  *
+ * *
+* * *
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;example-input-4&quot;&gt;Example Input 4&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;example-output-4&quot;&gt;Example Output 4&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   *
+  * *
+ * * *
+* * * *
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From &lt;a href=&quot;https://www.acmicpc.net/problem/10991&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Let’s think about it!&lt;/p&gt;
+
+&lt;p&gt;It’s can be solved easily if I use many &lt;strong&gt;conditional expression and output expression&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;But I think It can be solved just a single output function(except newline) with loops and the ternary operator.&lt;/p&gt;
+
+&lt;p&gt;So Let’s find the rule of this problem.&lt;/p&gt;
+
+&lt;p&gt;For finding the rule, I’ve drawn a table.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2019-02-14/1.png&quot; alt=&quot;first&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can find some rule of this.&lt;/p&gt;
+
+&lt;p&gt;First, We can get the count of ‘i’ raw.
+Second, If the N is even value, We can print ‘&lt;em&gt;’ when the sum of ‘i’ and ‘j’ value is an odd value. If not, We can print ‘&lt;/em&gt;’ when the sum of ‘i’ and ‘j’ is even value.&lt;/p&gt;
+
+&lt;p&gt;The first rule can be used for a single output function(except newline).&lt;/p&gt;
+
+&lt;p&gt;But the second rule makes the condition.  So We need to remove the condition.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2019-02-14/2.png&quot; alt=&quot;second&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I take ‘i’+’j’-‘N’.&lt;/p&gt;
+
+&lt;p&gt;So, ‘*’ can be printed when that value is odd.&lt;/p&gt;
+
+&lt;p&gt;And,&lt;/p&gt;
+
+&lt;p&gt;Third, We can print ‘ ‘ when that value is less than 1.&lt;/p&gt;
+
+&lt;p&gt;So Let’s write this to code.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;*&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So this problem can be solved like this single output function(except newline).&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="algorithm" /><category term="solving problem" /><summary type="html">Today I’ve solved bit algorithm problems.</summary></entry><entry><title type="html">Printing A + B with no limitation.</title><link href="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html" rel="alternate" type="text/html" title="Printing A + B with no limitation." /><published>2019-02-13T10:12:20+00:00</published><updated>2019-02-13T10:12:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/13/algorithm%20sum%20of%20a%20and%20b</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html">&lt;p&gt;Today, I’ve started an algorithm study.&lt;/p&gt;
 
 &lt;p&gt;I’ve learned something didn’t know before.&lt;/p&gt;
 
@@ -3948,253 +4067,4 @@ undefined reference to ....
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS&quot;&gt;You can check full-source-code on here&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;The left thing is the keyboard process using interrupt.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.</summary></entry><entry><title type="html">Port IO memory and Input input process PS/2 Keyboard IO.</title><link href="https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard.html" rel="alternate" type="text/html" title="Port IO memory and Input input process PS/2 Keyboard IO." /><published>2017-07-04T22:00:20+00:00</published><updated>2017-07-04T22:00:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/04/PortIOAndKeyboard.html">&lt;p&gt;This is a result until today from yesterday thinking a lot.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/Keyboard.png&quot; alt=&quot;Keyboard Input&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The red text was input text.&lt;/p&gt;
-
-&lt;p&gt;Now, 0SOS support keyboard input.&lt;/p&gt;
-
-&lt;p&gt;Of course, it isn’t a shell, it is just a keyboard driver.&lt;/p&gt;
-
-&lt;p&gt;It just simply works that input data to video memory.&lt;/p&gt;
-
-&lt;p&gt;I’m a little bit worried about it is designed for PS/2 interface. (Old computer’s port)&lt;/p&gt;
-
-&lt;p&gt;Well, I don’t wanna develop exactly the same as the book.&lt;/p&gt;
-
-&lt;p&gt;But…&lt;/p&gt;
-
-&lt;p&gt;I tried to google it, even I tried to ask the author:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/writer1.png&quot; alt=&quot;저자1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/writer2.png&quot; alt=&quot;저자2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;He said like that.&lt;/p&gt;
-
-&lt;p&gt;He said you need to control the PCI.&lt;/p&gt;
-
-&lt;p&gt;So I defer about that, and I’ll design to extentionable.&lt;/p&gt;
-
-&lt;p&gt;From the book, It uses input data to queue buffer, I think the queue will be used to the interface.&lt;/p&gt;
-
-&lt;p&gt;Well, this problem also defers when I need to develop USB Driver and PCI control.&lt;/p&gt;
-
-&lt;p&gt;First, Let’s develop the Keyboard Driver on the PS/2 version.&lt;/p&gt;
-
-&lt;p&gt;Fortunately, the Laptop keyboard was PS/2 internally.&lt;/p&gt;
-
-&lt;p&gt;This is no problem to develop.&lt;/p&gt;
-
-&lt;p&gt;It needs a classification of the source codes, because this will begin in earnest.&lt;/p&gt;
-
-&lt;p&gt;So I made Driver directory in Source folder.&lt;/p&gt;
-
-&lt;p&gt;My method for this is &lt;a href=&quot;https://ko.wikipedia.org/wiki/%EC%9E%85%EC%B6%9C%EB%A0%A5_%EB%A7%B5_%EC%9E%85%EC%B6%9C%EB%A0%A5&quot;&gt;Port-Map IO&lt;/a&gt;, So I separate between PortIO and keyboard.&lt;/p&gt;
-
-&lt;p&gt;So Below image was the tree that was made from that directories&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/DirectoryTree.png&quot; alt=&quot;DirectoryTree&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;*I don’t know why gch file is added, dammit Google said it was made from gcc when it running with the header file. I don’t know how can fix. I think I should take time for checking makefile.&lt;/p&gt;
-
-&lt;p&gt;Fist, I hate the ‘../../’ when ‘include’ so I add the gcc include path option at source directory.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gcc -I ../Source
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Okay now,&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &quot;../../Types.h&quot; //We can use below line instead of this line.
-#include &amp;lt;Types.h&amp;gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Well, I tried to make better than before…&lt;/p&gt;
-
-&lt;p&gt;Now Let’s build time.&lt;/p&gt;
-
-&lt;p&gt;Build failure. LoL.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;undefined reference to PS2~~
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It makes a message above.&lt;/p&gt;
-
-&lt;p&gt;As I check that message more carefully, that would compile header, and not compile the source file.&lt;/p&gt;
-
-&lt;p&gt;Maybe the reason is that in the book was described by a single path.&lt;/p&gt;
-
-&lt;p&gt;Okay, Now I start the editing makefile.&lt;/p&gt;
-
-&lt;p&gt;I think I spent 3 hours for that.&lt;/p&gt;
-
-&lt;p&gt;Below code is 02_Kernel64/makefile.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;nv&quot;&gt;CSOURCEFILES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;wildcard ../&lt;span class=&quot;nv&quot;&gt;$(SOURCEDIR)&lt;/span&gt;/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.c&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;ASSEMBLYSOURCEFILES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;wildcard ../&lt;span class=&quot;nv&quot;&gt;$(SOURCEDIR)&lt;/span&gt;/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.asm&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;I changed C and assembly code assignment expression above codes to below codes.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;CSOURCEFILES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shell&lt;/span&gt; find ../&lt;span class=&quot;nv&quot;&gt;$(SOURCEDIR)&lt;/span&gt;/ &lt;span class=&quot;nt&quot;&gt;-name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.c&lt;span class=&quot;nv&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;ASSEMBLYSOURCEFILES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shell&lt;/span&gt; find ../&lt;span class=&quot;nv&quot;&gt;$(SOURCEDIR)&lt;/span&gt;/ &lt;span class=&quot;nt&quot;&gt;-name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.asm&lt;span class=&quot;nv&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It has made a target all about C file, but It wouldn’t compile properly.&lt;/p&gt;
-
-&lt;p&gt;So It cannot link on ld command at linking step because the file was lost.&lt;/p&gt;
-
-&lt;p&gt;Thus I changed the rule of making o file.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;%.o&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;../$(SOURCEDIR)/%.c         &lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$(GCC64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&amp;lt;&lt;/span&gt;         
-&lt;span class=&quot;nl&quot;&gt;%.o&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;../$(SOURCEDIR)%.asm&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$(NASM64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$@&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&amp;lt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Above codes to below codes.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;$(COBJECTFILES)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;$(CSOURCEFILES)&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$(GCC64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$^&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;$(ASSEMBLYOBJECTFILES)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;$(ASSEMBLYSOURCEFILES)&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$(NASM64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$@&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&amp;lt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;After building all of the files, that result file would be transfer in Obj directory.&lt;/p&gt;
-
-&lt;p&gt;And linker was executed, the disk was completely baked.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/BuildComplate.png&quot; alt=&quot;BuildComplate&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I almost cry -_-.&lt;/p&gt;
-
-&lt;p&gt;Anyway,&lt;/p&gt;
-
-&lt;p&gt;The build was complete, launch the qemu with happy.&lt;/p&gt;
-
-&lt;p&gt;Keep blinking -_-;;;; I try to find why it is working like it.&lt;/p&gt;
-
-&lt;p&gt;I wanna use GDB, but… I can’t handle it. Also QEMU host the server, so It cannot work step by step.&lt;/p&gt;
-
-&lt;p&gt;I’ll try to find a GUI version.&lt;/p&gt;
-
-&lt;p&gt;Anyway, I found the reason.&lt;/p&gt;
-
-&lt;p&gt;Two of the functions in PortIO assembly and header connected oppositely.&lt;/p&gt;
-
-&lt;p&gt;Thus they return not properly, also parameter not work properly, the stack was exploded.&lt;/p&gt;
-
-&lt;p&gt;PortIO function now available and I start to write keyboard driver using PS/2 Keyboard port.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS/tree/master/02_Kernel64/Source/Driver/Keyboard&quot;&gt;I think keyboard driver codes quite a bit long, so you can check here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;When the user presses the keyboard, they send the scan code.&lt;/p&gt;
-
-&lt;p&gt;I make a g_KeyboardStatus structure for using shift and caps lock functions, I implement that when it press that keys, that value would be updated.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Keyboard.h&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_KeyboardSataus&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isShiftKeyDown&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isCapsLockOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isNumLockOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isScrollLockOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isExtendCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;SkipPauseCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyboardStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyboardStatus&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;g_KeyboardStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And I create scan code-askii code map.&lt;/p&gt;
-
-&lt;p&gt;I made it can possible separate between combined-key and normal-key.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Keyboard.h&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StructKeyMapEntry&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;NormalCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;CombinedCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyMapEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyMapEntry&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;g_KeyMapScanTable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KEYMAP_TABLE_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_NONE&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;KEY_NONE&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    0&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_ESC&lt;/span&gt;                 &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;KEY_ESC&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    1&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'1'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;         &lt;span class=&quot;sc&quot;&gt;'!'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    2&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'2'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'@'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    3&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'3'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'#'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    4&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'4'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'$'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    5&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'5'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'%'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    6&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'6'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'^'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    7&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'7'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'&amp;amp;'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    8&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'8'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'*'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    9&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'9'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'('&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    10&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'0'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;')'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    11&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'-'&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;        &lt;span class=&quot;sc&quot;&gt;'_'&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//    12&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// 나머지는 생략 89개다.&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Anyway, We can process keyboard input through the table.&lt;/p&gt;
-
-&lt;p&gt;You can find Internal Implement on github.&lt;/p&gt;
-
-&lt;p&gt;So you can use on kernel entry like that:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//__Kernel_Entry.c&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__KERNEL_ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;64 bit C Language Kernel.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;    
-    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PS2ActivationKeyboard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Keyboard Error    .&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;    
-        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        
-        
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PS2CheckOutputBufferNotEmpty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-                &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PS2GetKeyboardScanCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertScancodeToASCII&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_DOWN&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                        &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                
-            
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-
-            
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;As you can see, if the input value exists, that would take that value and change to ASCII, and checking whether that is keyboard input.&lt;/p&gt;
-
-&lt;p&gt;Not use interrupt yet.&lt;/p&gt;
-
-&lt;p&gt;I’m so happy because it works properly.&lt;/p&gt;
-
-&lt;p&gt;Finally, I will.. make… Shell..&lt;/p&gt;
-
-&lt;p&gt;Anyway, the next thing was inttrupt… It should be hard.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS/tree/master/02_Kernel64&quot;&gt;Full Source Code of Kernel64&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Input" /><category term="Keyboard" /><category term="64bit" /><summary type="html">This is a result until today from yesterday thinking a lot.</summary></entry></feed>
+&lt;p&gt;The left thing is the keyboard process using interrupt.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.</summary></entry></feed>
