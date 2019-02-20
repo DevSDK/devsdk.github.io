@@ -1,7 +1,7 @@
 ---
 layout: post
 title: \[DP\] I have solved My first DP problem. 
-date:   2019-02-14 9:13:20
+date:   2019-02-20 9:13:20
 categories: algorithm
 comments: true
 languages:
