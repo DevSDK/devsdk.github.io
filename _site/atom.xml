@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-14T11:15:14+00:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Printing stars with single output function.</title><link href="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html" rel="alternate" type="text/html" title="Printing stars with single output function." /><published>2019-02-14T11:13:20+00:00</published><updated>2019-02-14T11:13:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/14/printing%20stars</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html">&lt;p&gt;Today I’ve solved bit algorithm problems.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-02-20T09:42:41+00:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Printing stars with single output function.</title><link href="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html" rel="alternate" type="text/html" title="Printing stars with single output function." /><published>2019-02-14T11:13:20+00:00</published><updated>2019-02-14T11:13:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/14/printing%20stars</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/14/printing-stars.html">&lt;p&gt;Today I’ve solved bit algorithm problems.&lt;/p&gt;
 
 &lt;p&gt;I’ll write my solution one of those problems.&lt;/p&gt;
 
@@ -117,7 +117,196 @@ Second, If the N is even value, We can print ‘&lt;em&gt;’ when the sum of �
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;So this problem can be solved like this single output function(except newline).&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="algorithm" /><category term="solving problem" /><summary type="html">Today I’ve solved bit algorithm problems.</summary></entry><entry><title type="html">Printing A + B with no limitation.</title><link href="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html" rel="alternate" type="text/html" title="Printing A + B with no limitation." /><published>2019-02-13T10:12:20+00:00</published><updated>2019-02-13T10:12:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/13/algorithm%20sum%20of%20a%20and%20b</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html">&lt;p&gt;Today, I’ve started an algorithm study.&lt;/p&gt;
+&lt;p&gt;So this problem can be solved like this single output function(except newline).&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="algorithm" /><category term="solving problem" /><summary type="html">Today I’ve solved bit algorithm problems.</summary></entry><entry><title type="html">\[DP\] I have solved My first DP problem.</title><link href="https://devsdk.github.io/algorithm/2019/02/14/first-dp-problem.html" rel="alternate" type="text/html" title="\[DP\] I have solved My first DP problem." /><published>2019-02-14T09:13:20+00:00</published><updated>2019-02-14T09:13:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/14/first-dp-problem</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/14/first-dp-problem.html">&lt;p&gt;Now, I solved a DP problem.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Dynamic programming is one of the problem-solving methods.  this method divides a problem to sub-problems. It stores a result of the algorithm by specific values to the memory for reusing. So When that value occurs, We can use that data again. Thus we can optimize re-computing time.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;problem&quot;&gt;Problem&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Following source code is C++ function for calculating N
+Fibonacci number.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‐&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‐&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When fibonacci(3) is called, it would be worked like this:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;fibonacci(3)  call fibonacci(2) and fibonacci(1)(first called).&lt;/li&gt;
+  &lt;li&gt;fibonacci(2) call fibonacci(1)(second called) and fibonacci(0).&lt;/li&gt;
+  &lt;li&gt;fibonacci(1)(second called) return and print 1.&lt;/li&gt;
+  &lt;li&gt;fibonacci(0) return and print 0.&lt;/li&gt;
+  &lt;li&gt;fibonacci(2) get result of fibonacci(1) and fibonacci(0) and return 1.&lt;/li&gt;
+  &lt;li&gt;fibonacci(1)(fist called) return and print 1.&lt;/li&gt;
+  &lt;li&gt;fibonacci(3) get result of fibonacci(2) and fibonacci(1) and return 2.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thus, number 1 printed the twice and 0 printed a single.&lt;/p&gt;
+
+&lt;p&gt;Write a program to calculate how many number 0 and 1 printed when number N is given.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Time limit: 0.25 Second&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;input&quot;&gt;Input&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The value T will be given that is the count of test-case.
+Each case consists of a single line which is number N.
+(0&amp;lt;=N&amp;lt;=40)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;output&quot;&gt;Output&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Print the numbers of the count of 0 and 1 which is separated by the white-space.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example-input&quot;&gt;Example Input&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3
+0
+1
+3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;example--output&quot;&gt;Example  Output&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1 0
+0 1
+1 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From &lt;a href=&quot;https://www.acmicpc.net/problem/1003&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;When I met this problem the first time, I just used counting 0 and 1.&lt;/p&gt;
+
+&lt;p&gt;But my counting method always made the time-over.&lt;/p&gt;
+
+&lt;p&gt;I had some few times for thinking. The main topic is calculation time.&lt;/p&gt;
+
+&lt;p&gt;And the following idea occurred to me.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;If I store the value of fibonacci(N) to reuse?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If I do that, This algorithm makes calculation just a single time by the N value.&lt;/p&gt;
+
+&lt;p&gt;So I fixed above function like this.&lt;/p&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If fibonacci(2) called the first time, it would call fibonacci(1) and fibonacci(0) functions which just return 1 and 0. 
+And then it stored the result of fibbonacci(2) to DP[2].&lt;/p&gt;
+
+&lt;p&gt;Thus, when fibonacci function called next time, it would return the value of DP[2].&lt;/p&gt;
+
+&lt;p&gt;So It’s solved!&lt;/p&gt;
+
+&lt;p&gt;But let’s see the problem.&lt;/p&gt;
+
+&lt;p&gt;We need to count how many 0 and 1 is printed.&lt;/p&gt;
+
+&lt;p&gt;But we can’t count use counter because every function by N is called a single time.&lt;/p&gt;
+
+&lt;p&gt;Let’s think.&lt;/p&gt;
+
+&lt;p&gt;We need to find how many N value consists of 1 and 0 makes function-call.&lt;/p&gt;
+
+&lt;p&gt;Let’s think when fibonacci(2) is called.&lt;/p&gt;
+
+&lt;p&gt;fibonacci(2) makes fibonacci(1) and fibonacci(0).&lt;/p&gt;
+
+&lt;p&gt;As you can see that makes counting each 1 and 0 by specific value N=2.&lt;/p&gt;
+
+&lt;p&gt;Thus, We can make this formula:&lt;/p&gt;
+
+&lt;p&gt;zero_count = { 1, 0, 0 …}
+zero_count[N] = zero_count[N-1] + zero_count[N-2]&lt;/p&gt;
+
+&lt;p&gt;one_count { 0, 1, 0 …}
+one_count[N] = one_count[N-1] + one_count[N-2]&lt;/p&gt;
+
+&lt;p&gt;So If I use above to source code, we can solve finally.&lt;/p&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPZC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    
+            &lt;span class=&quot;n&quot;&gt;DPC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;   
+            &lt;span class=&quot;n&quot;&gt;DPZC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPZC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DPZC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;DP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sync_with_stdio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sync_with_stdio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nullptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nullptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
+        &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DPZC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DPC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'\n'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I heard DP method but I couldn’t use that.&lt;/p&gt;
+
+&lt;p&gt;And luckily I can deploy that method through this problem!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="algorithm" /><category term="solving problem" /><summary type="html">Now, I solved a DP problem.</summary></entry><entry><title type="html">Printing A + B with no limitation.</title><link href="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html" rel="alternate" type="text/html" title="Printing A + B with no limitation." /><published>2019-02-13T10:12:20+00:00</published><updated>2019-02-13T10:12:20+00:00</updated><id>https://devsdk.github.io/algorithm/2019/02/13/algorithm%20sum%20of%20a%20and%20b</id><content type="html" xml:base="https://devsdk.github.io/algorithm/2019/02/13/algorithm-sum-of-a-and-b.html">&lt;p&gt;Today, I’ve started an algorithm study.&lt;/p&gt;
 
 &lt;p&gt;I’ve learned something didn’t know before.&lt;/p&gt;
 
@@ -3541,530 +3730,4 @@ So I didn’t write an article.&lt;/p&gt;
 
 &lt;p&gt;And Next is the Long-awaited SHELL!!&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading this long story.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.</summary></entry><entry><title type="html">Changing GDT &amp;amp; Defining GDT &amp;amp; Setting TSS</title><link href="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html" rel="alternate" type="text/html" title="Changing GDT &amp; Defining GDT &amp; Setting TSS" /><published>2017-07-10T11:40:20+00:00</published><updated>2017-07-10T11:40:20+00:00</updated><id>https://devsdk.github.io/development/2017/07/10/ReadyInterrupt</id><content type="html" xml:base="https://devsdk.github.io/development/2017/07/10/ReadyInterrupt.html">&lt;p&gt;Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.&lt;/p&gt;
-
-&lt;p&gt;so I write this now.&lt;/p&gt;
-
-&lt;p&gt;Well….&lt;/p&gt;
-
-&lt;p&gt;Until now, 0SOS didn’t have an interrupt process code.&lt;/p&gt;
-
-&lt;p&gt;So If the interrupt occurs, it makes system down or processed by the default handler&lt;/p&gt;
-
-&lt;p&gt;Anyway, I don’t like it.&lt;/p&gt;
-
-&lt;p&gt;For input keyboard or some interrupt application, I’ve made IDT for prepare interrupt process.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/InterruptShow.png&quot; alt=&quot;the result&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Still, they connected the dummy handler, but interrupt has occurred, the handler was executed for process interrupt.&lt;/p&gt;
-
-&lt;p&gt;I defined the IST data structure for handling interrupt on the 7~8MB area.&lt;/p&gt;
-
-&lt;p&gt;And I assign IST using TSS segment, and I connect about hundred of dummy handler and dummy descriptor in IST.&lt;/p&gt;
-
-&lt;p&gt;Below image was memory map.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/MemoryMap.png&quot; alt=&quot;tiresome&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ll draw paint next time. Too much effort.&lt;/p&gt;
-
-&lt;p&gt;Anyway, The point is setting up TSS selector in GDT, defining TSS and constructing IDT.&lt;/p&gt;
-
-&lt;p&gt;Well, It looks simple.&lt;/p&gt;
-
-&lt;p&gt;Let’s see the codes.&lt;/p&gt;
-
-&lt;p&gt;And I’ll write a debugging log.&lt;/p&gt;
-
-&lt;p&gt;First, Dummy handler:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DummyHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;===============================&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;===============================&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;===    Test Interrupt Hander===&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;===============================&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;===============================&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//Busy waiting for no retuning.&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If some interrupt has occurred, it would be handled by that function.&lt;/p&gt;
-
-&lt;p&gt;In other words, if you try to divide 0, it would occur interrupt. So That function was executed.&lt;/p&gt;
-
-&lt;p&gt;You can see the result in the first image.&lt;/p&gt;
-
-&lt;p&gt;Anyway, I need to re-define GDT, TSS using IST and make IDT for process interrupt.&lt;/p&gt;
-
-&lt;p&gt;So I make a Descriptor directory and define some files for that.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/DirectoryTree.png&quot; alt=&quot;File tree&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Descriptor.asm and Descriptor.h handle asm code for GDTR, IDTR and TSS load to the processor.&lt;/p&gt;
-
-&lt;p&gt;IDT.c and IDT.h are related at IDT&lt;/p&gt;
-
-&lt;p&gt;and GDT.c and GDT.h are related at GDT.&lt;/p&gt;
-
-&lt;p&gt;If you wanna look detail GDT.h, please check the below URL.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS/blob/master/02_Kernel64/Source/Descriptor/GDT.h&quot;&gt;GDT.h URL&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I define the bundle of codes that would be used often.&lt;/p&gt;
-
-&lt;p&gt;The implementation was:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//GDT.c&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#include &quot;GDT.h&quot;
-#include &quot;IDT.h&quot;
-#include &amp;lt;Utility/Memory.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitializeGDTWithTSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;GDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_gdtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDTR_POINTER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;GDT_ENTRY8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;      &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_ENTRY8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDTR_POINTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_tss_segment&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_TABLE_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;    
-    &lt;span class=&quot;n&quot;&gt;_gdtr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_TABLE_SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_gdtr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseAddress&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;SetGDT_Entry8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;SetGDT_Entry8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xFFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_HIGH_CODE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_LOW_KERNEL_CODE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_TYPE_CODE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;SetGDT_Entry8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xFFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_HIGH_DATA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_LOW_KERNEL_DATA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_TYPE_DATA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;SetGDT_Entry16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_ENTRY16&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_gdt_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_tss_segment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_HIGH_TSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;GDT_ENTRY_LOW_TSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_TYPE_TSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;InitializeTSSSegment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_tss_segment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SetGDT_Entry8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_ENTRY8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                     &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_HighFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_LowFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_Size&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_BaseAddress&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_BaseAddress1&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_Flags&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_LowFlags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_FlagsAndSize&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_HighFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_BaseAddress&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SetGDT_Entry16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_ENTRY16&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                     &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_HighFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_LowFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_Size&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_BaseAddress&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Mid_BaseAddress&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_Flags&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_LowFlags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_FlagsAndSize&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_HighFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_BaseAddress&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_BaseAddress2&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_BaseAddress&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Reserved&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitializeTSSSegment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_MemSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;    
-    &lt;span class=&quot;n&quot;&gt;_tss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IST_POINTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IST_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_tss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOMapBaseAddress&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Well, You can see GDT load on memory through InitializeGDTWithTSS function. (You should check GDTR_POINTER. That was completely calculated.)&lt;/p&gt;
-
-&lt;p&gt;Not different normal GDT, I suggest you Google it.&lt;/p&gt;
-
-&lt;p&gt;Let’s check IDT.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//IDT.h&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#ifndef __IDT_H__
-#define __IDT_H__
-#include &quot;GDT.h&quot;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define IDT_TYPE_INTERRUPT      0x0E    //0b00001110
-#define IDT_TYPE_TRAP           0x0F    //0b00001111
-#define IDT_ENTRY_DPL0          0x00    //0b00000000
-#define IDT_ENTRY_DPL1          0x20    //0b00100000
-#define IDT_ENTRY_DPL2          0x40    //0b01000000
-#define IDT_ENTRY_DPL3          0x60    //0b01100000
-#define IDT_ENTRY_P             0x80    //0b10000000
-#define IDT_ENTRY_IST1          1
-#define IDT_ENTRY_IST0          0
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define IDT_ENTRY_KERNEL    (IDT_ENTRY_DPL0 | IDT_ENTRY_P)
-#define IDT_ENTRY_USER      (IDT_ENTRY_DPL3 | IDT_ENTRY_P)
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define IDT_MAX_ENTRY_COUNT     100
-#define IDTR_POINTER            (sizeof(GDTR) + GDTR_POINTER \
-                                + GDT_TABLE_SIZE + TSS_SEGMENT_SIZE)
-#define IDT_POINTER            (sizeof(IDTR) + IDTR_POINTER)
-#define IDT_TABLE_SIZE          (IDT_MAX_ENTRY_COUNT + sizeof(IDT_ENTRY))
-&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#define IST_POINTER         0x700000
-#define IST_SIZE            0x100000
-&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(push, 1)
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Struct_IDT_Entry&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Low_BaseAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SegmentSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;//3Bit IST, 5Bit set 0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FlagsAndType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// 4Bit Type, 1 Bit set 0, 2Bit DPL, 1Bit P&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Mid_BaseAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;High_BaseAddres&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Reserved&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(pop)
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InitializeIDTTables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SetIDTEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-                    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_IST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Attribute&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DummyHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#endif &lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* __IDT_H__ */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
-&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Yet IDT.h file wasn’t huge.&lt;/p&gt;
-
-&lt;p&gt;You can see as well, I designed that could place on memory by sizeof instead directly use _POINTER that was pointing starting address.&lt;/p&gt;
-
-&lt;p&gt;Below was an implement of IDT.c.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//IDT.c&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &quot;IDT.h&quot;
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitializeIDTTables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;IDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDTR_POINTER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR_POINTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;idtr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseAddress&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;idtr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDT_TABLE_SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDT_MAX_ENTRY_COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;SetIDTEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DummyHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x08&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDT_ENTRY_IST1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDT_ENTRY_KERNEL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDT_TYPE_INTERRUPT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SetIDTEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-                    &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_IST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Low_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_handler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SegmentSelector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IST&lt;/span&gt;             &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_IST&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FlagsAndType&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Mid_BaseAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_handler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;High_BaseAddres&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_handler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Reserved&lt;/span&gt;        &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//Skip Pt and DummyHandler&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;I skip that dummyhandler and print vide memory function.&lt;/p&gt;
-
-&lt;p&gt;IDT was defined and loaded by the above codes.&lt;/p&gt;
-
-&lt;p&gt;Descriptor.h and Descriptor.asm work for linking the handler and processor.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Descriptor.h&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#ifndef __DESCRIPTOR_H__
-#define __DESCRIPTOR_H__
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_GdtrAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_TssSegmentOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_IDTRAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#endif &lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*__DESCRIPTOR_H__*/&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
-&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Above code linked at the assembly codes. the assembly codes are:&lt;/p&gt;
-
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;;Descriptor.asm&lt;/span&gt;
-
-&lt;span class=&quot;err&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BITS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;]&lt;/span&gt;
-                     
-&lt;span class=&quot;kr&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;
-                        
-&lt;span class=&quot;kr&quot;&gt;SECTION&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lgdt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ltr&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;di&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lidt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It’s simple. It’s just table notification to table code.&lt;/p&gt;
-
-&lt;p&gt;I add the below codes to initialize and link to the processor at the kernel entry.&lt;/p&gt;
-
-&lt;p&gt;And Below code makes a divide by zero interrupt when we press some key.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;//__Kernel_Entry.c&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Initialize GDT........................................&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;InitializeGDTWithTSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDTR_POINTER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[SUCCESS]&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Load TSS Segment .....................................&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GDT_TSS_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[SUCCESS]&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Initialize IDT .......................................&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;InitializeIDTTables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR_POINTER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x0A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[SUCCESS]&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;//...&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//__Kernel_Entry.c&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_DOWN&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;PrintVideoMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Thus far, this is an addition in the codes.&lt;/p&gt;
-
-&lt;p&gt;Well…. I should consider about copy&amp;amp;paste whole codes.&lt;/p&gt;
-
-&lt;p&gt;I think it has a better way. Like above Kernel Entry.&lt;/p&gt;
-
-&lt;p&gt;Okay, below article is debugging log when I developed above.&lt;/p&gt;
-
-&lt;p&gt;I try to build with a happy mind.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-undefined reference to ....
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Dammit.&lt;/p&gt;
-
-&lt;p&gt;I try to find what is a problem.&lt;/p&gt;
-
-&lt;p&gt;I check the linker log, Assembly object file looks weird.&lt;/p&gt;
-
-&lt;p&gt;So I check through the objdmp… OMG, that files exactly same without the filename.&lt;/p&gt;
-
-&lt;p&gt;(PortIO.o and Descriptor.o was same PortIO.o data)&lt;/p&gt;
-
-&lt;p&gt;nasm looks like gcc but it cannot build several files.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;$(ASSEMBLYOBJECTFILES)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;$(ASSEMBLYSOURCEFILES)&lt;/span&gt;
-     &lt;span class=&quot;err&quot;&gt;$(NASM64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$@&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&amp;lt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;In fact, It can be built by $&amp;lt;. If it is $^, nasm would be stopped because of too many arguments.&lt;/p&gt;
-
-&lt;p&gt;So this happen was made by more than two asm file.&lt;/p&gt;
-
-&lt;p&gt;gcc could build with option -c and source files, but nasm didn’t.&lt;/p&gt;
-
-&lt;p&gt;I wanna find the way.&lt;/p&gt;
-
-&lt;p&gt;First, I try to use the nasm function. I consider that but it’s impossible. Or I didn’t know?&lt;/p&gt;
-
-&lt;p&gt;Anyway, I solved this problem by inserting foreach in makefile.&lt;/p&gt;
-
-&lt;div class=&quot;language-make highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;nl&quot;&gt;$(ASSEMBLYOBJECTFILES)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;$(ASSEMBLYSOURCEFILES)&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;$(foreach&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;var,$(ASSEMBLYSOURCEFILES),$(NASM64)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$(var)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$(notdir&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$(patsubst&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;%.asm,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;%.o,&lt;/span&gt;  &lt;span class=&quot;err&quot;&gt;$(var)))&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I waist hours for the above shortcode lines.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/BuildDone.png&quot; alt=&quot;Build success!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Well, I guess I don’t need to touch makefile.&lt;/p&gt;
-
-&lt;p&gt;I try to run.&lt;/p&gt;
-
-&lt;p&gt;It didn’t work properly.&lt;/p&gt;
-
-&lt;p&gt;I’m mental hurt by makefile. So I’m so confused.&lt;/p&gt;
-
-&lt;p&gt;I’ve spent a rest little bit.&lt;/p&gt;
-
-&lt;p&gt;So, we need to check GDT, IDT and TSS data would be loaded properly.&lt;/p&gt;
-
-&lt;p&gt;The first we try, Check the GDTR that explicitly assigned memory address.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/Hex_GDT.png&quot; alt=&quot;GDTHEX&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Green is GDTR, red is GDT table.&lt;/p&gt;
-
-&lt;p&gt;GDTR’s assignment is GDT address appointing.&lt;/p&gt;
-
-&lt;p&gt;I designed GDT next to GDTR, So it should refer 0x142010, and i should check that HEX. And it is properly worked.&lt;/p&gt;
-
-&lt;p&gt;Let’s look at the GDT.&lt;/p&gt;
-
-&lt;p&gt;Well, GDTR assignment is properly worked, and I can check the output. So I think GDT table content wasn’t wrong.&lt;/p&gt;
-
-&lt;p&gt;But, I check harder the TSS segment.&lt;/p&gt;
-
-&lt;p&gt;The starting address is 0x142028.&lt;/p&gt;
-
-&lt;p&gt;If I make table:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/Table_TSS.png&quot; alt=&quot;TSSSelector&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I check the base address because I tried to check the memory part.&lt;/p&gt;
-
-&lt;p&gt;Also, I designed a tss table next to GDTR too, it should be 0x142038.&lt;/p&gt;
-
-&lt;p&gt;Tss Segment descriptor base address looks no-problem.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/HEX_TSS_ERROR.png&quot; alt=&quot;HEX_TSS_ERROR&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I check again. Something wrong.&lt;/p&gt;
-
-&lt;p&gt;The last 2byte, I set FFFF on IOMap. Where they go?&lt;/p&gt;
-
-&lt;p&gt;Also IST base address 0x800000 has gone.&lt;/p&gt;
-
-&lt;p&gt;I try to check the codes.&lt;/p&gt;
-
-&lt;p&gt;OMG.&lt;/p&gt;
-
-&lt;p&gt;I write the InitializeTSSSegment function but I wouldn’t call it.&lt;/p&gt;
-
-&lt;p&gt;So I solve that problem by calling that function.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/Hex_TSS_Work.png&quot; alt=&quot;HEX_TSS_WORK&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;…&lt;/p&gt;
-
-&lt;p&gt;You can see the different above image and right above image.&lt;/p&gt;
-
-&lt;p&gt;It worked properly now.&lt;/p&gt;
-
-&lt;p&gt;But it still didn’t work.&lt;/p&gt;
-
-&lt;p&gt;So I should check the IDT.&lt;/p&gt;
-
-&lt;p&gt;Hum…&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/IDT_Error.png&quot; alt=&quot;HEX_IDT_ERROR?&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Ah…??&lt;/p&gt;
-
-&lt;p&gt;It memory calculation wasn’t properly worked.&lt;/p&gt;
-
-&lt;p&gt;I plan right next to the TSS but why it refer 0x1421A0?&lt;/p&gt;
-
-&lt;p&gt;I checked the codes.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR_POINTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Okay, I mistake Again -_-&lt;/p&gt;
-
-&lt;p&gt;Of course, It appoints before if like that. because After casting to the pointer and add.&lt;/p&gt;
-
-&lt;p&gt;So I solve this change above code to below code.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDT_ENTRY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR_POINTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Addition, This code wasn’t a problem to work. But it isn’t my plan. So It should make something problem later. For example, it could occur address crashing when I try to insert data on after IDT.&lt;/p&gt;
-
-&lt;p&gt;(Because the memory address in IDTR is the same as IDT location. In fact, you can check IDT on 0x2021A0.)&lt;/p&gt;
-
-&lt;p&gt;After Fixing that, data was filled properly.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-10/OS/IDT_Work.png&quot; alt=&quot;HEX_IDT_WORK&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;All of the data is ready.&lt;/p&gt;
-
-&lt;p&gt;But it didn’t work….&lt;/p&gt;
-
-&lt;p&gt;So I knew if interrupt occurs, system down.&lt;/p&gt;
-
-&lt;p&gt;Weird.&lt;/p&gt;
-
-&lt;p&gt;No way! Did I make a  mistake about the pass on the processor?&lt;/p&gt;
-
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;err&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BITS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;]&lt;/span&gt;
-                     
-&lt;span class=&quot;kr&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;
-                        
-&lt;span class=&quot;kr&quot;&gt;SECTION&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lgdt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ltr&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;di&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lgdt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Oh shi…&lt;/p&gt;
-
-&lt;p&gt;I make a mistake which is calling lgdt in LoadIDTR function.&lt;/p&gt;
-
-&lt;p&gt;So I change above code to below.&lt;/p&gt;
-
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BITS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;]&lt;/span&gt;
-                     
-&lt;span class=&quot;kr&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;
-                        
-&lt;span class=&quot;kr&quot;&gt;SECTION&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadGDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lgdt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;LoadTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ltr&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;di&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;LoadIDTR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;lidt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[rdi]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;ret&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I edit lgdt to lidt.&lt;/p&gt;
-
-&lt;p&gt;Thus, It works properly.&lt;/p&gt;
-
-&lt;p&gt;OMG, this posting is huge.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS&quot;&gt;You can check full-source-code on here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The left thing is the keyboard process using interrupt.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">Until now, sometimes I’ve got something to work, and I spent a lot of debugging time at this time.</summary></entry></feed>
+&lt;p&gt;Thanks for reading this long story.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">In fact, I made today afternoon, but I wrote this article now because I’ve got some work related to a server.</summary></entry></feed>
