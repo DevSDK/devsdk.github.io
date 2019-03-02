@@ -13,18 +13,17 @@ tags:
 
 Now, I solved a DP problem.
 
-```
-Dynamic programming is one of the problem-solving methods.  this method divides a problem to sub-problems. It stores a result of the algorithm by specific values to the memory for reusing. So When that value occurs, We can use that data again. Thus we can optimize re-computing time.
-```
+
+Dynamic programming is one of the problem-solving methods.
+this method divides a problem to sub-problems. It stores a result of the algorithm by specific values to the memory for reusing. So When that value occurs, We can use that data again. Thus we can optimize re-computing time.
 
 ---
 
 ### Problem
 
-```
 Following source code is C++ function for calculating N
+
 Fibonacci number.
-```
 
 ```c++
 int fibonacci(int n) {
@@ -59,17 +58,13 @@ Write a program to calculate how many number 0 and 1 printed when number N is gi
 
 ### Input
 
-```
 The value T will be given that is the count of test-case.
 Each case consists of a single line which is number N.
 (0<=N<=40)
-```
 
 ### Output
 
-```
 Print the numbers of the count of 0 and 1 which is separated by the white-space.
-```
 
 ### Example Input 
 
