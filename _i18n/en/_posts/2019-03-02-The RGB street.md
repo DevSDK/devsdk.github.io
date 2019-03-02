@@ -1,6 +1,6 @@
 ---
 layout: post
-title: \[DP\] I have solved My first DP problem. 
+title: \[DP\] The RGB Street 
 date:   2019-03-02 9:13:20
 categories: algorithm
 comments: true
