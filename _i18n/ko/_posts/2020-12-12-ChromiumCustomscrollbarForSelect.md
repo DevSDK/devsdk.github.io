@@ -66,13 +66,13 @@ Patches:
 
 이런식으로 위 코드에 대하여 스크롤바가 잘 적용되었다.
 
-하지만 기존에는 두번째 gif와 같이 <select>에 대하여 커스텀 스크롤 바가 적용되지 않았다.
+하지만 기존에는 두번째 gif와 같이 \<select>에 대하여 커스텀 스크롤 바가 적용되지 않았다.
 
-이 문제를 해결하는 과정에 대해 이해하려면 <select>가 어떻게 동작하는지 알 필요가 있다.
+이 문제를 해결하는 과정에 대해 이해하려면 \<select>가 어떻게 동작하는지 알 필요가 있다.
 
-우리가 <select>를 눌렀을 때 브라우져에서는 새로 웹 팝업을 띄운다. 이것을 Chromium에서 Internal Popup이라고 한다. 
+우리가 \<select>를 눌렀을 때 브라우져에서는 새로 웹 팝업을 띄운다. 이것을 Chromium에서 Internal Popup이라고 한다. 
 
-그러니까 우리가 <select>를 눌렀을 때 웹뷰를 하나 새로 만들고, 거기에 html코드를 넣고, 렌더링을 하는 것이 현재의 <select>가 구현되어 있는 방식이다. 여기서 스타일은  호스트에 정의되어있는 스타일을 Internal Popup에 복사하는 방식으로 구현되어 있다.
+그러니까 우리가 \<select>를 눌렀을 때 웹뷰를 하나 새로 만들고, 거기에 html코드를 넣고, 렌더링을 하는 것이 현재의 \<select>가 구현되어 있는 방식이다. 여기서 스타일은  호스트에 정의되어있는 스타일을 Internal Popup에 복사하는 방식으로 구현되어 있다.
 
 자세히 보고 싶으면 [실제 코드](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/html/forms/internal_popup_menu.h)를 참고하자. 
 
