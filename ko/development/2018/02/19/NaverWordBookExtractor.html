@@ -1,0 +1,490 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>NaverWordBookExtractor 개발기 | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="NaverWordBookExtractor 개발기" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="엄청 오랬만에 블로그에 글을 쓰는 듯 하다." />
+<meta property="og:description" content="엄청 오랬만에 블로그에 글을 쓰는 듯 하다." />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-02-19T07:46:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="NaverWordBookExtractor 개발기" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.jpeg"},"name":"Seokho Song"},"headline":"NaverWordBookExtractor 개발기","dateModified":"2018-02-19T07:46:20+09:00","datePublished":"2018-02-19T07:46:20+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html"},"author":{"@type":"Person","name":"Seokho Song"},"description":"엄청 오랬만에 블로그에 글을 쓰는 듯 하다.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  naverwordbookextractor-개발기">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">NaverWordBookExtractor 개발기
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">4 min read</span>
+
+    <time class="page-date dt-published" datetime="2018-02-19T07:46:20+09:00"><a class="u-url" href="">February 19, 2018</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#naver" title="Pages tagged Naver" rel="tag">Naver</a></li><li class="page-taxonomy"><a href="/ko/tags/#web" title="Pages tagged Web" rel="tag">Web</a></li><li class="page-taxonomy"><a href="/ko/tags/#parsing" title="Pages tagged Parsing" rel="tag">Parsing</a></li><li class="page-taxonomy"><a href="/ko/tags/#python" title="Pages tagged python" rel="tag">python</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2018/02/19/NaverWordBookExtractor.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2018/02/19/NaverWordBookExtractor.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>엄청 오랬만에 블로그에 글을 쓰는 듯 하다.</p>
+
+<p>일단 0SOS의 개발은 일시 중단되어있다.</p>
+
+<p>나중에 글을 전부 영어로 작성하게 된다면 그때 다시 시작할까 한다.</p>
+
+<p>그런 의미로 잘 쓰고있는 Naver 단어장에서의 퀴즈 기능의 부족함을 느껴</p>
+
+<p>아는 사람의 추천으로 알게된 quizlet 이란 홈페이지를 이용하고자 했다.</p>
+
+<p><a href="https://quizlet.com">QuizLet</a></p>
+
+<p>quizlet을 사용해 본 사람은 알겠지만 데이터를 스프레드시트나 raw text로 단어-뜻 쌍을 집어넣게 되어있다.</p>
+
+<p>하지만 네이버 단어장은 단어들을 파일이나 순수 텍스트로 추출할 수 있는 기능을 전혀 제공하고 있지 않았고  단어장에 저장되어 있는 많은 단어들을 일일히 손으로 옮기기엔 너무 시간이 낭비될 것 같았다.</p>
+
+<p>따라서 간단하게 네이버 단어장 단어 추출 프로그램을 만들어서 사용하기로 했고 간단하면서도 Multiplatform 에 특화되어있는 Python을 이용해 개발하기로 했다.</p>
+
+<p>일단 네이버 자체에서 단어장이나 단어사전쪽에선 손을 놓은건지, 준비중인건진 모르겠지만 API가 전혀 제공되지 않았다.</p>
+
+<p>그렇기 때문에 직접 html 파싱을 통해 데이터를 추출해야 하는데 네이버 단어장은 계정 로그인이 되어있어야 그 계정의 단어장에 엑세스 할 수 있기 때문에 네이버에 로그인을 해야 한다는 문제와 마주치게 된다.</p>
+
+<p>처음엔 selenium을 사용할까도 했으나 별도의 WebDriver 존제가 가볍게 사용하기엔 부적합 할 것 같다는 판단을 하게 되어 selenium 사용은 미루었다.</p>
+
+<p>따라서 네이버 로그인 기능을 웹브라우져에서 처리하는 것 과 같이 해주어야 한다.</p>
+
+<p>따라서 <a href="https://nid.naver.com/nidlogin.login">로그인 페이지</a> 를 분석해 보기로 한다.</p>
+
+<p><img src="/uploads/2018-02-18/NaverSignIn.png" alt="네이버 로그인 페이지 분석" /></p>
+
+<p>크롬 개발자 도구를 이용해 로그인 버튼이 눌렸을때의 동작을 살펴보면.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"frmNIDLogin"</span> <span class="na">name=</span><span class="s">"frmNIDLogin"</span> <span class="na">target=</span><span class="s">"_top"</span> <span class="na">autocomplete=</span><span class="s">"off"</span> <span class="na">action=</span><span class="s">"https://nid.naver.com/nidlogin.login"</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">onsubmit=</span><span class="s">"return confirmSubmit();"</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"enctp"</span> <span class="na">id=</span><span class="s">"enctp"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"encpw"</span> <span class="na">id=</span><span class="s">"encpw"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"encnm"</span> <span class="na">id=</span><span class="s">"encnm"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"svctype"</span> <span class="na">id=</span><span class="s">"svctype"</span> <span class="na">value=</span><span class="s">"0"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"svc"</span> <span class="na">id=</span><span class="s">"svc"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!-- 블라블라블라 기타 코드 생략 --&gt;</span>
+
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">title=</span><span class="s">"로그인"</span> <span class="na">alt=</span><span class="s">"로그인"</span> <span class="na">tabindex=</span><span class="s">"12"</span> <span class="na">value=</span><span class="s">"로그인"</span> <span class="na">class=</span><span class="s">"btn_global"</span> <span class="na">onclick=</span><span class="s">"nclks('log.login',this,event)"</span><span class="nt">&gt;</span>
+
+        <span class="c">&lt;!-- 블라블라블라 기타 코드 생략 --&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+
+</code></pre></div></div>
+
+<p>보면 submit (로그인) 버튼이 눌렸을때 confirmSubmit 함수를 호출하게 되어있고 post로 enctp, encpw 등과같은 다양한 키로 데이터가 보내진다고 보인다.</p>
+
+<p>confirmSubmit 함수가 호출된다는 정보를 알았으니 이제 네이버에서 가져오는 js 파일들에서 해당 함수를 찾아보았다.</p>
+
+<p><img src="/uploads/2018-02-18/confirmSubmit_func.png" alt="find_function" /></p>
+
+<p>어렵지 않게 함수를 찾을 수 있었다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">confirmSubmit</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">pw</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">pw</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">encpw</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">encpw</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">//if(id.value == "" &amp;&amp; encpw.value == "") {</span>
+	<span class="k">if</span><span class="p">(</span><span class="nx">id</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">show</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_empty_id</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">hide</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_empty_pw</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">hide</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_common</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">id</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="c1">//} else if(pw.value == "" &amp;&amp; encpw.value == "") {</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">pw</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">hide</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_empty_id</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">show</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_empty_pw</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">hide</span><span class="p">(</span><span class="dl">"</span><span class="s2">err_common</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">pw</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">try</span><span class="p">{</span>
+		<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">ls</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="dl">"</span><span class="s2">nid_t</span><span class="dl">"</span><span class="p">);</span>
+	<span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){}</span>
+
+	<span class="k">return</span> <span class="nx">encryptIdPw</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>해당 함수이다.
+보면 대충 아이디 비번 안치면 경고띄워주는 로직이 보인다. 그게 중요한게 아니라
+딱봐도 수상해보이는 함수가 보인다. encryptIdPw 함수를 호출한다는 단서를 얻었으니 해당 함수를 찾아서 때보면</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">encryptIdPw</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">pw</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">pw</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">encpw</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">encpw</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">rsa</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RSAKey</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nx">keySplit</span><span class="p">(</span><span class="nx">session_keys</span><span class="p">))</span> <span class="p">{</span>
+		<span class="nx">rsa</span><span class="p">.</span><span class="nx">setPublic</span><span class="p">(</span><span class="nx">evalue</span><span class="p">,</span> <span class="nx">nvalue</span><span class="p">);</span>
+		<span class="k">try</span><span class="p">{</span>
+			<span class="nx">encpw</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nx">encrypt</span><span class="p">(</span>
+				<span class="nx">getLenChar</span><span class="p">(</span><span class="nx">sessionkey</span><span class="p">)</span> <span class="o">+</span> <span class="nx">sessionkey</span> <span class="o">+</span>
+				<span class="nx">getLenChar</span><span class="p">(</span><span class="nx">id</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">+</span> <span class="nx">id</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span>
+				<span class="nx">getLenChar</span><span class="p">(</span><span class="nx">pw</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">+</span> <span class="nx">pw</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">enctp</span><span class="dl">'</span><span class="p">).</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="nx">id</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
+		<span class="nx">pw</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
+		<span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="nx">getKeyByRuntimeInclude</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>이 함수를 보아 로그인 시 아이디와 비밀번호를 rsa 암호화로 암호화 한 다음 로그인 url (“https://nid.naver.com/nidlogin.login”)에다가 post 요청을 하며 encpw에다가 암호문을 실어 보내는 것 같다.</p>
+
+<p>일단 저 일련의 과정을 처리하기 위해선 알아야 할 것이 session_keys와 keySplit 그리고 getLenChar 함수로 보인다. 
+getLenChar 함수는 원형이 다음과 같다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">getLenChar</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">a</span> <span class="o">=</span> <span class="nx">a</span> <span class="o">+</span> <span class="dl">""</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>단순히 문자열의 길이를 ascii code로 변환해 주는 함수이다.</p>
+
+<p>그리고 session_keys keySplit 함수를 찾아보면</p>
+
+<p>session_keys는 결론부터 말하자면 “https://nid.naver.com/login/ext/keys.nhn” 에서 가져오는 공개키 생성용 값 (e,n)과 기타등등을 “,”를 구분자로 구분해 가져오게 된다.</p>
+
+<p>session_keys의 set 과정을 역 추적해보면 유저가 pw 텍스트박스에 텍스트를 입력했을때 getKeysv2함수를 호출하고 해당함수에서 ajax로 호출해서 설정하게 된다.</p>
+
+<p>예시 (임의의 값이므로 이 값은 동작하지 않음, 보기좋게 개행을 추가했다.)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gs0TbOWaCaYxTQ0,
+102042940,
+ad1ca063118c32asdd51a8c53119faa8bc9c8cb0f743d8f1b89db53cc8f4647784ab08b0f4704e2a49c85cdf44e1830c04ad3505cb977810768a3cwrrq8ce38d2956892722f45aecc6bfc23248e2fe453a4d20b51344968b8ffa848068d72d05e5aa679fbaef4351e099aea00fd6fccfff598426b0d12bdc660e601dd7a93bbd,
+010001
+</code></pre></div></div>
+<p>이제 마지막 KeySplit 함수를 살펴보면</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">keySplit</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">keys</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">"</span><span class="s2">,</span><span class="dl">"</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">a</span> <span class="o">||</span> <span class="o">!</span><span class="nx">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="nx">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="nx">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="nx">keys</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="nx">sessionkey</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="nx">keyname</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+	<span class="nx">evalue</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+	<span class="nx">nvalue</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">encnm</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">keyname</span><span class="p">;</span>
+	<span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>간단한 함수이다. 이제 필요한 정보는 모두 얻었다.</p>
+
+<p>다시한번 간단하게 말하자면 post로 보낼 encpw값에
+ getLenChar(sessionkey) + sessionkey +	getLenChar(id.value) + id.value + getLenChar(pw.value) + pw.value);이 문자열을 받아온 e와 n 값으로 RSA 공개키 암호화 하여 보내면 무엇인가 일어난다 인 것이다.</p>
+
+<p>파이썬으로 간단하게 작성을 해보았다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> 
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">rsa</span>
+<span class="kn">from</span> <span class="nn">rsa</span> <span class="kn">import</span> <span class="n">common</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">core</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">info</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"id"</span> <span class="p">:</span> <span class="s">""</span><span class="p">,</span> <span class="s">"pw"</span> <span class="p">:</span> <span class="s">""</span> <span class="p">}</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span>
+<span class="n">session_key_string</span> <span class="o">=</span> <span class="s">""</span>
+<span class="n">session_keys</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">def</span> <span class="nf">split_keys</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">keys</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">session_keys</span><span class="p">[</span><span class="s">"sessionkey"</span><span class="p">]</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">session_keys</span><span class="p">[</span><span class="s">"keyname"</span><span class="p">]</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">session_keys</span><span class="p">[</span><span class="s">"evalue"</span><span class="p">]</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">session_keys</span><span class="p">[</span><span class="s">"nvalue"</span><span class="p">]</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">def</span> <span class="nf">getLenChar</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>    
+
+<span class="k">def</span> <span class="nf">encrypt</span><span class="p">():</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
+    <span class="n">pw</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s">'pw'</span><span class="p">]</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">rsa</span><span class="p">.</span><span class="n">PublicKey</span><span class="p">(</span><span class="n">e</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">session_keys</span><span class="p">[</span><span class="s">"nvalue"</span><span class="p">],</span><span class="mi">16</span><span class="p">),</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">session_keys</span><span class="p">[</span><span class="s">"evalue"</span><span class="p">],</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">source</span>  <span class="o">=</span> <span class="p">(</span><span class="n">getLenChar</span><span class="p">(</span><span class="n">session_keys</span><span class="p">[</span><span class="s">"sessionkey"</span><span class="p">])</span> <span class="o">+</span> <span class="n">session_keys</span><span class="p">[</span><span class="s">"sessionkey"</span><span class="p">]</span> <span class="o">+</span> <span class="n">getLenChar</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s">"id"</span><span class="p">])</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">getLenChar</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s">"pw"</span><span class="p">])</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s">"pw"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">rsa</span><span class="p">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">pub_key</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">signin</span><span class="p">():</span>
+    <span class="n">session_key_string</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://nid.naver.com/login/ext/keys.nhn"</span><span class="p">).</span><span class="n">text</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">split_keys</span><span class="p">(</span><span class="n">session_key_string</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Error"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">encrypted_source</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">()</span>
+    <span class="n">postdata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"encpw"</span><span class="p">:</span> <span class="n">encrypted_source</span><span class="p">.</span><span class="nb">hex</span><span class="p">(),</span> 
+    <span class="s">"enctp"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">"encnm"</span><span class="p">:</span> <span class="n">session_keys</span><span class="p">[</span><span class="s">"keyname"</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://nid.naver.com/nidlogin.login"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">postdata</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"sigin in error"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">False</span>
+        
+    <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">True</span>
+    
+<span class="k">if</span> <span class="n">signin</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+    <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+<p>여기서 고의인지 실수인진 모르겠으나 session_keys 에서 parsing 해오는 값인 evalue와 nvalue는 반대로 되어있다. 자꾸 Rsa Encrypt 쪽에서 앱이 죽어서 살펴보니 n과 e가 반대로 들어와있었다. 즉, javascript에 있는 evalue는 사실 n 이고 nvalue는 사실 e 다. 이럴수가. 내생각엔 네이버 개발자가 실수 한 것 같다.</p>
+
+<p>아무튼 네이버 로그인 페이지에서 하는 동작과 동일하게 동작한다.
+만약 info 딕셔너리의 아이디와 비밀번호가 정확하다면</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;script </span><span class="na">language=</span><span class="s">javascript</span><span class="nt">&gt;</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://nid.naver.com/login/sso/finalize.nhn?url=http%3A%2F%2Fwww.naver.com&amp;sid=rbCj4sWaqQfCweR&amp;svctype=1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p>이런식으로 리다이렉션 URL이 날아온다.
+저 URL을 (직접 생성한, 위 예시는 임의로 만든 URL이다.) 타고 가면 로그인이 완료되는데, 리다이렉션 3번을 거친다.
+이로써 로그인을 완료했다.</p>
+
+<p>완전 깔끔하게 만들곤 싶었으나, 네이버에서 로그인 실패가 5번을 넘어가면 켑챠가 동작하여 로그인 기능이 먹통이 되는데, 여기에 딥러닝같은 걸 사용하기도 그렇고. 그럴땐 그냥 웹브라우져로 (크롬은 시크릿모드) 로그인을 시도해 캡챠를 통과해주면 되는 것 같다.</p>
+
+<p>데이터를 불러와서 파일에 쓰는것 까지는 무난하게 beautifulsoup 4 를 이용해 파싱해 사용한다.</p>
+
+<p>아래 링크는 현제까지 작성된 source code이며, 개선의 여지가 많이 보이나 시간을 많이 투자하진 않고 있다.</p>
+
+<p><a href="https://github.com/DevSDK/NaverWordBookExtractor/blob/master/NaverWordBookExtractor.py">SourceCode</a></p>
+
+<p>밤새고 의식의 흐름대로 쓴 글이라 정리를 제대로 못한 느낌이 없잖아 있다.</p>
+
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2017/09/19/Scheduler.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> 라운드 로빈 스케줄러와 시분할 ContextSwitching
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Chromium 에 대한 Custom ScrollBar 옵션 적용 구현
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script>
+  if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43719770-2', 'auto');
+    ga('send', 'pageview');
+  }
+  </script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
