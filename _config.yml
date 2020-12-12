@@ -36,7 +36,6 @@ disqus:
 
 languages: ["en", "ko"]
 exclude_from_localizations: ["./uploads", "./images", "./assets"]
-
 # Liquid
 liquid:
   error_mode: strict
