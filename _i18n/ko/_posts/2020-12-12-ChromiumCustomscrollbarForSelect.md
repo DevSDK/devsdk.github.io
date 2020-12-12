@@ -14,8 +14,6 @@ tags:
 - HTML/CSS
 ---
 
-# Chromium <select>에 대한 Custom ScrollBar 옵션 적용 구현
-
 Issue: [http://crbug.com/1076508](http://crbug.com/1076508)
 
 Patches: 
