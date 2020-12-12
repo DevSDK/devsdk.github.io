@@ -1,4 +1,190 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2020-12-12T16:02:09+00:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">NaverWordBookExtractor 개발기</title><link href="https://devsdk.github.io/ko/development/2018/02/18/NaverWordBookExtractor.html" rel="alternate" type="text/html" title="NaverWordBookExtractor 개발기" /><published>2018-02-18T22:46:20+00:00</published><updated>2018-02-18T22:46:20+00:00</updated><id>https://devsdk.github.io/ko/development/2018/02/18/NaverWordBookExtractor</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2018/02/18/NaverWordBookExtractor.html">&lt;p&gt;엄청 오랬만에 블로그에 글을 쓰는 듯 하다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2020-12-13T01:18:43+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chromium 에 대한 Custom ScrollBar 옵션 적용 구현</title><link href="https://devsdk.github.io/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html" rel="alternate" type="text/html" title="Chromium &lt;select&gt;에 대한 Custom ScrollBar 옵션 적용 구현" /><published>2020-12-13T00:00:20+09:00</published><updated>2020-12-13T00:00:20+09:00</updated><id>https://devsdk.github.io/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect</id><content type="html" xml:base="https://devsdk.github.io/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html">&lt;h1 id=&quot;chromium-에-대한-custom-scrollbar-옵션-적용-구현&quot;&gt;Chromium &lt;select&gt;에 대한 Custom ScrollBar 옵션 적용 구현&lt;/select&gt;&lt;/h1&gt;
+
+&lt;p&gt;Issue: &lt;a href=&quot;http://crbug.com/1076508&quot;&gt;http://crbug.com/1076508&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Patches:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2364316&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2364316&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2418527&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2418527&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2586293&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2586293&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;약 3개월 정도 전에 들어간 패치가 실제 라이브 크롬에서 동작한다.&lt;/p&gt;
+
+&lt;p&gt;뭔가 기분이 이상하기도 하고 뿌듯하기도 하다.&lt;/p&gt;
+
+&lt;p&gt;전 세계 사람들이 내가 기여한 내용을 눈으로 보고 쓸 것이라는게 더 기분이 좋은것 같다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-12/1.gif&quot; alt=&quot;After patch&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이것을 보면 이번에 크롬 버전이 업데이트 되면서 라이브 크롬 버전에 내가 구현한 기능이 동작한다.&lt;/p&gt;
+
+&lt;p&gt;이 기능을 구현하기 전 같은 코드는 이렇게 동작했다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-12/2.gif&quot; alt=&quot;Before patch&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar&quot;&gt;이 문서에 따르면&lt;/a&gt; 크로미움 및 웹킷 기반 웹브라우져에는 위와같이 ::-webkit-scrollbar 옵션을 통해 스크롤바에 CSS 프로퍼티를 적용할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;가장 첫번째 gif 이미지를 동작시키는 스타일이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;::-webkit-scrollbar&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+		&lt;span class=&quot;nl&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nd&quot;&gt;::-webkit-scrollbar-track&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;orange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nd&quot;&gt;::-webkit-scrollbar-corner&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;yellow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nd&quot;&gt;::-webkit-scrollbar-thumb&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;gray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nd&quot;&gt;::-webkit-scrollbar-thumb:hover&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;기여하기 이전에는 이렇게 하였을 때  다른 곳에서의 스크롤바(ex: 페이지의 스크롤 바)는 위에서 스타일을 적용한 대로 렌더링이 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-12/3.png&quot; alt=&quot;Render example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이런식으로 위 코드에 대하여 스크롤바가 잘 적용되었다.&lt;/p&gt;
+
+&lt;p&gt;하지만 기존에는 두번째 gif와 같이 &lt;select&gt;에 대하여 커스텀 스크롤 바가 적용되지 않았다.&lt;/select&gt;&lt;/p&gt;
+
+&lt;p&gt;이 문제를 해결하는 과정에 대해 이해하려면 &lt;select&gt;가 어떻게 동작하는지 알 필요가 있다.&lt;/select&gt;&lt;/p&gt;
+
+&lt;p&gt;우리가 &lt;select&gt;를 눌렀을 때 브라우져에서는 새로 웹 팝업을 띄운다. 이것을 Chromium에서 Internal Popup이라고 한다.&lt;/select&gt;&lt;/p&gt;
+
+&lt;p&gt;그러니까 우리가 &lt;select&gt;를 눌렀을 때 웹뷰를 하나 새로 만들고, 거기에 html코드를 넣고, 렌더링을 하는 것이 현재의 &lt;select&gt;가 구현되어 있는 방식이다. 여기서 스타일은  호스트에 정의되어있는 스타일을 Internal Popup에 복사하는 방식으로 구현되어 있다.&lt;/select&gt;&lt;/select&gt;&lt;/p&gt;
+
+&lt;p&gt;자세히 보고 싶으면 &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/html/forms/internal_popup_menu.h&quot;&gt;실제 코드&lt;/a&gt;를 참고하자.&lt;/p&gt;
+
+&lt;p&gt;하여튼,&lt;/p&gt;
+
+&lt;p&gt;기존의 코드는 element에 대해서 스타일을 적용해 줬지만, pseudo class 스타일인 :-webkit-scrollbar에 대한 스타일 적용기능이 구현되어 있지 않았고, 고려도 되어있지 않았다.&lt;/p&gt;
+
+&lt;p&gt;ComputedStyle로 부터 문자열 CSS로 시리얼라이즈 한 뒤, Internal Popup에 스타일을 적용시키는  기능을 구현한 것이 이번 기여내용이다.&lt;/p&gt;
+
+&lt;p&gt;코드베이스도 코드베이스지만 테스트코드가 왕창 늘어났다.&lt;/p&gt;
+
+&lt;p&gt;Added 테그가 붙인게 내가 추가한 파일들이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-12/4.png&quot; alt=&quot;Added files&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1번 패치&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-12/5.png&quot; alt=&quot;Added files&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2번(Hover 기능) 패치&lt;/p&gt;
+
+&lt;p&gt;추가한 테스트 코드가 정말 많다. 그리고 Internal Popup은 다른 팝업이 생성된다는 특수한 케이스라 렌더링을 찍고, 그걸 미리 렌더링 한 이미지를 대상으로 픽셀바이 픽셀로 비교하는 테스트인 픽셀테스트를 사용하여야 했다. 이는 플랫폼별로 약간씩 다르게 렌더링됨을 의미한다. 그것에 대해서 다르지 않도록 불필요한 요소를 제거하는 작업도 주요 포인트였다.&lt;/p&gt;
+
+&lt;p&gt;어떤 부분을 수정해야하고, 조사하는 과정에서의 개발 일지는 안써놔서 완성된 상태의 코드를 설명하는 정도로 이 글을 끝낼것이다.&lt;/p&gt;
+
+&lt;p&gt;아래부터는 코드레벨의 구현에 대한 이야기다.&lt;/p&gt;
+
+&lt;p&gt;시리얼라이즈를 위한 함수 몇 개를 정의했다.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Computed 스타일을 받고 id에 해당하는 스타일을 Serialize 해주는 함수&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SerializeComputedStyleForProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                               &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CSSProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CSSProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CSSValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSSValueFromComputedStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nullptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s : %s;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetPropertyName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+                        &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CssText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c_str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Target에 대하여 CSS 요소를 완성시켜주는 함수 (대충 target\n { } \n형식으로 css가 만들어진다&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InternalPopupMenu&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AppendOwnerElementPseudoStyles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;SharedBuffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;PagePopupClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{ &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serialize_targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kDisplay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBackgroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBorderBottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBorderLeft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBorderRight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBorderTop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBorderRadius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kBoxShadow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSSPropertyID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serialize_targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;PagePopupClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SerializeComputedStyleForProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                               &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;PagePopupClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이 함수들은 ComputedStyle로 부터 CSS 텍스트로 변환하고, CSS 스타일로 만들어 Internal Popup에 적용하는 함수들이다.&lt;/p&gt;
+
+&lt;p&gt;이것을 사용하여 복사를 하였을 때 스타일이 잘 적용되었다. 다만 :hover 와 같은 Pseudo style은 조금 복잡한 과정을 거쳐야 한다.&lt;/p&gt;
+
+&lt;p&gt;Hovered를 구현하기위해 코드를 읽으면서 든 생각은 렌더러쪽에선 hovered가 어떻게 처리되고 있는가(어떤 코드에 의해서 hovered 스타일이 적용되는가? 라는 질문으로 조사를 했고 아래는 그 조사를 기반으로 임시 스크롤바 객체 scroll을 이용하여 hovered 스타일을 가져오는 코드이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;scoped_refptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StyleForHoveredScrollbarPart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;HTMLSelectElement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Scrollbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;PseudoId&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ScrollbarPart&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;part&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ScrollbarPartFromPseudoId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kNoPart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nullptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;scrollbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetHoveredPart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;scoped_refptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;part_style&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StyleForPseudoElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;PseudoElementStyleRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;To&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomScrollbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                                &lt;span class=&quot;n&quot;&gt;part&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;part_style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;최종적으로 각각의 스크롤 바 스타일에 대하여 적용하는 코드는 다음과 같다.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;LayoutObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;owner_layout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;owner_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetLayoutObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PseudoId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kPseudoIdScrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;select::-webkit-scrollbar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kPseudoIdScrollbarThumb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;select::-webkit-scrollbar-thumb&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kPseudoIdScrollbarTrack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;select::-webkit-scrollbar-track&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kPseudoIdScrollbarTrackPiece&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;select::-webkit-scrollbar-track-piece&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kPseudoIdScrollbarCorner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;select::-webkit-scrollbar-corner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}};&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;Scrollbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp_scrollbar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nullptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LayoutBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;owner_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnerElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetLayoutBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetScrollableArea&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ScrollableArea&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetScrollableArea&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;temp_scrollbar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MakeGarbageCollected&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomScrollbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;scrollable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kVerticalScrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;owner_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnerElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;style&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;owner_layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetCachedPseudoElementStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;AppendOwnerElementPseudoStyles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// For Pseudo-class styles, Style should be calculated via that status.&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temp_scrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;scoped_refptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComputedStyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;part_style&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;StyleForHoveredScrollbarPart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;owner_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                       &lt;span class=&quot;n&quot;&gt;owner_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetComputedStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+                                       &lt;span class=&quot;n&quot;&gt;temp_scrollbar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part_style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;AppendOwnerElementPseudoStyles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;:hover&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                       &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part_style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이부분이 이번 기여의 스타일을 적용하는 부분이다. ComputedStyle로 부터 타겟 스타일을 serialize 하여 Internal Popup에 집어넣는다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="C++" /><category term="Web Engine" /><category term="HTML/CSS" /><summary type="html">Chromium 에 대한 Custom ScrollBar 옵션 적용 구현</summary></entry><entry><title type="html">NaverWordBookExtractor 개발기</title><link href="https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html" rel="alternate" type="text/html" title="NaverWordBookExtractor 개발기" /><published>2018-02-19T07:46:20+09:00</published><updated>2018-02-19T07:46:20+09:00</updated><id>https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2018/02/19/NaverWordBookExtractor.html">&lt;p&gt;엄청 오랬만에 블로그에 글을 쓰는 듯 하다.&lt;/p&gt;
 
 &lt;p&gt;일단 0SOS의 개발은 일시 중단되어있다.&lt;/p&gt;
 
@@ -239,7 +425,7 @@ ad1ca063118c32asdd51a8c53119faa8bc9c8cb0f743d8f1b89db53cc8f4647784ab08b0f4704e2a
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/NaverWordBookExtractor/blob/master/NaverWordBookExtractor.py&quot;&gt;SourceCode&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;밤새고 의식의 흐름대로 쓴 글이라 정리를 제대로 못한 느낌이 없잖아 있다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Naver" /><category term="Web" /><category term="Parsing" /><category term="python" /><summary type="html">엄청 오랬만에 블로그에 글을 쓰는 듯 하다.</summary></entry><entry><title type="html">라운드 로빈 스케줄러와 시분할 ContextSwitching</title><link href="https://devsdk.github.io/ko/development/2017/09/18/Scheduler.html" rel="alternate" type="text/html" title="라운드 로빈 스케줄러와 시분할 ContextSwitching" /><published>2017-09-18T22:46:20+00:00</published><updated>2017-09-18T22:46:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/09/18/Scheduler</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/09/18/Scheduler.html">&lt;p&gt;SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.&lt;/p&gt;
+&lt;p&gt;밤새고 의식의 흐름대로 쓴 글이라 정리를 제대로 못한 느낌이 없잖아 있다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Naver" /><category term="Web" /><category term="Parsing" /><category term="python" /><summary type="html">엄청 오랬만에 블로그에 글을 쓰는 듯 하다.</summary></entry><entry><title type="html">라운드 로빈 스케줄러와 시분할 ContextSwitching</title><link href="https://devsdk.github.io/ko/development/2017/09/19/Scheduler.html" rel="alternate" type="text/html" title="라운드 로빈 스케줄러와 시분할 ContextSwitching" /><published>2017-09-19T07:46:20+09:00</published><updated>2017-09-19T07:46:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/09/19/Scheduler</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/09/19/Scheduler.html">&lt;p&gt;SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.&lt;/p&gt;
 
 &lt;p&gt;사실 좀 논것도 있지만.&lt;/p&gt;
 
@@ -1031,7 +1217,7 @@ typedef struct _Example_Data
 
 &lt;p&gt;소마에서 하는 프로젝트도 LinuxKernel 기반의 운영체제니 뭐…&lt;/p&gt;
 
-&lt;p&gt;시간 봐서 종종 일지 올리겠다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.</summary></entry><entry><title type="html">TCB와 Context, 그리고 ContextSwitch</title><link href="https://devsdk.github.io/ko/development/2017/08/22/BeginTask.html" rel="alternate" type="text/html" title="TCB와 Context, 그리고 ContextSwitch" /><published>2017-08-22T20:00:20+00:00</published><updated>2017-08-22T20:00:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/08/22/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/08/22/BeginTask.html">&lt;p&gt;이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다&lt;/p&gt;
+&lt;p&gt;시간 봐서 종종 일지 올리겠다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.</summary></entry><entry><title type="html">TCB와 Context, 그리고 ContextSwitch</title><link href="https://devsdk.github.io/ko/development/2017/08/23/BeginTask.html" rel="alternate" type="text/html" title="TCB와 Context, 그리고 ContextSwitch" /><published>2017-08-23T05:00:20+09:00</published><updated>2017-08-23T05:00:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/08/23/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/08/23/BeginTask.html">&lt;p&gt;이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다&lt;/p&gt;
 
 &lt;p&gt;이전에 범용 자료구조라고 Universal Data Structure 해서 UDS라고 디렉토리 이름을 지어줬는데&lt;/p&gt;
 
@@ -1377,7 +1563,7 @@ typedef struct _Example_Data
 
 &lt;p&gt;큰 걱정은 없다.&lt;/p&gt;
 
-&lt;p&gt;휴, 다음이 스케줄링이니까 또 달려야지.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다</summary></entry><entry><title type="html">시간과 관련된 드라이버 개발 완료.</title><link href="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html" rel="alternate" type="text/html" title="시간과 관련된 드라이버 개발 완료." /><published>2017-08-03T11:11:20+00:00</published><updated>2017-08-03T11:11:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/08/03/timerdriver</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html">&lt;p&gt;후 드디어 OS개발에 손댈 수 있는 시간이 났다.&lt;/p&gt;
+&lt;p&gt;휴, 다음이 스케줄링이니까 또 달려야지.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다</summary></entry><entry><title type="html">시간과 관련된 드라이버 개발 완료.</title><link href="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html" rel="alternate" type="text/html" title="시간과 관련된 드라이버 개발 완료." /><published>2017-08-03T20:11:20+09:00</published><updated>2017-08-03T20:11:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/08/03/timerdriver</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/08/03/timerdriver.html">&lt;p&gt;후 드디어 OS개발에 손댈 수 있는 시간이 났다.&lt;/p&gt;
 
 &lt;p&gt;그동안 이곳 저곳 다니고 일정이 계속 겹쳐서 시간이 나질 않았다.&lt;/p&gt;
 
@@ -1847,7 +2033,7 @@ typedef struct _Example_Data
 
 &lt;p&gt;이제 테스크, 멀티쓰래드, 동기화, 실수 연산으로 나아간다.&lt;/p&gt;
 
-&lt;p&gt;기대중임.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Timer" /><category term="Interrupt" /><category term="64bit" /><summary type="html">후 드디어 OS개발에 손댈 수 있는 시간이 났다.</summary></entry><entry><title type="html">운영체제 다운 모습을 드디어! 셸 개발 완료!</title><link href="https://devsdk.github.io/ko/development/2017/07/18/shell.html" rel="alternate" type="text/html" title="운영체제 다운 모습을 드디어! 셸 개발 완료!" /><published>2017-07-18T11:00:20+00:00</published><updated>2017-07-18T11:00:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/18/shell</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/18/shell.html">&lt;p&gt;이번 글도 꾀나 장문이 될 것 같다.&lt;/p&gt;
+&lt;p&gt;기대중임.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Timer" /><category term="Interrupt" /><category term="64bit" /><summary type="html">후 드디어 OS개발에 손댈 수 있는 시간이 났다.</summary></entry><entry><title type="html">운영체제 다운 모습을 드디어! 셸 개발 완료!</title><link href="https://devsdk.github.io/ko/development/2017/07/18/shell.html" rel="alternate" type="text/html" title="운영체제 다운 모습을 드디어! 셸 개발 완료!" /><published>2017-07-18T20:00:20+09:00</published><updated>2017-07-18T20:00:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/07/18/shell</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/18/shell.html">&lt;p&gt;이번 글도 꾀나 장문이 될 것 같다.&lt;/p&gt;
 
 &lt;p&gt;셸, 쉘? 셸 Shell 이다.&lt;/p&gt;
 
@@ -2637,7 +2823,7 @@ GetNextParameter 함수는 각각 파라미터 문자열을 등록하고, 그 �
 &lt;p&gt;다다음은 대망의… 테스크 기능으로 넘어가는…
 쿨럭&lt;/p&gt;
 
-&lt;p&gt;아무튼.. 많이 오긴 왔지만, 갈길이 더 멀다! 힘내서 개발하자!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="CLI" /><category term="Shell" /><category term="64bit" /><summary type="html">이번 글도 꾀나 장문이 될 것 같다.</summary></entry><entry><title type="html">키보드 드라이버의 업데이트-인터럽트 방식</title><link href="https://devsdk.github.io/ko/development/2017/07/12/InterruptKeyboard.html" rel="alternate" type="text/html" title="키보드 드라이버의 업데이트-인터럽트 방식" /><published>2017-07-12T23:49:20+00:00</published><updated>2017-07-12T23:49:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/12/InterruptKeyboard</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/12/InterruptKeyboard.html">&lt;p&gt;이번글은 짧지 않을까 싶다.&lt;/p&gt;
+&lt;p&gt;아무튼.. 많이 오긴 왔지만, 갈길이 더 멀다! 힘내서 개발하자!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="CLI" /><category term="Shell" /><category term="64bit" /><summary type="html">이번 글도 꾀나 장문이 될 것 같다.</summary></entry><entry><title type="html">키보드 드라이버의 업데이트-인터럽트 방식</title><link href="https://devsdk.github.io/ko/development/2017/07/13/InterruptKeyboard.html" rel="alternate" type="text/html" title="키보드 드라이버의 업데이트-인터럽트 방식" /><published>2017-07-13T08:49:20+09:00</published><updated>2017-07-13T08:49:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/07/13/InterruptKeyboard</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/13/InterruptKeyboard.html">&lt;p&gt;이번글은 짧지 않을까 싶다.&lt;/p&gt;
 
 &lt;p&gt;오늘은 이상하리만큼 집중하기 힘들다.&lt;/p&gt;
 
@@ -2955,7 +3141,7 @@ GetNextParameter 함수는 각각 파라미터 문자열을 등록하고, 그 �
 
 &lt;p&gt;나중에 USB Keyboard Driver를 작성할때 활용할 것으로 생각이 된다.&lt;/p&gt;
 
-&lt;p&gt;읽어주셔서 감사합니다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">이번글은 짧지 않을까 싶다.</summary></entry><entry><title type="html">PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화</title><link href="https://devsdk.github.io/ko/development/2017/07/11/InterruptHandling.html" rel="alternate" type="text/html" title="PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화" /><published>2017-07-11T22:34:20+00:00</published><updated>2017-07-11T22:34:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/11/InterruptHandling</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/11/InterruptHandling.html">&lt;p&gt;사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.&lt;/p&gt;
+&lt;p&gt;읽어주셔서 감사합니다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">이번글은 짧지 않을까 싶다.</summary></entry><entry><title type="html">PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화</title><link href="https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html" rel="alternate" type="text/html" title="PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화" /><published>2017-07-12T07:34:20+09:00</published><updated>2017-07-12T07:34:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html">&lt;p&gt;사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.&lt;/p&gt;
 
 &lt;p&gt;이번에는 PIC인터럽트 핸들링을 성공했다.&lt;/p&gt;
 
@@ -3432,7 +3618,7 @@ LOADCONTEX는 각각 Contex를 보관,복귀 할때 쓰는 코드의 메크로.&
 
 &lt;p&gt;그다음은 드디어 쉘!&lt;/p&gt;
 
-&lt;p&gt;이 길고 긴 글 읽어주셔서 고맙다고 인사를 드리고 싶다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.</summary></entry><entry><title type="html">GDT 변경 &amp;amp; IDT 정의 TSS 설정</title><link href="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html" rel="alternate" type="text/html" title="GDT 변경 &amp; IDT 정의 TSS 설정" /><published>2017-07-10T11:40:20+00:00</published><updated>2017-07-10T11:40:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html">&lt;p&gt;중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서&lt;/p&gt;
+&lt;p&gt;이 길고 긴 글 읽어주셔서 고맙다고 인사를 드리고 싶다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.</summary></entry><entry><title type="html">GDT 변경 &amp;amp; IDT 정의 TSS 설정</title><link href="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html" rel="alternate" type="text/html" title="GDT 변경 &amp; IDT 정의 TSS 설정" /><published>2017-07-10T20:40:20+09:00</published><updated>2017-07-10T20:40:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html">&lt;p&gt;중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서&lt;/p&gt;
 
 &lt;p&gt;지금 개발 일지를 올린다.&lt;/p&gt;
 
@@ -3984,7 +4170,7 @@ lgdt를 해버리는 실수를 저질렀다.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/DevSDK/0SOS&quot;&gt;이곳에서 Full Source Code를 볼 수 있다&lt;/a&gt;
 간김에 스타도 박아주면 좋겠다.&lt;/p&gt;
 
-&lt;p&gt;이제 남은건, 키보드처리를 인터럽트로 만드는것 이려나.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서</summary></entry><entry><title type="html">PortIO 메모리와 PS/2 Keyboard IO 입력처리</title><link href="https://devsdk.github.io/ko/development/2017/07/04/PortIOAndKeyboard.html" rel="alternate" type="text/html" title="PortIO 메모리와 PS/2 Keyboard IO 입력처리" /><published>2017-07-04T22:00:20+00:00</published><updated>2017-07-04T22:00:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/04/PortIOAndKeyboard</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/04/PortIOAndKeyboard.html">&lt;p&gt;어제부터 오늘까지 고민하면서 만든 결과물이다.&lt;/p&gt;
+&lt;p&gt;이제 남은건, 키보드처리를 인터럽트로 만드는것 이려나.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Interrupt" /><category term="64bit" /><summary type="html">중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서</summary></entry><entry><title type="html">PortIO 메모리와 PS/2 Keyboard IO 입력처리</title><link href="https://devsdk.github.io/ko/development/2017/07/05/PortIOAndKeyboard.html" rel="alternate" type="text/html" title="PortIO 메모리와 PS/2 Keyboard IO 입력처리" /><published>2017-07-05T07:00:20+09:00</published><updated>2017-07-05T07:00:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/07/05/PortIOAndKeyboard</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/05/PortIOAndKeyboard.html">&lt;p&gt;어제부터 오늘까지 고민하면서 만든 결과물이다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/uploads/2017-07-04/OS/Keyboard.png&quot; alt=&quot;키보드입력&quot; /&gt;&lt;/p&gt;
 
@@ -4252,109 +4438,4 @@ lgdt를 해버리는 실수를 저질렀다.&lt;/p&gt;
 
 &lt;p&gt;자세한걸 보고싶으신 분은 여기서 Driver 쪽과, 커널 엔트리를 보시면 될것 같다.&lt;/p&gt;
 
-&lt;p&gt;내친김에.. 스타도….눌러주시면…&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Input" /><category term="Keyboard" /><category term="64bit" /><summary type="html">어제부터 오늘까지 고민하면서 만든 결과물이다.</summary></entry><entry><title type="html">QEMU + GDB로 디버깅 환경 조성</title><link href="https://devsdk.github.io/ko/development/2017/07/03/QemuAndGdb.html" rel="alternate" type="text/html" title="QEMU + GDB로 디버깅 환경 조성" /><published>2017-07-03T12:40:20+00:00</published><updated>2017-07-03T12:40:20+00:00</updated><id>https://devsdk.github.io/ko/development/2017/07/03/QemuAndGdb</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/07/03/QemuAndGdb.html">&lt;p&gt;현제 작성중인 OS는 Ubuntu (Windows Bash) + Vim 으로 개발 중이다&lt;/p&gt;
-
-&lt;p&gt;지금까진 감당하기야 하겠는데, 점점 프로그램이 커지면 디버깅 도구가&lt;/p&gt;
-
-&lt;p&gt;필요할 듯 했다.&lt;/p&gt;
-
-&lt;p&gt;QEMU 자체에도 어느정도의 디버깅이 가능하게끔 해뒀지만,&lt;/p&gt;
-
-&lt;p&gt;전문 디버거를 사용하는 것 보단 부족할 것이다.&lt;/p&gt;
-
-&lt;p&gt;전에, 메모리에 재대로 데이터가 들어오는가에 대해 알아보기 위해 해당&lt;/p&gt;
-
-&lt;p&gt;기능을 사용했었는데, 컨트롤 알트 + 2 로 qemu 콘솔에 들어가서&lt;/p&gt;
-
-&lt;p&gt;x [주소]로 메모리에 있는 데이터를 볼 수 있다.&lt;/p&gt;
-
-&lt;p&gt;그걸로 어찌어찌 해결 보긴 했지만, 바로 이전 글에서 성공한 64비트&lt;/p&gt;
-
-&lt;p&gt;커널 엔트리를 만들면서 디버거의 도움이 있었다면 더 빠르게 만들 수 있었을 것 이라고 생각이 들었다.&lt;/p&gt;
-
-&lt;p&gt;보니까, qemu 자체에서 gdb host를 하는 기능을 지원한다.&lt;/p&gt;
-
-&lt;p&gt;qemu 실행 옵션으로&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-gdb tcp::[prot]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;를 주면 된다. 물론 포트는 원하시는 걸로..&lt;/p&gt;
-
-&lt;p&gt;그리고 gdb 측에선&lt;/p&gt;
-
-&lt;p&gt;gdb를 실행하고&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) target remote tcp::[port]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;를 하게 되면 연결이 된다.&lt;/p&gt;
-
-&lt;p&gt;이상태로도, 어느정도의 디버깅은 가능하다.&lt;/p&gt;
-
-&lt;p&gt;메모리를 직접 다루는 구문등 말이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) break *0x200000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;로 브레이킹 포인트를 해당 어드레스에 지정하고&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(gdb) continue
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;하면 그 어드레스를 실행할때 브레이킹을 걸고 디버깅 콘솔로 넘어간다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/AddressBreaking.png&quot; alt=&quot;memory&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;하지만 심볼데이터가 없기때문에, 특정 구문, 함수에서 멈추거나 할 수 없기에&lt;/p&gt;
-
-&lt;p&gt;반쪽짜리 느낌이다.&lt;/p&gt;
-
-&lt;p&gt;많은 기능을 못 쓰고, list 같은거도 못쓴다.&lt;/p&gt;
-
-&lt;p&gt;심볼을 추가하기 위해선&lt;/p&gt;
-
-&lt;p&gt;일단, OS를 빌드하는 makefile에서 gcc 구문에 -g를 추가해 준다.&lt;/p&gt;
-
-&lt;p&gt;그럼 빌드 되었을때 디버깅 정보가 같이 들어간다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/DebugInfo.png&quot; alt=&quot;debuging&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;그림은 링킹이 끝난 .elf 파일을 objdump로 열어본 결과이다.&lt;/p&gt;
-
-&lt;p&gt;그럼 그걸 gdb 실행시 연결하면 된다&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-gdb -s [경로]
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;링킹이 끝난 .elf 파일을 지정해 줘도 된다.&lt;/p&gt;
-
-&lt;p&gt;뭐 나같은 경우 64비트 커널에서만 개발 할 것으로 생각되기에&lt;/p&gt;
-
-&lt;p&gt;02_Kernel64/Obj/Kernel64.elf&lt;/p&gt;
-
-&lt;p&gt;로 지정해 주었다.&lt;/p&gt;
-
-&lt;p&gt;그러니까&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/64BitKErnelSymble.png&quot; alt=&quot;잘 됨&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;함수 이름으로 브레이킹 포인트를 걸 수 있다.&lt;/p&gt;
-
-&lt;p&gt;그리고 Continue로 진행하고&lt;/p&gt;
-
-&lt;p&gt;해당 지점에 도달했을때&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;list
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;를 입력해 보았다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-07-03/OS/GDBList.png&quot; alt=&quot;역시아주 잘 댐&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;이제 디버깅 환경이 구성되었다.&lt;/p&gt;
-
-&lt;p&gt;GDB 처음 써보는데, 잘 쓸 수 있을지 걱정이긴 하다.&lt;/p&gt;
-
-&lt;p&gt;혹시 qemu와 gdb를 연결해 디버깅 해야 할 사람이라면, 이 글이&lt;/p&gt;
-
-&lt;p&gt;도움이 되었길 바란다.&lt;/p&gt;
-
-&lt;p&gt;이제 본격적인 OS개발 시작~!&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Debug" /><category term="64bit" /><summary type="html">현제 작성중인 OS는 Ubuntu (Windows Bash) + Vim 으로 개발 중이다</summary></entry></feed>
+&lt;p&gt;내친김에.. 스타도….눌러주시면…&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Paging" /><category term="Input" /><category term="Keyboard" /><category term="64bit" /><summary type="html">어제부터 오늘까지 고민하면서 만든 결과물이다.</summary></entry></feed>
