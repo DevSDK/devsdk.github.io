@@ -1,0 +1,524 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Improvement of output, ready for jumping to the 64bit mode and almost completely to the 64-bit system. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Improvement of output, ready for jumping to the 64bit mode and almost completely to the 64-bit system." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="After jumping to the 64 bit and jump to the C language kernel, I should prepare to jump to the 64 bit." />
+<meta property="og:description" content="After jumping to the 64 bit and jump to the C language kernel, I should prepare to jump to the 64 bit." />
+<link rel="canonical" href="https://devsdk.github.io/development/2017/06/29/preparing64.html" />
+<meta property="og:url" content="https://devsdk.github.io/development/2017/06/29/preparing64.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-29T19:30:20+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Improvement of output, ready for jumping to the 64bit mode and almost completely to the 64-bit system." />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"https://devsdk.github.io/development/2017/06/29/preparing64.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/images/avator.jpeg"},"name":"Seokho Song"},"headline":"Improvement of output, ready for jumping to the 64bit mode and almost completely to the 64-bit system.","dateModified":"2017-06-29T19:30:20+00:00","datePublished":"2017-06-29T19:30:20+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/development/2017/06/29/preparing64.html"},"author":{"@type":"Person","name":"Seokho Song"},"description":"After jumping to the 64 bit and jump to the C language kernel, I should prepare to jump to the 64 bit.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  improvement-of-output-ready-for-jumping-to-the-64bit-mode-and-almost-completely-to-the-64-bit-system">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Improvement of output, ready for jumping to the 64bit mode and almost completely to the 64-bit system.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">3 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-06-29T19:30:20+00:00"><a class="u-url" href="">June 29, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/tags/#booting" title="Pages tagged Booting" rel="tag">Booting</a></li><li class="page-taxonomy"><a href="/tags/#function" title="Pages tagged function" rel="tag">function</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/06/29/preparing64.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/06/29/preparing64.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			
+			<hr />
+
+<h3 id="this-post-was-written-by-english-beginner">This post was written by English beginner</h3>
+
+<p><strong>This announcement is showen on English page only.</strong></p>
+
+<p>I’ve started learning English since <strong>Feb 2018</strong>.</p>
+
+<p>Please understand me when I use wrong words or grammar.</p>
+
+<p>If you find some mistake or non-understandable sentence, please write comments below.</p>
+
+<hr />
+<p><br /></p>
+
+			
+			<p>After jumping to the 64 bit and jump to the C language kernel, I should prepare to jump to the 64 bit.</p>
+
+<p>First of all, the output wasn’t satisfying. So I’ve made a plan for that improvement.</p>
+
+<p><img src="/uploads/2017-06-29/OS/Finaly.png" alt="On the past" /></p>
+
+<p>After then,</p>
+
+<p><img src="/uploads/2017-06-29/OS/BatterOutput.png" alt="Now" /></p>
+
+<p>As you can see, that was changed.</p>
+
+<p>And already fixed that miss typing SICCESS to SUCCESS on second.</p>
+
+<p>But you know I’m so lazy for taking a new screenshot that was fixed.</p>
+
+<p>So I’ll use the unfixed image.</p>
+
+<p>I’ve read a lot of code for this.</p>
+
+<p>First, I’ve fixed the 16bit bootloader assembly code for the 1~2 line output function.</p>
+
+<p>Before the output function is:</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="nf">push</span> <span class="nv">HELLO</span>    
+    <span class="nf">push</span> <span class="mi">0</span>
+    <span class="nf">push</span> <span class="mi">0</span>
+    <span class="nf">call</span> <span class="nv">PRINT</span>
+    <span class="nf">add</span> <span class="nb">sp</span><span class="p">,</span> <span class="mi">6</span>
+
+</code></pre></div></div>
+
+<p>You cannot display the color on the output.</p>
+
+<p>So, I’ve fixed that. Now it requires four parameters for output.</p>
+
+<p>Currently, the output code is:</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="nf">push</span> <span class="nv">HELLO</span>    
+    <span class="nf">push</span> <span class="mh">0x0B</span>
+    <span class="nf">push</span> <span class="mi">30</span>
+    <span class="nf">push</span> <span class="mi">1</span>
+    <span class="nf">call</span> <span class="nv">PRINT</span>
+    <span class="nf">add</span> <span class="nb">sp</span><span class="p">,</span> <span class="mi">8</span>
+
+</code></pre></div></div>
+
+<p>Also, I’ve edited internal of a function.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nl">PRINT:</span>
+    <span class="nf">push</span> <span class="nb">bp</span><span class="p">,</span>
+    <span class="nf">mov</span> <span class="nb">bp</span><span class="p">,</span> <span class="nb">sp</span>
+    
+    <span class="nf">push</span> <span class="nb">es</span>
+    <span class="nf">push</span> <span class="nb">si</span>
+    <span class="nf">push</span> <span class="nb">di</span>
+    <span class="nf">push</span> <span class="nb">ax</span>
+    <span class="nf">push</span> <span class="nb">cx</span>
+    <span class="nf">push</span> <span class="nb">dx</span>    
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0xB800</span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span> <span class="nb">ax</span>
+
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="kt">word</span><span class="p">[</span><span class="nb">bp</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="nb">si</span><span class="p">,</span> <span class="mi">160</span>
+    <span class="nf">mul</span> <span class="nb">si</span>
+    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="nb">ax</span>
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="kt">word</span><span class="p">[</span><span class="nb">bp</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span>
+    
+    <span class="nf">mov</span> <span class="nb">si</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="nf">mul</span> <span class="nb">si</span>
+    <span class="nf">add</span> <span class="nb">di</span><span class="p">,</span> <span class="nb">ax</span>
+
+    <span class="nf">mov</span> <span class="nb">si</span><span class="p">,</span> <span class="kt">word</span><span class="p">[</span><span class="nb">bp</span><span class="o">+</span><span class="mi">10</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="nb">bl</span><span class="p">,</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">bp</span><span class="o">+</span><span class="mi">8</span><span class="p">]</span>
+    
+<span class="nf">.PRINTLOOP</span>
+    <span class="nf">mov</span> <span class="nb">cl</span><span class="p">,</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">si</span><span class="p">]</span>
+        
+    <span class="nf">cmp</span> <span class="nb">cl</span><span class="p">,</span><span class="mi">0</span>
+    <span class="nf">je</span> <span class="nv">.ENDPRINTLOOP</span>
+
+    <span class="nf">mov</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">es</span><span class="p">:</span><span class="nb">di</span><span class="p">],</span> <span class="nb">cl</span>
+    <span class="nf">mov</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">es</span><span class="p">:</span><span class="nb">di</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nb">bl</span>
+    <span class="nf">add</span> <span class="nb">si</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="nf">add</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="nf">jmp</span> <span class="nv">.PRINTLOOP</span>
+
+</code></pre></div></div>
+
+<p>Uh, Pretty long line.</p>
+
+<p>I’ve changed this code to use attribute code on bl register.</p>
+
+<p>And then I’ve edited assembly code using 32bit code entry point for printing 32-bit mode change success message on 3 lines.</p>
+
+<p>No big change.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nf">push</span> <span class="p">(</span><span class="nv">SUCCESS</span> <span class="o">-</span> <span class="kc">$$</span> <span class="o">+</span> <span class="mh">0x10000</span><span class="p">)</span>
+    <span class="nf">push</span> <span class="mh">0x0A</span>
+    <span class="nf">push</span> <span class="mi">4</span>
+    <span class="nf">push</span> <span class="mi">60</span>
+    <span class="nf">call</span> <span class="nv">PRINT</span>
+    <span class="nf">add</span>  <span class="nb">esp</span><span class="p">,</span> <span class="mi">16</span>
+</code></pre></div></div>
+
+<p>Simply, It has been added attribute code.</p>
+
+<p>Also, I’ve edited the function partly as well.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nl">PRINT:</span>
+    <span class="nf">push</span> <span class="nb">ebp</span>
+    <span class="nf">mov</span> <span class="nb">ebp</span><span class="p">,</span> <span class="nb">esp</span>
+    <span class="nf">push</span> <span class="nb">esi</span>
+    <span class="nf">push</span> <span class="nb">edi</span>
+    <span class="nf">push</span> <span class="nb">eax</span>
+    <span class="nf">push</span> <span class="nb">ecx</span>
+    <span class="nf">push</span> <span class="nb">edx</span>
+
+    <span class="nf">mov</span> <span class="nb">eax</span><span class="p">,</span> <span class="kt">dword</span> <span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">12</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="nb">esi</span><span class="p">,</span> <span class="mi">160</span>
+    <span class="nf">mul</span> <span class="nb">esi</span>
+    <span class="nf">mov</span> <span class="nb">edi</span><span class="p">,</span> <span class="nb">eax</span>
+        
+    <span class="nf">mov</span> <span class="nb">eax</span><span class="p">,</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="nb">esi</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="nf">mul</span> <span class="nb">esi</span>
+    <span class="nf">add</span> <span class="nb">edi</span><span class="p">,</span> <span class="nb">eax</span>
+    <span class="nf">mov</span> <span class="nb">bl</span><span class="p">,</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="nb">esi</span><span class="p">,</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">20</span><span class="p">]</span>    
+<span class="nl">.PRINTLOOP:</span>
+    <span class="nf">mov</span> <span class="nb">cl</span><span class="p">,</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">esi</span><span class="p">]</span>
+    
+    <span class="nf">cmp</span> <span class="nb">cl</span><span class="p">,</span><span class="mi">0</span>
+    <span class="nf">je</span> <span class="nv">PRINTEND</span>
+    
+    <span class="nf">mov</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">edi</span> <span class="o">+</span> <span class="mh">0xB8000</span><span class="p">],</span> <span class="nb">cl</span>
+    <span class="nf">mov</span> <span class="kt">byte</span><span class="p">[</span><span class="nb">edi</span> <span class="o">+</span> <span class="mh">0xB8000</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nb">bl</span>    
+    <span class="nf">add</span> <span class="nb">esi</span><span class="p">,</span><span class="mi">1</span>
+    <span class="nf">add</span> <span class="nb">edi</span><span class="p">,</span><span class="mi">2</span>    
+    <span class="nf">jmp</span> <span class="nv">.PRINTLOOP</span>
+
+</code></pre></div></div>
+
+<p>It’s same that inserting value by ‘mov bl, byte[ebp+16]’ and then using that on output code.</p>
+
+<p>And then I added a parameter in function PrintVideoMemory for using C Language.</p>
+
+<p>The Implementation is:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">void</span> <span class="nf">PrintVideoMemory</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">Attribute</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">Address</span> <span class="o">=</span> <span class="p">(</span> <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="p">)</span> <span class="mh">0xB8000</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">Address</span><span class="o">+=</span> <span class="p">(</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">80</span> <span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">_str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Address</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="n">_str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">Address</span>
+        <span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bAttribute</span> <span class="o">=</span> <span class="n">Attribute</span><span class="p">;</span>
+    
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>For my satisfaction, I’ve tried to change a few parts of codes even that hasn’t existed on the book.</p>
+
+<p>The pretty output makes me happy.</p>
+
+<p>Also, I added the code for checking memory and set by 0 in the area for 64-bit kernel memory.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">BOOL</span> <span class="nf">Initalization64KernelMemoryArea</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">DWORD</span><span class="o">*</span> <span class="n">Address</span>
+     <span class="o">=</span> <span class="p">(</span><span class="n">DWORD</span><span class="o">*</span><span class="p">)</span> <span class="mh">0x100000</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">((</span><span class="n">DWORD</span><span class="p">)</span> <span class="n">Address</span>
+     <span class="o">&lt;</span> <span class="mh">0x600000</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="o">*</span><span class="n">Address</span>
+         <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">*</span><span class="n">Address</span>
+         <span class="o">!=</span> <span class="mi">0</span> <span class="p">)</span>
+            <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+        <span class="n">Address</span>
+        <span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+        
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="n">BOOL</span> <span class="nf">CheckMemorySize</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">DWORD</span><span class="o">*</span> <span class="n">Address</span>
+     <span class="o">=</span> <span class="p">(</span><span class="n">DWORD</span><span class="o">*</span><span class="p">)</span> <span class="mh">0x100000</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span> <span class="p">(</span><span class="n">DWORD</span><span class="p">)</span> <span class="n">Address</span>
+    <span class="o">&lt;</span> <span class="mh">0x4000000</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="o">*</span><span class="n">Address</span>
+         <span class="o">=</span> <span class="mh">0x12345678</span><span class="p">;</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">*</span><span class="n">Address</span>
+         <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+
+        <span class="n">Address</span>
+         <span class="o">+=</span> <span class="p">(</span><span class="mh">0x100000</span> <span class="o">/</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+    
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>These functions are used on the entry point for checking and printing messages.</p>
+
+<p>I want to check this code working well. So I’ve changed command line in launch_qemu.sh.</p>
+
+<p>Before change a commend is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 -L . -m 64 -fda disk.img -localtime -M pc
+</code></pre></div></div>
+
+<p>If set up like that, Qemu allocates 64 MB memory by -m option.</p>
+
+<p><img src="/uploads/2017-06-29/OS/BatterOutput.png" alt="Again" /></p>
+
+<p>As you can see, It’s working well.</p>
+
+<p>So, Let me try to allow low memory to VM.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    qemu-system-x86_64 -L . -m 32 -fda disk.img -localtime -M pc
+</code></pre></div></div>
+<p>I give 32 MB memory to VM by -m 32 option.</p>
+
+<p><img src="/uploads/2017-06-29/OS/YesError.png" alt="OutputError" /></p>
+
+<p>Oh yeah!</p>
+
+<p>That’s what I wanna expect about it.</p>
+
+<p>The left things used to turn on the paging, something ready for jumping to the 64 bit.</p>
+
+<p>Also, I want to make the code much pretty. It looks like complex codes.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/development/2017/06/29/preparing64.html';
+        this.page.identifier = 'https://devsdk.github.io/development/2017/06/29/preparing64.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/06/29/LetsJumpToC.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Now 0SOS will be written by C Langauge.
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/06/30/readytojump64.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Definition of DataStructure related Paging, Prepare to jump to 64 bit.
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script>
+  if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43719770-2', 'auto');
+    ga('send', 'pageview');
+  }
+  </script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
