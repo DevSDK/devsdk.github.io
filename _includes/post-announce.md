@@ -1,14 +1,8 @@
 ---
 
-### This post was written by English beginner
+**I'm not a native English speaker. Please understand misspells or wrong grammar.**
 
-**This announcement is showen on English page only.**
-
-I've started learning English since **Feb 2018**.
-
-Please understand me when I use wrong words or grammar.
-
-If you find some mistake or non-understandable sentence, please write comments below.
+If you find some mistakes or improvement points, Please leave a comment below.
 
 ---
 <br>
