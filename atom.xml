@@ -1,4 +1,205 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-12-16T22:22:53+09:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Implement the \ should be affected by custom scrollbar tags</title><link href="https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html" rel="alternate" type="text/html" title="Implement the \&lt;select&gt; should be affected by custom scrollbar tags" /><published>2020-12-13T00:00:20+09:00</published><updated>2020-12-13T00:00:20+09:00</updated><id>https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect</id><content type="html" xml:base="https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html">&lt;p&gt;Issue: &lt;a href=&quot;http://crbug.com/1076508&quot;&gt;http://crbug.com/1076508&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-12-24T01:33:25+09:00</updated><id>https://devsdk.github.io/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Allow Infinity And NaN on Chromium CSS - 1</title><link href="https://devsdk.github.io/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" rel="alternate" type="text/html" title="Allow Infinity And NaN on Chromium CSS - 1" /><published>2020-12-24T00:00:20+09:00</published><updated>2020-12-24T00:00:20+09:00</updated><id>https://devsdk.github.io/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1</id><content type="html" xml:base="https://devsdk.github.io/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html">&lt;p&gt;Issue: &lt;a href=&quot;http://crbug.com/1133390&quot;&gt;http://crbug.com/1076508&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Patches:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2465414&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2465414&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I’ll write down to this blog about the log of activity on Chromium project.&lt;/p&gt;
+
+&lt;p&gt;Due to this is a function implementation, The article could be separated.&lt;/p&gt;
+
+&lt;p&gt;This article contains an inspection and research log about the function implementation.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/calc()&quot;&gt;https://developer.mozilla.org/en-US/docs/Web/CSS/calc()&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;There are calc function in CSS.&lt;/p&gt;
+
+&lt;p&gt;The example of usage ‘calc’:&lt;/p&gt;
+
+&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The result of above will be 20px for width property.&lt;/p&gt;
+
+&lt;p&gt;Following article will describe feature implementation for this function.&lt;/p&gt;
+
+&lt;p&gt;When I’ve been trying to find something to do on chromium monorail, I’ve found this issue.&lt;/p&gt;
+
+&lt;p&gt;I could’ve seen the simplest body of issue. I thought this is kind of easy and straightforward.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I'm told that per the spec, calc(1px/0) should compute to infinity and not be a parse error.
+
+Testcase:
+&amp;lt;div style=&quot;width: calc(1px/0); height: 10px; background: green;&quot;&amp;gt;&amp;lt;/div&amp;gt;
+http://plexode.com/eval3/#s=aekVQXANJVQMbAx1yAXgePQOCGwFEQk1ECRJRWRARChwBg50SEaWqi51IU0ZGTxyaHx0Qch8DXgA=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;These lines of words are the start point of our project.&lt;/p&gt;
+
+&lt;p&gt;When I find this issue, I’ve read the spec. CSS3 and MDN say “Zero division should be ignored”. So, I’ve created a question for the author “Due to the spec, Zero division should be ignored. Could you give me the spec about this issue?”&lt;/p&gt;
+
+&lt;p&gt;And I can get a response from the question. “CSS Values and Units Module Level 4”. Following the spec, ‘infinity’ and ‘NaN’ should be supported on calc function.
+So, I’ve put my name on the owner and tried inspection.&lt;/p&gt;
+
+&lt;p&gt;Firstly I did is trying to find where the calc function was evaluated.&lt;/p&gt;
+
+&lt;p&gt;The basic idea was:&lt;/p&gt;
+
+&lt;p&gt;‘calc function should be parsed on CSS Parser’&lt;/p&gt;
+
+&lt;p&gt;Following grep command reduces the enormous search result.&lt;/p&gt;
+
+&lt;p&gt;So I’ve read source codes in parser directory.&lt;/p&gt;
+
+&lt;p&gt;To describe below commend, commend will search ‘calc(‘ and ignore character case and only -.cc files exclude -test.cc files.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'calc('&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rni&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--include&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.cc &lt;span class=&quot;nt&quot;&gt;--exclude&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;test.cc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/1.png&quot; alt=&quot;1.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve found the comment as I highlighted above.&lt;/p&gt;
+
+&lt;p&gt;For now, it could have been possible to search via identifier constant like k’Token’ (i.e. kCalc) Because the chromium project maintains identifiers using json5 files.&lt;/p&gt;
+
+&lt;p&gt;Inside of them:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/2.png&quot; alt=&quot;2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We could find the source code. Simply, We could search kCalc constant usages to figure out where the expression is evaluated.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/3.png&quot; alt=&quot;3.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There are about 10 files related to kCalc. And we could find the evaluation part in ‘third_party/blink/renderer/core/css/css_math_expression_node.cc’. (I guess we could find what we want like this way)&lt;/p&gt;
+
+&lt;p&gt;the calc function calculates the four fundamental operations recursively. This is an enjoyable part :) .&lt;/p&gt;
+
+&lt;p&gt;Simply, Parse function called→Additive function called→Multiplicative function called → Parse function called(Recursion).&lt;/p&gt;
+
+&lt;p&gt;Actually, These implementations are declared on the specification.&lt;/p&gt;
+
+&lt;p&gt;Following is the notation in the spec.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/4.png&quot; alt=&quot;4.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/5.png&quot; alt=&quot;5.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;[https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_math_expression_node.cc;l=1101;&quot;&gt;I’ll leave the URL&lt;/a&gt; of the detailed implementation above. If you are interested, please click the link and see the source codes. And I think this is great entry point of this issue.&lt;/p&gt;
+
+&lt;p&gt;Now we can implement infinity and NaN using the token on the part of the calculation.&lt;/p&gt;
+
+&lt;p&gt;Actually, In the first CL, I didn’t notice I should implement ‘NaN’ in the code level. After code review, ‘NaN’ is added. Therefore, In this article, didn’t show ‘NaN’.&lt;/p&gt;
+
+&lt;p&gt;Followed the function calls, We could get:
+&lt;img src=&quot;/uploads/2020-12-23/6.png&quot; alt=&quot;6.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The calculation part.&lt;/p&gt;
+
+&lt;p&gt;Let’s think simply. Returning ‘std::numeric_limits&lt;double&gt;::infinity()’ if op is ‘CSSMathOperator::kDivide’. That’s a kind of solution.&lt;/double&gt;&lt;/p&gt;
+
+&lt;p&gt;Therefore I’ve added like:
+&lt;img src=&quot;/uploads/2020-12-23/11.png&quot; alt=&quot;11.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For the token:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/7.png&quot; alt=&quot;7.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I thought We should return the value with the token string is ‘infinity’ or ‘-infinity’ or ‘nan’.&lt;/p&gt;
+
+&lt;h4 id=&quot;test-codes&quot;&gt;Test codes&lt;/h4&gt;
+
+&lt;p&gt;I’ve written the test code.&lt;/p&gt;
+
+&lt;p&gt;The problems with writing source codes are wpt test failure because there are different results not implemented ‘round’ function and failure blink_unittests cause the test used other codes.&lt;/p&gt;
+
+&lt;p&gt;On blink_unittests, the expressions are parsed by sizes_math_function_parser. So the tests are existed in sizes_math_function_parser_test.cc.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/8.png&quot; alt=&quot;8.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This tests are evaluated ‘CalcToReversePolishNotation’ function in ‘third_party/blink/renderer/core/css/parser/sizes_math_function_parser.cc’ . And The parser is implemented by stack. So we need to add our case. AppendInfinity() denotes add infinity into the stack.&lt;/p&gt;
+
+&lt;p&gt;We could see the case in switch expression:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kIdentToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EqualIgnoringASCIICase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;infinity&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;EqualIgnoringASCIICase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-infinity&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;AppendInfinity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;One of the problems with unittest is resolved.&lt;/p&gt;
+
+&lt;p&gt;And I added new test cases in blink_web_tests.&lt;/p&gt;
+
+&lt;p&gt;There are javascript based tests. I’ve used dumpAsText() function that generates or compares the text-based result (-expected.txt) from the DOM rendered page.&lt;/p&gt;
+
+&lt;p&gt;Following is the new test file in blink/web_tests/css3/calc/calc-infinity.html:&lt;/p&gt;
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE HTML&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dummy&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;results&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Calc could handle an infinity value&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;testRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;testRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dumpAsText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity / infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * 0 * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity + -infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (-infinity + infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity - infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * -infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity + infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (-infinity + -infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * 1/infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * -infinity * -infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;calc(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; =&amp;gt; &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The result of above are saved as ‘blink/web_tests/css3/calc/calc-infinity-expected.txt’:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Calc could handle an infinity value
+
+1px * infinity / infinity =&amp;gt;
+1px * 0 * infinity =&amp;gt;
+1px * (infinity + -infinity) =&amp;gt;
+1px * (-infinity + infinity) =&amp;gt;
+1px * (infinity - infinity) =&amp;gt;
+1px * infinity =&amp;gt; calc(infpx)
+1px * -infinity =&amp;gt; calc(-infpx)
+1px * (infinity + infinity) =&amp;gt; calc(infpx)
+1px * (-infinity + -infinity) =&amp;gt; calc(-infpx)
+1px * 1/infinity =&amp;gt; calc(0px)
+1px * infinity * infinity =&amp;gt; calc(infpx)
+1px * -infinity * -infinity =&amp;gt; calc(infpx)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;write-patch&quot;&gt;Write Patch&lt;/h4&gt;
+
+&lt;p&gt;After writing the changes, I’ve tried to make clean codes. And formatting using ‘git cl format’. And then I’ve uploaded my patch to chromium gerrit with following commit messages:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/9.png&quot; alt=&quot;9.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/10.png&quot; alt=&quot;10.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I guess this subject should be separated. So It’s better to cut here.&lt;/p&gt;
+
+&lt;p&gt;Perhaps, Next article will be about ‘code review’, and change from the code review.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="C++" /><category term="Web Engine" /><category term="HTML/CSS" /><category term="InfinityAndNaN" /><category term="DevLog" /><summary type="html">Issue: http://crbug.com/1076508</summary></entry><entry><title type="html">Implement the \ should be affected by custom scrollbar tags</title><link href="https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html" rel="alternate" type="text/html" title="Implement the \&lt;select&gt; should be affected by custom scrollbar tags" /><published>2020-12-13T00:00:20+09:00</published><updated>2020-12-13T00:00:20+09:00</updated><id>https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect</id><content type="html" xml:base="https://devsdk.github.io/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html">&lt;p&gt;Issue: &lt;a href=&quot;http://crbug.com/1076508&quot;&gt;http://crbug.com/1076508&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Patches:&lt;/p&gt;
 
@@ -2214,316 +2415,4 @@ typedef struct _Example_Data
 
 &lt;p&gt;IDK.&lt;/p&gt;
 
-&lt;p&gt;If I try to develop, I’ll write this.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">I’ve got working hard in Software maestro.</summary></entry><entry><title type="html">TCB and Context and ContextSwitch</title><link href="https://devsdk.github.io/development/2017/08/23/BeginTask.html" rel="alternate" type="text/html" title="TCB and Context and ContextSwitch" /><published>2017-08-23T05:00:20+09:00</published><updated>2017-08-23T05:00:20+09:00</updated><id>https://devsdk.github.io/development/2017/08/23/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/development/2017/08/23/BeginTask.html">&lt;p&gt;Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.&lt;/p&gt;
-
-&lt;p&gt;So I changed UDS to GDS.&lt;/p&gt;
-
-&lt;p&gt;I implemented Context Switching and Task for multitasking that was not yet supported.&lt;/p&gt;
-
-&lt;p&gt;It doesn’t look massive. But It is task switching definitely.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-08-22/ShellContext.png&quot; alt=&quot;Result&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Before we define “Task” we need to check out about Context.&lt;/p&gt;
-
-&lt;p&gt;This Context, it was leaned OS in college.&lt;/p&gt;
-
-&lt;p&gt;It’s Process and Task’s executed status.&lt;/p&gt;
-
-&lt;p&gt;Context is just Register stored values and Stack.&lt;/p&gt;
-
-&lt;p&gt;Context Switching is literally switching, that would execute here and there.&lt;/p&gt;
-
-&lt;p&gt;The task is work that can be processed separately.&lt;/p&gt;
-
-&lt;p&gt;In Task, Code and Data can be shared but Stack and Context keep separation.&lt;/p&gt;
-
-&lt;p&gt;Latency time will be increased when you use timeslice instead of the batch process.&lt;/p&gt;
-
-&lt;p&gt;So I’ll use Timeslice multitasking.&lt;/p&gt;
-
-&lt;p&gt;Timeslice multitasking is context switching every millisecond by IRQ0 interrupt.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//shell.c&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.};&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;TaskTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[%d] Message from test task Press any key to switching&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_GetCh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Command_CreateTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Parameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;KEYDATA&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TaskTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[%d] message from shell Press any key to switching&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_GetCh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;CreatTask function, it works for the creation of task and initialization.&lt;/p&gt;
-
-&lt;p&gt;Context Switching, switching context function.&lt;/p&gt;
-
-&lt;p&gt;Task Control Block, it is data-structure for context.&lt;/p&gt;
-
-&lt;p&gt;And Defining offsets and context.&lt;/p&gt;
-
-&lt;p&gt;I created Directory “Tasking”&lt;/p&gt;
-
-&lt;p&gt;Tasking/Task.h:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#ifndef __TASK_H__
-#define __TASK_H__
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;Types.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//SS, RSP, RFLAGS, CS, RIP..  Context&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define CONTEXT_REGISTER_COUNT     25
-#define CONTEXT_REGISTER_SIZE       8
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define CONTEXT_OFFSET_GS           0
-#define CONTEXT_OFFSET_FS           1
-#define CONTEXT_OFFSET_ES           2
-#define CONTEXT_OFFSET_DS           3
-#define CONTEXT_OFFSET_R15          4
-#define CONTEXT_OFFSET_R14          5
-#define CONTEXT_OFFSET_R13          6
-#define CONTEXT_OFFSET_R12          7
-#define CONTEXT_OFFSET_R11          8
-#define CONTEXT_OFFSET_R10          9
-#define CONTEXT_OFFSET_R9           10
-#define CONTEXT_OFFSET_R8           11
-#define CONTEXT_OFFSET_RSI          12
-#define CONTEXT_OFFSET_RDI          13
-#define CONTEXT_OFFSET_RDX          14
-#define CONTEXT_OFFSET_RCX          15
-#define CONTEXT_OFFSET_RBX          16
-#define CONTEXT_OFFSET_RAX          17
-#define CONTEXT_OFFSET_RBP          18
-#define CONTEXT_OFFSET_RIP          19
-#define CONTEXT_OFFSET_CS           20
-#define CONTEXT_OFFSET_RFLAG        21
-#define CONTEXT_OFFSET_RSP          22
-#define CONTEXT_OFFSET_SS           23
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(push,1)
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__CONTEXT_STRUCT&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_REGISTER_COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__TCB_STRUCT&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(pop)
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//Link Assembly File&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_CurrentContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_NextContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif &lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*__TASK_H__*/&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;   
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It has many definitions, but there are just index and registers.&lt;/p&gt;
-
-&lt;p&gt;It’ll be great for statically assigning value in the array.&lt;/p&gt;
-
-&lt;p&gt;And than Context (It is just register-values)&lt;/p&gt;
-
-&lt;p&gt;And TCB (It can be Task Control Block and Thread Control Block)&lt;/p&gt;
-
-&lt;p&gt;TCB contain Context, ID, Flags, Stack Address, and Stack size&lt;/p&gt;
-
-&lt;p&gt;Tasing/Task.c:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &quot;Task.h&quot;
-#include &amp;lt;Utility/Memory.h&amp;gt;
-#include &amp;lt;Descriptor/GDT.h&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_MemSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//초기화 과정의 RSP, RBP 해당 Task의 Stack Pointer 기 떄문에 + Size &lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RSP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RBP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//Segment Register Setup in Context &lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_CS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_CODE_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_DS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_ES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_FS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_GS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_SS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//Next run instruction setup&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 0 NT  IOPL  OF DF IF TF SF ZF 0  AF 0  PF 1  CF&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// 0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RFLAG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   
-    &lt;span class=&quot;c1&quot;&gt;//Setup TCB Block&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StackAddress&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StackSize&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It is just function for the initialize of members.&lt;/p&gt;
-
-&lt;p&gt;Segment register kernel segment and initialize register’s initial values.&lt;/p&gt;
-
-&lt;p&gt;And next code of execution assigns in RIP register(PC, Program counter)’s EntryPoint.&lt;/p&gt;
-
-&lt;p&gt;And ContextSwitch function linked with assembly code.&lt;/p&gt;
-
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;err&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BITS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;nf&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ContextSwitch&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;SECTION&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;.text&lt;/span&gt;   
-
-&lt;span class=&quot;cp&quot;&gt;%macro SAVECONTEXT 0
-&lt;/span&gt;    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rcx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r9&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r11&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r12&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r13&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r14&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r15&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;%endmacro
-
-
-%macro LOADCONTEXT 0
-&lt;/span&gt;    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r15&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r14&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r13&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r12&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r11&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r9&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rcx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;%endmacro
-&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;ContextSwitch:&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;Push RFLAGS in stack&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pushfq&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;if _CurrentContext is NULL&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;je&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;.LoadContext&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;popfq&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;;For use Context Offset &lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;Save SS RSP RFLAGS CS RIP Registers&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ss&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;reset value to before, RSP Contextswitch  -(ReturnAddress + RBP)&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;Push FLAGS in stack&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pushfq&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;;Save Cs Segment&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;Context-&amp;gt;Registers&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;SAVECONTEXT&lt;/span&gt;
-
-&lt;span class=&quot;nl&quot;&gt;.LoadContext:&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;LOADCONTEXT&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;iretq&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;If the first parameter Null(0) it is ShellTask.&lt;/p&gt;
-
-&lt;p&gt;Jump to .LoadContext&lt;/p&gt;
-
-&lt;p&gt;If working like that, We will context load by the second parameter.&lt;/p&gt;
-
-&lt;p&gt;If not, it would save context.&lt;/p&gt;
-
-&lt;p&gt;And then load by the second parameter.&lt;/p&gt;
-
-&lt;p&gt;So It’s done of context-switching.&lt;/p&gt;
-
-&lt;p&gt;Huh.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.</summary></entry></feed>
+&lt;p&gt;If I try to develop, I’ll write this.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">I’ve got working hard in Software maestro.</summary></entry></feed>
