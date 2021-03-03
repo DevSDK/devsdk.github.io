@@ -125,11 +125,16 @@ Chromium에 feature 도입 상태에 대해 볼 수 있는 곳 Chromium Feature 
 
 어떤 기능을 함께 만들어나간다 라는 기쁨을 온몸으로 즐기고 있다.
 
- Chromium은 Test-driven 프로젝트인데, 의미있는 테스트를 작성하는 것에 대해 배우게 된 것 같다. 3000만 라인이 넘는 코드가 CI에 의해서 관리되고, 패치에 대한 사이드이펙트와 생각하지 못한 문제들을 test에서 알려주는 것들이 정말 마음에 들었다.
+느낀것 혹은 얻은것은 다음과 같다.
 
- 웹 표준을 자주 보게 되고, 브라우져간의 interoperability를 신경쓸 수 있게 된것도 좋은점이 아닐까 싶다.
-
- chromium을 개발하는데 사용하는 도구는 vim과 gdb 그리고 테스트 코드를 짤 때는 VSCode를 사용하는데 이게 가능한 이유는 웹 [Chromium Source Search](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_value_clamping_utils.h)  가 아주 강력하기 때문이다. 만약 가능하다면 어떤것을 하건, 이런걸 사용할 수 있는 환경(github도 최근에 비슷한 기능을 제공하는 것 같다.)을 꼭 도입하고 싶어졌다.
+* Fully Test driven의 이점과 3000만 라인의 거대한 프로젝트가 높은 퀄리티로 유지되는 방법
+* 웹 표준의 중요성. Browser간의 interoperability를 생각하는 능력
+* 개발자를 위한 좋은 인프라가 생산성에 어떤 이점을 주는지 ([Chromium Source Search](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_value_clamping_utils.h))
+* Code-review의 순기능
+* Blink-dev에 새로 나오는 기능을 살펴보는 습관
+* 웹으로 무엇이든 할 수 있게 될 것이라는 생각
+* 매우 높은 수준의 개발자들과의 협업
+* 생각보다 웹브라우져에는 버그가 많다 (특히 scroll 쪽 이슈들 )
 
 혹시 이 글을 보고 Chromium에 흥미가 생겼다면, 오픈소스 개발자의 문은 언제나 열려있다! 누구든 같이 Chromium을 개발하면 좋겠다.
 
