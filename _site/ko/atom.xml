@@ -1,4 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-06T12:33:48+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">SCL Notion Checklist generator 개발</title><link href="https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL.html" rel="alternate" type="text/html" title="SCL Notion Checklist generator 개발" /><published>2021-03-06T09:00:00+09:00</published><updated>2021-03-06T09:00:00+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL.html">&lt;p&gt;아침 일찍 일어나서 취업준비를 위해 Chromium 커밋 리스트를 다시한번 훑어보는데 아뿔싸… 머지한 커밋중에 Commit Message와 코드가 다른것을 보았다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-06T15:23:26+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chrome Inspector로 화면이 왜 느린지 찾아보기</title><link href="https://devsdk.github.io/ko/development/2021/03/06/ChromeInspectorPerformnace.html" rel="alternate" type="text/html" title="Chrome Inspector로 화면이 왜 느린지 찾아보기" /><published>2021-03-06T09:00:01+09:00</published><updated>2021-03-06T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/06/ChromeInspectorPerformnace</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/06/ChromeInspectorPerformnace.html">&lt;p&gt;DFD를 구현하고 항상 들던 의문이 있었다.&lt;/p&gt;
+
+&lt;p&gt;화면을 구성하고 어느순간부터 main화면에서 로딩이 늦는것&lt;/p&gt;
+
+&lt;p&gt;다루는 데이터가 그렇게 많은 편이 아닌데도 chart나 render 부분이 느린 것 같다는 생각이 종종 들었다. 물론 사용하는데 전혀 지장은 없지만 ux적으로 조금 개선할 방향을 찾아보고 싶었다.&lt;/p&gt;
+
+&lt;p&gt;가장 먼저 해본것은, React Profiler를 사용해 확인하는 것 이였다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110197436-fcffa400-7e8e-11eb-9df0-f3b2367aadae.png&quot; alt=&quot;Screenshot_from_2021-03-06_14-49-03&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;하지만 프로파일러에서는 계속 LOLGameElement 가 느린 것 같아!! 라고 이야기 하고 있었다.&lt;/p&gt;
+
+&lt;p&gt;사실 살펴보면 시간 단위가 문제가 될만큼 느리지 않았다. 즉 다른 곳이 느리거나, 놓치고 있는게 있다는 것 일 것이라는 가설을 새우게 되었다. 가장 느린구간이 70ms라니, 이는 화면에 보이는 것 보다 느린것이 아니다.&lt;/p&gt;
+
+&lt;p&gt;또한 얻는 정보가 한정되어있다는 생각이 많이 들었다. 
+(이는 내 react profiler 사용이 서툴러서 그런것 일수도 있다.)&lt;/p&gt;
+
+&lt;p&gt;다른 방법을 취해보기로 결정했다.&lt;/p&gt;
+
+&lt;p&gt;chrome://tracing 에 들어가서 전체 렌더 시간에 일어나는 일들을 Web Developer Mode로 트레이싱 하였다.&lt;/p&gt;
+
+&lt;p&gt;웹 개발자 모드로 한 이유는 그 정보로도 충분할 가능성이 높기 때문이다. 만약 필요해서 더 깊이 들어가야 한다면 Chromium flag를 enable 한 뒤 빌드하여 전체모드 트레이싱 하면 skia 렌더 커멘드 (네모 그리기가 매우 많다) 단위까지 조사할 수 있다&lt;/p&gt;
+
+&lt;p&gt;트레이싱 도구를 사용한 이유는 다음과 같다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;어떤 &lt;strong&gt;렌더스테이지&lt;/strong&gt; 에서 시간을 쓰고 있는지 (ex, composition, layout, javascript execution, style compute recursion … )&lt;/li&gt;
+  &lt;li&gt;디버깅에는 가능성을 최대한 열어두고 소거하는 것을 좋아한다.&lt;/li&gt;
+  &lt;li&gt;단계적인 접근 방법&lt;/li&gt;
+  &lt;li&gt;만약 필요하면 C++ 네이티브 코드를 바로 볼 수 있게 제공받는다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110197458-07ba3900-7e8f-11eb-9760-ff918d830abe.png&quot; alt=&quot;Screenshot_from_2021-03-06_14-43-40&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;일단 한눈에 들어온 정보는 v8이 가져가는 시간이 정말 많다는 점 이였다.&lt;/p&gt;
+
+&lt;p&gt;이 말은  javascript execution 쪽에서 느려짐을 의미한다. 여기서 다른 렌더 스테이지에서 느려지지 않는 것을 확인할 수 있었다.&lt;/p&gt;
+
+&lt;p&gt;이제 javascript execution을 추적하기 위해 insepcator를 이용하여 Performance 체크를 해보기로 했다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110197472-11dc3780-7e8f-11eb-8421-e4f1ec7361df.png&quot; alt=&quot;Screenshot_from_2021-03-06_15-03-22&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;가장 느려지는 구간은 3가지 정도인 것 같고, 공통점을 찾아낼 수 있었다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110197480-202a5380-7e8f-11eb-9e22-f0b6ce9f7e02.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;apexchart 쪽에서 이러한 이벤트들이 모이고 모여 엄청 긴 시간을 가져가게 된 것이다.&lt;/p&gt;
+
+&lt;p&gt;여기서 잠정적인 결론을 내릴 수 있었다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Apexchart를 제거하거나 optimize 하면 이 느려지는 것이 해결 될 것&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;최적화를 위해 관련 정보를 찾아보고 문서를 봐봤지만, Apexchart의 고질적인 문제인 것 같다는 생각이 든다.&lt;/p&gt;
+
+&lt;p&gt;일단 꽤나 자주 퍼포먼스이야기가 (i.e. &lt;a href=&quot;https://github.com/apexcharts/vue-apexcharts/issues/208&quot;&gt;github issue&lt;/a&gt;) 보였다.&lt;/p&gt;
+
+&lt;p&gt;또한 내가 apexchart를 잘못 사용한 것인가? 라는 의문을 가지고 공식 홈페이지의 live demo에 가서 퍼포먼스 체크를 진행했다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110197498-39330480-7e8f-11eb-9547-62cb0c3a33f1.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;공식 홈페이지의 Demo에서 데이터가 그리 많지 않음에도 꽤 많은 시간을 apexchart가 가져간다.&lt;/p&gt;
+
+&lt;p&gt;아마도 고질적인 문제가 아닐까 조심스럽게 추측하면서, apexchart를 대체할 수 있는 방법을 생각해 보면 좋을 것 같다는 생각이 들었다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chrome" /><category term="Web" /><category term="Javascript" /><category term="Optimization" /><category term="Debugging" /><summary type="html">DFD를 구현하고 항상 들던 의문이 있었다.</summary></entry><entry><title type="html">SCL Notion Checklist generator 개발</title><link href="https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL.html" rel="alternate" type="text/html" title="SCL Notion Checklist generator 개발" /><published>2021-03-06T09:00:00+09:00</published><updated>2021-03-06T09:00:00+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/06/IntroduceSCL.html">&lt;p&gt;아침 일찍 일어나서 취업준비를 위해 Chromium 커밋 리스트를 다시한번 훑어보는데 아뿔싸… 머지한 커밋중에 Commit Message와 코드가 다른것을 보았다.&lt;/p&gt;
 
 &lt;p&gt;아래는 커밋 메시지중 일부분.&lt;/p&gt;
 
@@ -1852,350 +1914,4 @@ typedef struct _Example_Data
 
 &lt;p&gt;소마에서 하는 프로젝트도 LinuxKernel 기반의 운영체제니 뭐…&lt;/p&gt;
 
-&lt;p&gt;시간 봐서 종종 일지 올리겠다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.</summary></entry><entry><title type="html">TCB와 Context, 그리고 ContextSwitch</title><link href="https://devsdk.github.io/ko/development/2017/08/23/BeginTask.html" rel="alternate" type="text/html" title="TCB와 Context, 그리고 ContextSwitch" /><published>2017-08-23T05:00:20+09:00</published><updated>2017-08-23T05:00:20+09:00</updated><id>https://devsdk.github.io/ko/development/2017/08/23/BeginTask</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2017/08/23/BeginTask.html">&lt;p&gt;이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다&lt;/p&gt;
-
-&lt;p&gt;이전에 범용 자료구조라고 Universal Data Structure 해서 UDS라고 디렉토리 이름을 지어줬는데&lt;/p&gt;
-
-&lt;p&gt;좀더 고민해보고 찾아보니까&lt;/p&gt;
-
-&lt;p&gt;Universal 보단 General 이 더 어울릴꺼같아서 UDS에서 GDS로 이름을 바꾸었다.&lt;/p&gt;
-
-&lt;p&gt;본문으로 넘어가서&lt;/p&gt;
-
-&lt;p&gt;아직 멀티테스킹 그런건 아니지만, 그것을 지원하기 위한 첫 단추로 Task를 정의하고&lt;/p&gt;
-
-&lt;p&gt;Context Switch 를 구현했다.&lt;/p&gt;
-
-&lt;p&gt;뭐 화려하고 멋진 그런 모양세는 아니지만&lt;/p&gt;
-
-&lt;p&gt;정적이긴 하지만 테스트로 작성한 두 테스크간의 스위칭을 볼 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2017-08-22/ShellContext.png&quot; alt=&quot;결과 화면&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;일단, 테스크를 정의하기에 앞서 Context, 문맥이라고 하는부분을 짚고 넘어갈 필요가 있다.&lt;/p&gt;
-
-&lt;p&gt;이 문맥이라는 녀석이, OS 개론을 배웠다면 알겠지만&lt;/p&gt;
-
-&lt;p&gt;프로세스면 프로세스, 테스크면 테스크 의 실행 상태를 의미한다.&lt;/p&gt;
-
-&lt;p&gt;뭐 실행 상태라고 하니까 뭔가 이상한데&lt;/p&gt;
-
-&lt;p&gt;말그대로 Register의 값들, Stack등을 문맥이라고 한다.&lt;/p&gt;
-
-&lt;p&gt;그 컨텍스트를 말그대로 교환한다는 뜻이고, 이거 실행하다 저거 실행하는걸 할 수 있다는 뜻이다.&lt;/p&gt;
-
-&lt;p&gt;Task는 개별적으로 처리가 가능한 작업을 의미하는데,&lt;/p&gt;
-
-&lt;p&gt;테스크에서 Code, Data는 공유가 가능, Stack, Context 는 독립적임을 유지한다.&lt;/p&gt;
-
-&lt;p&gt;테스크의 작업을 일괄 처리 방식으로 처리할때보다 시분할로 나누어 처리할때 레이턴시가 많이 증가한다.&lt;/p&gt;
-
-&lt;p&gt;따라서, 0SOS는 시분할 멀티테스킹 기법을 사용할 것이다.&lt;/p&gt;
-
-&lt;p&gt;시분할 멀티테스킹은 PIT 컨트롤러의 수 밀리세컨드에서 수십 밀리세컨드 단위로 IRQ 0 인터럽트에 맞춰 테스크를 전환하는 기법이다.&lt;/p&gt;
-
-&lt;p&gt;아무튼 OS개론적인 이야기는 일단 뒤로 두고, 위 이미지의 실행 코드는 다음과 같다.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//shell.c&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.};&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,};&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;TaskTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[%d] Message from test task Press any key to switching&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_GetCh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Command_CreateTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Parameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;KEYDATA&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TaskTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_stack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[%d] message from shell Press any key to switching&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_GetCh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;대충 본다면, CreateTask&lt;/p&gt;
-
-&lt;p&gt;테스크를 초기화(생성)하는 함수다.&lt;/p&gt;
-
-&lt;p&gt;ContextSwitch Context를 교환해주는 함수다.&lt;/p&gt;
-
-&lt;p&gt;Task Control Block 해서 TCB 구조체를 정의해줬고&lt;/p&gt;
-
-&lt;p&gt;Context에 대해 정의하고 각 Offset을 만들어줬다.&lt;/p&gt;
-
-&lt;p&gt;뭐 이번에 작성한 코드가 그렇게 길지 않다.&lt;/p&gt;
-
-&lt;p&gt;일단 Tasking 이라는 디렉터리를 만들어 줬다.&lt;/p&gt;
-
-&lt;p&gt;테스킹 관련 코드는 이쪽으로 넣으려고 한다.&lt;/p&gt;
-
-&lt;p&gt;일단, Tasking/Task.h&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#ifndef __TASK_H__
-#define __TASK_H__
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;Types.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//SS, RSP, RFLAGS, CS, RIP.. 등등 Context&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define CONTEXT_REGISTER_COUNT     25
-#define CONTEXT_REGISTER_SIZE       8
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define CONTEXT_OFFSET_GS           0
-#define CONTEXT_OFFSET_FS           1
-#define CONTEXT_OFFSET_ES           2
-#define CONTEXT_OFFSET_DS           3
-#define CONTEXT_OFFSET_R15          4
-#define CONTEXT_OFFSET_R14          5
-#define CONTEXT_OFFSET_R13          6
-#define CONTEXT_OFFSET_R12          7
-#define CONTEXT_OFFSET_R11          8
-#define CONTEXT_OFFSET_R10          9
-#define CONTEXT_OFFSET_R9           10
-#define CONTEXT_OFFSET_R8           11
-#define CONTEXT_OFFSET_RSI          12
-#define CONTEXT_OFFSET_RDI          13
-#define CONTEXT_OFFSET_RDX          14
-#define CONTEXT_OFFSET_RCX          15
-#define CONTEXT_OFFSET_RBX          16
-#define CONTEXT_OFFSET_RAX          17
-#define CONTEXT_OFFSET_RBP          18
-#define CONTEXT_OFFSET_RIP          19
-#define CONTEXT_OFFSET_CS           20
-#define CONTEXT_OFFSET_RFLAG        21
-#define CONTEXT_OFFSET_RSP          22
-#define CONTEXT_OFFSET_SS           23
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(push,1)
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__CONTEXT_STRUCT&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_REGISTER_COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__TCB_STRUCT&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#pragma pack(pop)
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//Link Assembly File&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ContextSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_CurrentContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CONTEXT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_NextContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif &lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*__TASK_H__*/&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;   
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Definition 이 많은데 결국 생각해보면 죄다 배열의 Index고 좀더 자세히보면 다 레지스터다&lt;/p&gt;
-
-&lt;p&gt;배열에 때려박을때 고정적인 위치에 때려박으려고 (어셈에선 순서를 지켜줘야한다 ㅋㅋ) 정의해줬다.&lt;/p&gt;
-
-&lt;p&gt;그 밑으로는  Context (결국 Register 값들의 배열이다.) *아마 나중에 추가 될 것 같다.&lt;/p&gt;
-
-&lt;p&gt;그리고 TCB (이게 중의적일거같다. Task Control Block, Thread Control Block)&lt;/p&gt;
-
-&lt;p&gt;TCB엔 Cotnext, ID, Flags, 스택주소와 스택 크기가 있다.&lt;/p&gt;
-
-&lt;p&gt;그리고 InitTask에 대한 구현인&lt;/p&gt;
-
-&lt;p&gt;Tasing/Task.c 이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &quot;Task.h&quot;
-#include &amp;lt;Utility/Memory.h&amp;gt;
-#include &amp;lt;Descriptor/GDT.h&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InitTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_MemSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//초기화 과정의 RSP, RBP 해당 Task의 Stack Pointer 기 떄문에 + Size &lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RSP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RBP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//Segment Register Setup in Context &lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_CS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_CODE_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_DS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_ES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_FS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_GS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_SS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GDT_KERNEL_DATA_SEGMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;//Next run instruction setup&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_EntryPointAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 0 NT  IOPL  OF DF IF TF SF ZF 0  AF 0  PF 1  CF&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// 0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Registers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONTEXT_OFFSET_RFLAG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   
-    &lt;span class=&quot;c1&quot;&gt;//Setup TCB Block&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StackAddress&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackAddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StackSize&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_StackSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_Tcb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;결국 각 맴버들 초기화 하는 함수다.&lt;/p&gt;
-
-&lt;p&gt;세그먼트는 커널 세그먼트를 등록하고&lt;/p&gt;
-
-&lt;p&gt;여러 레지스터의 초깃값을 설정한다.&lt;/p&gt;
-
-&lt;p&gt;다음 실행할 코드를 (RIP 레지스터- [PC, Program Counter]) EntryPoint로 등록한다.&lt;/p&gt;
-
-&lt;p&gt;그리고 대망의 ContextSwitch 함수 이 함수는 어셈블리 코드와 링킹되어있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;err&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BITS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;nf&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ContextSwitch&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;SECTION&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;.text&lt;/span&gt;   
-
-&lt;span class=&quot;cp&quot;&gt;%macro SAVECONTEXT 0
-&lt;/span&gt;    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rcx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r9&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r11&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r12&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r13&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r14&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r15&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;%endmacro
-
-
-%macro LOADCONTEXT 0
-&lt;/span&gt;    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;gs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r15&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r14&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r13&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r12&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r11&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r10&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r9&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rcx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbx&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;%endmacro
-&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;ContextSwitch:&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;Push RFLAGS in stack&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pushfq&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;if _CurrentContext is NULL&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;je&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;.LoadContext&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;popfq&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;;For use Context Offset &lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;Save SS RSP RFLAGS CS RIP Registers&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ss&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;RSP를 Contextswitch 호출 이전으로 되돌림 -(ReturnAddress + RBP)&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;;Push FLAGS in stack&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pushfq&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;;Save Cs Segment&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cs&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;qword&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rax&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rbp&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;;Context-&amp;gt;Registers를 채워버림&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rdi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;SAVECONTEXT&lt;/span&gt;
-
-&lt;span class=&quot;nl&quot;&gt;.LoadContext:&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;rsi&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;LOADCONTEXT&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;iretq&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;일단 첫번째 파라미터가 Null(0)이면 ShellTask라고 간주한다.&lt;/p&gt;
-
-&lt;p&gt;.LoadContext로 점프하고&lt;/p&gt;
-
-&lt;p&gt;그렇게 된다면 2번째 파라미터의 Context로 Load 하게 된다.&lt;/p&gt;
-
-&lt;p&gt;만약 아니라면, 현제 컨텍스트를 저장한다.&lt;/p&gt;
-
-&lt;p&gt;저장하고 나서 두번째 파라미터로 로드.&lt;/p&gt;
-
-&lt;p&gt;이로써 ContextSwitch 가 끝났다.&lt;/p&gt;
-
-&lt;p&gt;코드도 안길고&lt;/p&gt;
-
-&lt;p&gt;그렇게 복잡하지도 않지만&lt;/p&gt;
-
-&lt;p&gt;이것저것 일때문에 바빠서 오래걸렸다.&lt;/p&gt;
-
-&lt;p&gt;쉬엄 쉬엄 취미로 하는 느낌이니까&lt;/p&gt;
-
-&lt;p&gt;큰 걱정은 없다.&lt;/p&gt;
-
-&lt;p&gt;휴, 다음이 스케줄링이니까 또 달려야지.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="MultiCore" /><category term="64bit" /><summary type="html">이것저것 일이 생기고 시간을 퍼부울 수 있는 환경이 아니라 틈틈히 작업했다</summary></entry></feed>
+&lt;p&gt;시간 봐서 종종 일지 올리겠다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="0SOS" /><category term="OS" /><category term="Operating System" /><category term="System" /><category term="Performance" /><category term="Task" /><category term="Scheduling" /><category term="MultiCore" /><category term="64bit" /><summary type="html">SW 마에스트로 일이 바쁘다 보니 개발 틈틈히 개발해 지금 완성했다.</summary></entry></feed>
