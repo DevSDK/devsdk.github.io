@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SCL Notion Checklist generator 개발
-date:   2021-03-06 05:02:20
+date:   2021-03-06 04:00:00
 categories: development
 comments: true
 languages:
