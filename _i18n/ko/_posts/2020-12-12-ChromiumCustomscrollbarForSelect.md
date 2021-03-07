@@ -28,21 +28,21 @@ Patches:
 
 ![감사합니다!](/uploads/2020-12-12/6.png)
 
-> 추가: 누군가는 이 기능을 기다려 왔다는 것을 알게되었다. 이 것 하나 보고서 아.. 크로미움 하길 잘했다.. 라는 생각이 들었다.
+&gt; 추가: 누군가는 이 기능을 기다려 왔다는 것을 알게 되었다. 이것 하나 보고서 아…. 크로미움 하길 잘했다…. 라는 생각이 들었다.
 
-전 세계 사람들이 내가 기여한 내용을 눈으로 보고 쓸 것이라는게 더 기분이 좋은것 같다.
+전 세계 사람들이 내가 기여한 내용을 눈으로 보고 쓸 것이라는 게 더 기분이 좋은 것 같다.
 
 ![After patch](/uploads/2020-12-12/1.gif)
 
-이것을 보면 이번에 크롬 버전이 업데이트 되면서 라이브 크롬 버전에 내가 구현한 기능이 동작한다.
+이것을 보면 이번에 크롬 버전이 업데이트되면서 라이브 크롬 버전에 내가 구현한 기능이 동작한다.
 
 이 기능을 구현하기 전 같은 코드는 이렇게 동작했다.
 
 ![Before patch](/uploads/2020-12-12/2.gif)
 
-[이 문서에 따르면](https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar) 크로미움 및 웹킷 기반 웹브라우져에는 위와같이 ::-webkit-scrollbar 옵션을 통해 스크롤바에 CSS 프로퍼티를 적용할 수 있다. 
+[이 문서에 따르면](https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar) 크로미움 및 웹킷 기반 웹 브라우저에는 위와 같이 ::-webkit-scrollbar 옵션을 통해 스크롤바에 CSS 프로퍼티를 적용할 수 있다. 
 
-가장 첫번째 gif 이미지를 동작시키는 스타일이다.
+가장 첫 번째 gif 이미지를 동작시키는 스타일이다.
 
 ```css
 ::-webkit-scrollbar {
@@ -64,18 +64,18 @@ Patches:
   }
 ```
 
-기여하기 이전에는 같은 코드로 다른 곳에서의 스크롤바(ex: 페이지의 스크롤 바)는 아래와 같이 정상적으로 동작한다.
+기여하기 이전에는 같은 코드로 다른 곳에서의 스크롤바(ex: 페이지의 스크롤바)는 아래와 같이 정상적으로 동작한다.
 
 ![Render example](/uploads/2020-12-12/3.png)
 
 
-하지만 기존에는 두번째 gif와 같이 \<select>에 대하여 커스텀 스크롤 바가 적용되지 않았다.
+하지만 기존에는 두 번째 gif와 같이 \&lt;select&gt;에 대하여 커스텀 스크롤 바가 적용되지 않았다.
 
-이 문제를 해결하는 과정에 대해 이해하려면 \<select>가 어떻게 동작하는지 알 필요가 있다.
+이 문제를 해결하는 과정에 대해 이해하려면 \&lt;select&gt;가 어떻게 동작하는지 알 필요가 있다.
 
-우리가 \<select>를 눌렀을 때 브라우져에서는 새로 웹 팝업을 띄운다. 이것을 Chromium에서 Internal Popup이라고 한다. 
+우리가 \&lt;select&gt;를 눌렀을 때 브라우져에서는 새로 웹 팝업을 띄운다. 이것을 Chromium에서 Internal Popup이라고 한다. 
 
-그러니까 우리가 \<select>를 눌렀을 때 웹뷰를 하나 새로 만들고, 거기에 html코드를 넣고, 렌더링을 하는 것이 현재의 \<select>가 구현되어 있는 방식이다. 여기서 스타일은  호스트에 정의되어있는 스타일을 Internal Popup에 복사하는 방식으로 구현되어 있다.
+그러니까 우리가 \&lt;select&gt;를 눌렀을 때 웹뷰를 하나 새로 만들고, 거기에 html코드를 넣고, 렌더링하는 것이 현재의 \&lt;select&gt;가 구현되어 있는 방식이다. 여기서 스타일은 호스트에 정의되어있는 스타일을 Internal Popup에 복사하는 방식으로 구현되어 있다.
 
 자세히 보고 싶으면 [실제 코드](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/html/forms/internal_popup_menu.cc)를 참고하자. 
 
@@ -85,11 +85,11 @@ Patches:
 
  
 
-ComputedStyle로 부터 문자열 CSS로 시리얼라이즈 한 뒤, Internal Popup에 스타일을 적용시키는  기능을 구현한 것이 이번 기여내용이다.
+ComputedStyle로 부터 문자열 CSS로 시리얼라이즈 한 뒤, Internal Popup에 스타일을 적용시키는 기능을 구현한 것이 이번 기여내용이다.
 
-코드베이스도 코드베이스지만 테스트코드가 왕창 늘어났다.
+코드 베이스도 코드 베이스지만 테스트코드가 왕창 늘어났다.
 
-Added 테그가 붙인게 내가 추가한 파일들이다.
+Added 태그가 붙은 게 내가 추가한 파일들이다.
 
 ![Added files](/uploads/2020-12-12/4.png)
 
@@ -101,11 +101,11 @@ Added 테그가 붙인게 내가 추가한 파일들이다.
 
 2번(:hover) 패치
 
-추가한 테스트 코드가 정말 많다. 그리고 Internal Popup은 다른 팝업이 생성된다는 특수한 케이스라 렌더링을 찍고, 그걸 미리 렌더링 한 이미지를 대상으로 픽셀바이 픽셀로 비교하는 테스트인 픽셀테스트를 사용하여야 했다. 이는 플랫폼별로 약간씩 다르게 렌더링됨을 의미한다. 그것에 대해서 다르지 않도록 불필요한 요소를 제거하는 작업도 주요 포인트였다.
+추가한 테스트 코드가 정말 많다. 그리고 Internal Popup은 다른 팝업이 생성된다는 특수한 케이스라 렌더링을 찍고, 그걸 미리 렌더링한 이미지를 대상으로 픽셀바이 픽셀로 비교하는 테스트인 픽셀테스트를 사용하여야 했다. 이는 플랫폼별로 약간씩 다르게 렌더링 됨을 의미한다. 그것에 대해서 다르지 않도록 불필요한 요소를 제거하는 작업도 주요 포인트였다.
 
-어떤 부분을 수정해야하고, 조사하는 과정에서의 개발 일지는 안써놔서 완성된 상태의 코드를 설명하는 정도로 이 글을 끝낼것이다.
+어떤 부분을 수정해야 하고, 조사하는 과정에서의 개발 일지는 안 써놔서 완성된 상태의 코드를 설명하는 정도로 이 글을 끝낼 것이다.
 
-아래부터는 코드레벨의 구현에 대한 이야기다. 
+아래부터는 코드레벨의 구현에 관한 이야기다. 
 
 시리얼라이즈를 위한 함수 몇 개를 정의했다.
 
@@ -149,7 +149,7 @@ void InternalPopupMenu::AppendOwnerElementPseudoStyles(
 
 이것을 사용하여 복사를 하였을 때 스타일이 잘 적용되었다. 다만 :hover 와 같은 Pseudo style은 조금 복잡한 과정을 거쳐야 한다.
 
-:hover를 구현하기위해 코드를 읽으면서 든 생각은 렌더러쪽에선 :hover가 어떻게 처리되고 있는가(어떤 코드에 의해서 :hover 스타일이 적용되는가?) 라는 질문으로 조사를 했고 아래는 그 조사를 기반으로 임시 스크롤바 객체 scroll을 이용하여 :hover 스타일을 가져오는 코드이다.
+:hover를 구현하기 위해 코드를 읽으면서 든 생각은 "렌더러쪽에선 :hover가 어떻게 처리되고 있는가?" (어떤 코드에 의해서 :hover 스타일이 적용되는가?) 였다. 그 가설을 바탕으로 조사했다. 아래는 그 조사를 기반으로 임시 스크롤바 객체 scroll을 이용하여 :hover 스타일을 가져오는 코드이다.
 
 ```cpp
 scoped_refptr<const ComputedStyle> StyleForHoveredScrollbarPart(
@@ -169,7 +169,7 @@ scoped_refptr<const ComputedStyle> StyleForHoveredScrollbarPart(
 }
 ```
 
-최종적으로 각각의 스크롤 바 스타일에 대하여 적용하는 코드는 다음과 같다.
+최종적으로 각각의 스크롤바 스타일에 스타일을 적용하는 코드는 다음과 같다.
 
 ```cpp
 LayoutObject* owner_layout = owner_element.GetLayoutObject();
@@ -208,4 +208,4 @@ LayoutObject* owner_layout = owner_element.GetLayoutObject();
   }
 ```
 
-이부분이 이번 기여의 스타일을 적용하는 부분이다. ComputedStyle로 부터 타겟 스타일을 serialize 하여 Internal Popup에 집어넣는다.
+이 부분이 이번 기여의 스타일을 적용하는 부분이다. ComputedStyle로 부터 타겟 스타일을 serialize 하여 Internal Popup에 집어넣는다.

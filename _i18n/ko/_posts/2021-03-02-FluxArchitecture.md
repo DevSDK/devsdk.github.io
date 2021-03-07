@@ -14,13 +14,13 @@ tags:
 
 이번 글에서는 면접 질문으로 들어왔던 Redux 써봤냐 → 그럼 flux 구조를 아느냐 에 대한 답변을 내 개인적으로 시원하게 하지 못해 아쉬움에 내용을 정리해 보도록 한다.
 
-Q: Flux 구조에 대해서 알고계신게 있나요?
+Q: Flux 구조에 대해서 알고 계신 게 있나요?
 
-"사실 Flux는 들어만 보았고, 정확하게 어떤 것을 의미하는 지는 기억하지 못합니다. 저는 이 구조가 글로벌 상태 관리를 하는 패턴이라고 알고있습니다. 이 구조를 활용한 Redux를 사용하여 어플리케이션을 개발했는데~".
+"사실 Flux는 들어만 보았고, 정확하게 어떤 것을 의미하는지는 기억하지 못합니다. 저는 이 구조가 글로벌 상태 관리를 하는 패턴이라고 알고 있습니다. 이 구조를 활용한 Redux를 사용하여 어플리케이션을 개발했는데~".
 
-이번 기회에 Flux구조에 대해 다시한번 공부해보도록 한다.
+이번 기회에 Flux 구조에 대해 다시 한 번 공부해보도록 한다.
 
-3줄 요약 부터 해보도록 한다.
+3줄 요약부터 해보도록 한다.
 
 1. FLUX는 MVC패턴과 같은 패턴의 한 일종이다. 
 2. 단방향으로 데이터가 흐른다.
@@ -76,17 +76,17 @@ dispatch(payload: TPayload): void {
 
 ### Store
 
-스토어는 어플리케이션의 상태와 로직을 가지고 있다. Store라는 이름 답게 상태를 저장하고 있다고 생각해도 좋을 것 같다.
+스토어는 어플리케이션의 상태와 로직을 가지고 있다. Store라는 이름답게 상태를 저장하고 있다고 생각해도 좋을 것 같다.
 
 store는 개별적인 도메인에서 상태를 관리해주는데 이는 스토어별로 dispatcher token을 별도로 할당하기 때문이다.
 
-이걸 조금더 풀어쓰기 위해 flux 공식 문서에 따르면 "페이스북의 되돌아보기 비디오 편집기"는 트렉의 플레이백 포지션 같은 정보를 TimeStore에 관리(트레킹) 하고 "이미지"는 ImageStore에서 관리하는 것 을 말할 수 있다.
+이걸 조금 더 풀어쓰기 위해 flux 공식 문서에 따르면 "페이스북의 되돌아보기 비디오 편집기"는 트랙의 플레이 백 포지션 같은 정보를 TimeStore에 관리(트레킹) 하고 "이미지"는 ImageStore에서 관리하는 것을 말할 수 있다.
 
 ### Action
 
  Dispatcher는 action을 호출해 데이터를 불러오고 store로 전달할 수 있게 해주는 메서드를 제공한다. 
 
-변경할 데이터가 담겨진 객체라고 이해해도 찮을 것 같다. 
+변경할 데이터가 담겨진 객체라고 이해해도 괜찮을 것 같다. 
 
 이런식으로 생겼다.
 
@@ -113,7 +113,7 @@ store는 개별적인 도메인에서 상태를 관리해주는데 이는 스토
 
 Redux는 Reducer + Flux 라는 뜻을 가지고 
 
-Flux에서 간소화 시키고 간단한 사용을 주제로 개발되었다고 한다.
+Flux에서 간소화시키고 간단한 사용을 주제로 개발되었다고 한다.
 
 Flux 개발자인 Jing Chen이나 Bill Fisher의 찬사를 받았다고 한다.
 
@@ -123,16 +123,6 @@ Flux 개발자인 Jing Chen이나 Bill Fisher의 찬사를 받았다고 한다.
 
 ![1_f3gS9znOZvX8HfCLg7T--Q](https://user-images.githubusercontent.com/18409763/109767214-8b2f1c80-7c3a-11eb-9b79-2819f00a1311.gif)
 
-리덕스는 스토어가 하나이고, 디스페쳐가 없으며, immutable state(Reducer가 순수함수여서 copy 해서 replace 하는 방식으로 변경) 라고 한다.
+리덕스는 스토어가 하나이고, 디스페쳐가 없으며, immutable state(Reducer가 순수함수여서 copy 해서 replace 하는 방식으로 변경)이라고 한다.
 
  나중에 기회가 된다면 redux 내부 코드도 한번 훑어보고 싶다.
-
----
-
-refs
-
-[https://facebook.github.io/flux/docs/in-depth-overview](https://facebook.github.io/flux/docs/in-depth-overview)
-
-[https://medium.com/dailyjs/when-do-i-know-im-ready-for-redux-f34da253c85f](https://medium.com/dailyjs/when-do-i-know-im-ready-for-redux-f34da253c85f)
-
-[https://medium.com/@dakota.lillie/flux-vs-redux-a-comparison-bbd5000d5111](https://medium.com/@dakota.lillie/flux-vs-redux-a-comparison-bbd5000d5111)
