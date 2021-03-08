@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-08T23:20:11+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T09:00:01+09:00</published><updated>2021-03-08T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-10T11:36:42+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T09:00:01+09:00</published><updated>2021-03-08T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
 
-&lt;p&gt;이 내용은 Blink-Dev Group에서 Joe Medley의 글 &lt;a href=&quot;https://groups.google.com/u/1/a/chromium.org/g/blink-dev/c/Lr9RhqzRWao&quot;&gt;Chrome 90 is coming. Look busy.&lt;/a&gt; 을 참고하였다.&lt;/p&gt;
+&lt;p&gt;이 내용은 &lt;a href=&quot;https://docs.google.com/spreadsheets/d/155euqrhdqVhtbAID7ydaUPjBstLIYZ4PJkpFmqJ6j-o/edit#gid=215381875&quot;&gt;What’s Shipping&lt;/a&gt; 시트를 참고하였다.&lt;/p&gt;
 
 &lt;p&gt;각각 기능은 한 줄에서 두 줄 정도로 이해한 만큼 쓰도록 한다. &lt;em&gt;몇 가지는 생략할 수도 있다.&lt;/em&gt;&lt;/p&gt;
 
@@ -10,7 +10,7 @@
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/features/6556060494069760&quot;&gt;Seeking past the end of a file in the File System Access API&lt;/a&gt;&lt;/p&gt;
 
-    &lt;p&gt;파일의 끝을 지나서 write를 할 때 reject이 아닌 파일을  0x00(NUL)값과 함께 확장한다.&lt;/p&gt;
+    &lt;p&gt;파일의 끝을 지나서 write를 할 때 reject 대신, 파일을  0x00(NUL)값과 함께 확장한다.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/features/5676695065460736&quot;&gt;StaticRange constructor&lt;/a&gt;&lt;/p&gt;
@@ -23,18 +23,15 @@
     &lt;p&gt;다수의 리소스를(e.g. Web Bundles) 번들로 묶을 수 있는 포멧을 사용하여 많은 수의 리소스들을 효율적으로 로드할 수 있는 방향을 제공한다.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;[Support specifying width/height on &lt;source /&gt; elements for &lt;picture&gt;](https://www.chromestatus.com/features/5737185317748736)&lt;/picture&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/features/5737185317748736&quot;&gt;Support specifying width/height on &amp;lt;source&amp;gt; elements for &amp;lt;picture&amp;gt;&lt;/a&gt;&lt;/p&gt;
 
-    &lt;picture&gt;에 대하여 &lt;source /&gt;를 이용해 width와 height를 제공함으로써 image의 화면 비율을 계산할 수 있게 해준다.
+    &lt;p&gt;&amp;lt;picture&amp;gt;에 대하여 &amp;lt;source&amp;gt;를 이용해 width와 height를 제공함으로써 image의 화면 비율을 계산할 수 있게 해준다.&lt;/p&gt;
 
-  ```html
-  &lt;picture&gt;
-      &lt;source srcset=&quot;image.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; /&gt;
-      &lt;img style=&quot;width: 100%; height: auto;&quot; /&gt;
-   &lt;/picture&gt;
-  ```
-
-&lt;/picture&gt;
+    &lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;picture&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;source&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;srcset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;640&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;480&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width: 100%; height: auto;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/picture&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/features/5370811722498048&quot;&gt;URL protocol setter: New restrictions for file URLs&lt;/a&gt;&lt;/p&gt;
@@ -74,7 +71,7 @@
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/features/6031161734201344&quot;&gt;Main thread Scheduling APIs: Prioritized scheduler.postTask&lt;/a&gt;&lt;/p&gt;
 
-    &lt;p&gt;&lt;strong&gt;개발자가 브라우져의 네이티브 스케쥴러를 통해 3개의 우선순위(user-blocking, user-visible, and background.를 가지는 테스크(javscript callbak)를 스케줄 할 수있게 해준다. (성능과 연관 있음)&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;개발자가 브라우져의 네이티브 스케쥴러를 통해 3개의 우선순위(user-blocking, user-visible, and background)를 가지는 테스크(javscript callbak)를 스케줄 할 수있게 해준다. (성능과 관련 있음)&lt;/strong&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://www.chromestatus.com/feature/5499415634640896&quot;&gt;MediaStreamTrack Insertable Streams (a.k.a. Breakout Box)&lt;/a&gt;&lt;/p&gt;
@@ -150,11 +147,15 @@
 
 &lt;h3 id=&quot;paint는-무엇일까&quot;&gt;Paint는 무엇일까?&lt;/h3&gt;
 
-&lt;p&gt;위에서 만든 LayoutTree를 순회하며 Paint Command를 만들고 &lt;a href=&quot;https://skia.org/&quot;&gt;SKIA&lt;/a&gt; 레스터라이저한테 전달하는 단계이다.  이를  추상화하고 줄여서 설명하면 &lt;strong&gt;Layout Tree를 화면에 그리는 단계&lt;/strong&gt;라고 이해해도 좋을 것 같다. 여기서 layout 트리에 대응되는 computed style에서 color와 같은 값을 가져와서 화면을 그리게 된다.&lt;/p&gt;
+&lt;p&gt;위에서 만든 LayoutTree를 순회하며 Paint Command를 만들고 &lt;a href=&quot;https://skia.org/&quot;&gt;SKIA&lt;/a&gt; 레스터라이저한테 전달하는 단계이다.  이를  추상화하고 줄여서 설명하면 &lt;strong&gt;Layout Tree를 화면에 그리는 단계&lt;/strong&gt;라고 이해해도 좋을 것 같다. 여기서 layout 트리에 대응되는 computed style에서 color와 같은 값을 가져와서 화면을 그리게 된다.
+ 이 단계 또한 매우 방대하며, 관심 있다면 &lt;a href=&quot;https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/core/paint/README.md#Current-compositing-algorithm-CompositeBeforePaint&quot;&gt;이 문서&lt;/a&gt;를 보도록 하자.&lt;/p&gt;
 
 &lt;h3 id=&quot;composite&quot;&gt;Composite?&lt;/h3&gt;
 
-&lt;p&gt;여기서 chromium(아마 다른 브라우져 엔진도 비슷할 것 이다)은 Composite라는 것을 하나 더 두고 있다. 거시적인 관점에서 &lt;strong&gt;Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트&lt;/strong&gt; 하는 것 이다. 즉 비동기적으로 실행된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.&lt;/p&gt;
+&lt;p&gt;Composite은 각각의 분리 가능한 레이어를 분리해서 처리한 뒤 합성하는 것이다. 거시적인 관점에서 &lt;strong&gt;Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트&lt;/strong&gt; 할 수 있다. 즉 비동기적으로 실행된 후 기존 레이어에 합성된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110417527-1dbb3a00-80d9-11eb-9724-e26417c8324d.png&quot; alt=&quot;image&quot; /&gt;
+&lt;em&gt;Composition example from &lt;a href=&quot;https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_1213&quot;&gt;Life of Pixels&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;2-css-animation&quot;&gt;2. CSS Animation&lt;/h1&gt;
 
@@ -196,10 +197,12 @@
 
 &lt;p&gt;컴퓨터는 그래픽을  matrix의 곱으로 표현한다. (&lt;a href=&quot;http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/&quot;&gt;OpenGL examples&lt;/a&gt;) 이는 OpenGL, DirectX 등에 반드시 사용되며 GPU는 이런 연산을 빠르게 하기 위해 설계되었다.&lt;/p&gt;
 
-&lt;p&gt;transform을 사용한 위 예시는 최종 composite에서 &lt;a href=&quot;https://en.wikipedia.org/wiki/Transformation_matrix&quot;&gt;transformation matrix&lt;/a&gt;를 통해 렌더링 되기 전 composite thread에서 GPU의 도움을 받아 계산된다.  아주 빠른 연산이 비동기적으로 일어나 매우 빠른 속도를 보여준다.  어떤 연산이 일어나는지는 &lt;a href=&quot;https://drafts.csswg.org/css-transforms/#mathematical-description&quot;&gt;표준을&lt;/a&gt; 참고하자.&lt;/p&gt;
+&lt;p&gt;transform을 사용한 예시중 첫번째 div는 최종 composite에서 &lt;a href=&quot;https://en.wikipedia.org/wiki/Transformation_matrix&quot;&gt;transformation matrix&lt;/a&gt;를 통해 렌더링 되기 전 composite thread에서 GPU의 도움을 받아 계산된다.  아주 빠른 연산이 비동기적으로 일어나 매우 빠른 속도를 보여준다.  어떤 연산이 일어나는지는 &lt;a href=&quot;https://drafts.csswg.org/css-transforms/#mathematical-description&quot;&gt;표준을&lt;/a&gt; 참고하자. 심지어 Main Thread가 다른 태스크에 의해 block 되어도 재생된다.&lt;/p&gt;
 
 &lt;p&gt;left를 사용한 아래 예시는 layout→composite.assign-&amp;gt;paint의 절차를 모두 밟게 된다. 즉 애니메이션으로 사용되기엔 꽤 비싼 cost를 가지고 있다는 소리다.
-(Paint → Composite 는 현재 Chromium의 주요 프로젝트중 하나이다. CAP (Composition After Paiting)이라고 불린다.)&lt;/p&gt;
+(Paint → Composite 는 현재 &lt;a href=&quot;https://bugs.chromium.org/p/chromium/issues/detail?id=471333&quot;&gt;Chromium의 주요 프로젝트중&lt;/a&gt; 하나이다. CAP (Composition After Paiting)이라고 불린다.)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110435489-6c2b0180-80f6-11eb-9c35-82824d8ad351.gif&quot; alt=&quot;Peek 2021-03-09 16-40&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;여기서 즐거운 결론을 낼 수 있다. animation에서 만약 같은 결과를 내는 코드라면 &lt;strong&gt;composite만 사용하는 애니메이션 (i.e.transform)&lt;/strong&gt;을 애용하자.&lt;/p&gt;
 
@@ -217,7 +220,9 @@
 
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110277012-c608ca00-8017-11eb-999d-aa8f220241a2.png&quot; alt=&quot;Screenshot_from_2021-03-08_13-45-51&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;트레이스가 기록된 저 상자는 c++ 구현과 1대1로 대응되며, 필요하다면 소스코드를 볼 수 있다. 이 내용을 보면 layout과 paint가 끊임없이 일어난다는 것을 알 수 있다.&lt;/p&gt;
+&lt;p&gt;트레이스가 기록된 저 상자는 c++ 구현과 1대1로 대응되며, 필요하다면 소스코드를 볼 수 있다. 이 내용을 보면 &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/local_frame_view.cc;l=3312;drc=3c992b98c58db034eb5af6bc51aac6fb1939d571&quot;&gt;LocalFrameView::UpdateStyleAndLayoutIfNeededRecursive()&lt;/a&gt;이 호출됨으로써 layout과 paint가 끊임없이 일어난다는 것을 알 수 있다.&lt;/p&gt;
+
+&lt;p&gt;만약 DOM Tree의 깊이가 깊어진다면 그만큼의 recursion 호출이 발생한다.&lt;/p&gt;
 
 &lt;p&gt;그렇다면 반대로 transform을 사용한 경우는 어떤 트레이싱을 볼 수 있을까?&lt;/p&gt;
 
@@ -225,7 +230,7 @@
 
 &lt;p&gt;앞에 빼곡하게 있는 것은 마우스 때문에 발생한 animation이고 실제로 trigger 돼서 화면에 보인 것은 갑자기 빈 공간이 생기는 부분부터 이다. 여기서 compositor는 전달받은 역할을 &lt;strong&gt;비동기적&lt;/strong&gt;으로 실행하는 것을 볼 수 있다. 이런 이유 때문에 composite만 사용하는 애니메이션은 alert와 같이 main thread가 block 된 상황에서도 정상적으로 렌더 수행이 진행된다.&lt;/p&gt;
 
-&lt;p&gt;오타/질문/틀린 내용이 있다면 언제든지 피드백 바란다. :)&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Web" /><category term="HTML" /><category term="CSS" /><category term="Optimization" /><summary type="html">Overview</summary></entry><entry><title type="html">React 파헤치기, 리액트가 동작하는 방법 (overview)</title><link href="https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview.html" rel="alternate" type="text/html" title="React 파헤치기, 리액트가 동작하는 방법 (overview)" /><published>2021-03-07T09:00:00+09:00</published><updated>2021-03-07T09:00:00+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview.html">&lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt;
+&lt;p&gt;오타/질문/틀린 내용이 있다면 언제든지 피드백 바란다. :)&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Web" /><category term="HTML" /><category term="CSS" /><category term="Optimization" /><summary type="html">Overview</summary></entry><entry><title type="html">React 파헤치기, 리액트가 동작하는 방법 (overview)</title><link href="https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview.html" rel="alternate" type="text/html" title="React 파헤치기, 리액트가 동작하는 방법 (overview)" /><published>2021-03-07T09:00:00+09:00</published><updated>2021-03-07T09:00:00+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/07/ReactInternalOverview.html">&lt;h1 id=&quot;motivation&quot;&gt;Motivation&lt;/h1&gt;
 
 &lt;p&gt;Chromium에서 활동하면서 웹브라우져가 어떻게 동작하는지는 어느 정도 (완벽할 순 없다고 생각한다.. 너무 거대하다.)알고 있다.&lt;/p&gt;
 
@@ -247,7 +252,7 @@
 
 &lt;p&gt;지금부터 그 마법상자를 열어보도록 한다.&lt;/p&gt;
 
-&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110232607-09a0fc80-7f62-11eb-9780-6bd6e032638c.png&quot; alt=&quot;Untitled (3)&quot; /&gt;&lt;/p&gt;
 
@@ -255,7 +260,7 @@
 
 &lt;p&gt;콜백에 의해 fiber 스케쥴러가 업데이트되고, 그 스케쥴러는 fiber들의 테스크를 실행하여 산출물인 업데이트 트리(WorkInProgress or Finished)를 Commit을 통해 dom에 반영한다.&lt;/p&gt;
 
-&lt;h3 id=&quot;detail&quot;&gt;Detail&lt;/h3&gt;
+&lt;h1 id=&quot;detail&quot;&gt;Detail&lt;/h1&gt;
 
 &lt;p&gt;React는 다음과 같은 JSX 문법을 통해 “선언적” 인 구현을 권장한다. (&lt;a href=&quot;https://reactjs.org/docs/jsx-in-depth.html&quot;&gt;리엑트 공식 문서&lt;/a&gt;)&lt;/p&gt;
 
@@ -297,7 +302,7 @@
     &lt;span class=&quot;na&quot;&gt;stateNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;alternate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-		&lt;span class=&quot;na&quot;&gt;chiled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;chiled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;updateQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;memoizedState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt;
@@ -305,12 +310,12 @@
     &lt;span class=&quot;na&quot;&gt;memoizedProps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;effectTag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-		&lt;span class=&quot;na&quot;&gt;nextEffect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;nextEffect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Tree 형태로 내용을 기반으로 순회하면서 WorkInProgress 트리를 만들게 된다. 그리고 WorkInProgress는 이후 화면으로 반영될 트리를 의미한다. 여기서 자주 보던 녀석들이 있는데 React.memo에 의해 property를 기록할 때 실제로 반영되는 필드인 memoizedProps와, 공식문서에서도 설명하던 key 필드이다.&lt;/p&gt;
+&lt;p&gt;Tree 형태로 내용을 기반으로 순회하면서 WorkInProgress 트리를 만들게 된다. 그리고 WorkInProgress는 이후 화면으로 반영될 트리를 의미한다. 여기서 자주 보던 녀석들이 있는데 React.memo에 의해 property를 기록할 때 실제로 반영되는 필드인 memoizedProps와, 공식문서에서도 설명하던 key 필드이다. 이 필드는 reconciliation 작업에서 휴리스틱한 탐색에 주요 factor로 사용된다.&lt;/p&gt;
 
 &lt;p&gt;또한, 자체적인 스택프레임을 가지고 있다는 부분이 정말 재밌는데, &lt;a href=&quot;https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop.html&quot;&gt;이벤트루프의 동작 방식&lt;/a&gt; 에 따르면 js execution이 길어지면 다음 태스크가 계속 기다려야 하므로 사용자경험이 안 좋아(애니메이션이 끊긴다거나, 터치가 씹힌다거나 등) 질 수 있는 것을 방지하기 위해 도입된 방식이다.&lt;/p&gt;
 
