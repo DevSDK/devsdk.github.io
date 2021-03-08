@@ -11,7 +11,7 @@ tags:
 - Web
 - React-DOM
 ---		
-### Motivation
+# Motivation
 
 Chromium에서 활동하면서 웹브라우져가 어떻게 동작하는지는 어느 정도 (완벽할 순 없다고 생각한다.. 너무 거대하다.)알고 있다.
 
@@ -34,7 +34,7 @@ Chromium에서 활동하면서 웹브라우져가 어떻게 동작하는지는 �
 
  지금부터 그 마법상자를 열어보도록 한다. 
 
-### Overview
+# Overview
 
 ![Untitled (3)](https://user-images.githubusercontent.com/18409763/110232607-09a0fc80-7f62-11eb-9780-6bd6e032638c.png)
 
@@ -42,7 +42,7 @@ Chromium에서 활동하면서 웹브라우져가 어떻게 동작하는지는 �
 
 콜백에 의해 fiber 스케쥴러가 업데이트되고, 그 스케쥴러는 fiber들의 테스크를 실행하여 산출물인 업데이트 트리(WorkInProgress or Finished)를 Commit을 통해 dom에 반영한다.
 
-### Detail
+# Detail
 
  React는 다음과 같은 JSX 문법을 통해 "선언적" 인 구현을 권장한다. ([리엑트 공식 문서](https://reactjs.org/docs/jsx-in-depth.html))
 
@@ -87,7 +87,7 @@ DOM과 유사하게 children이 있고 여러 가지 정보들을 담고 있다.
     stateNode: new App,
     type: App,
     alternate: null,
-		chiled:null,
+    chiled:null,
     key: null,
     updateQueue: null,
     memoizedState: {},
@@ -95,12 +95,12 @@ DOM과 유사하게 children이 있고 여러 가지 정보들을 담고 있다.
     memoizedProps: {},
     tag: 0,
     effectTag: 0,
-		nextEffect: null
-		...
+    nextEffect: null
+     ...
 }
 ```
 
- Tree 형태로 내용을 기반으로 순회하면서 WorkInProgress 트리를 만들게 된다. 그리고 WorkInProgress는 이후 화면으로 반영될 트리를 의미한다. 여기서 자주 보던 녀석들이 있는데 React.memo에 의해 property를 기록할 때 실제로 반영되는 필드인 memoizedProps와, 공식문서에서도 설명하던 key 필드이다.
+ Tree 형태로 내용을 기반으로 순회하면서 WorkInProgress 트리를 만들게 된다. 그리고 WorkInProgress는 이후 화면으로 반영될 트리를 의미한다. 여기서 자주 보던 녀석들이 있는데 React.memo에 의해 property를 기록할 때 실제로 반영되는 필드인 memoizedProps와, 공식문서에서도 설명하던 key 필드이다. 이 필드는 reconciliation 작업에서 휴리스틱한 탐색에 주요 factor로 사용된다.
 
  또한, 자체적인 스택프레임을 가지고 있다는 부분이 정말 재밌는데, [이벤트루프의 동작 방식](https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop.html) 에 따르면 js execution이 길어지면 다음 태스크가 계속 기다려야 하므로 사용자경험이 안 좋아(애니메이션이 끊긴다거나, 터치가 씹힌다거나 등) 질 수 있는 것을 방지하기 위해 도입된 방식이다.
 

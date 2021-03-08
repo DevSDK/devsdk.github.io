@@ -34,10 +34,14 @@ Reflow와 Repaint에 대해서 면접 단골 질문이라고 해서 조금 깊�
 ### Paint는 무엇일까?
 
  위에서 만든 LayoutTree를 순회하며 Paint Command를 만들고 [SKIA](https://skia.org/) 레스터라이저한테 전달하는 단계이다.  이를  추상화하고 줄여서 설명하면 **Layout Tree를 화면에 그리는 단계**라고 이해해도 좋을 것 같다. 여기서 layout 트리에 대응되는 computed style에서 color와 같은 값을 가져와서 화면을 그리게 된다.
+ 이 단계 또한 매우 방대하며, 관심 있다면 [이 문서](https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/core/paint/README.md#Current-compositing-algorithm-CompositeBeforePaint)를 보도록 하자.
 
 ### Composite?
 
- 여기서 chromium(아마 다른 브라우져 엔진도 비슷할 것 이다)은 Composite라는 것을 하나 더 두고 있다. 거시적인 관점에서 **Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트** 하는 것 이다. 즉 비동기적으로 실행된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.
+Composite은 각각의 분리 가능한 레이어를 분리해서 처리한 뒤 합성하는 것이다. 거시적인 관점에서 **Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트** 할 수 있다. 즉 비동기적으로 실행된 후 기존 레이어에 합성된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.
+
+![image](https://user-images.githubusercontent.com/18409763/110417527-1dbb3a00-80d9-11eb-9724-e26417c8324d.png)
+*Composition example from [Life of Pixels](https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_1213)*
 
 # 2. CSS Animation
 
@@ -82,10 +86,12 @@ background-color는 paint, composite를 사용한다.
 
  컴퓨터는 그래픽을  matrix의 곱으로 표현한다. ([OpenGL examples](http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/)) 이는 OpenGL, DirectX 등에 반드시 사용되며 GPU는 이런 연산을 빠르게 하기 위해 설계되었다.
 
-transform을 사용한 위 예시는 최종 composite에서 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)를 통해 렌더링 되기 전 composite thread에서 GPU의 도움을 받아 계산된다.  아주 빠른 연산이 비동기적으로 일어나 매우 빠른 속도를 보여준다.  어떤 연산이 일어나는지는 [표준을](https://drafts.csswg.org/css-transforms/#mathematical-description) 참고하자.
+transform을 사용한 예시중 첫번째 div는 최종 composite에서 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)를 통해 렌더링 되기 전 composite thread에서 GPU의 도움을 받아 계산된다.  아주 빠른 연산이 비동기적으로 일어나 매우 빠른 속도를 보여준다.  어떤 연산이 일어나는지는 [표준을](https://drafts.csswg.org/css-transforms/#mathematical-description) 참고하자. 심지어 Main Thread가 다른 태스크에 의해 block 되어도 재생된다.
 
 left를 사용한 아래 예시는 layout→composite.assign->paint의 절차를 모두 밟게 된다. 즉 애니메이션으로 사용되기엔 꽤 비싼 cost를 가지고 있다는 소리다.
-(Paint → Composite 는 현재 Chromium의 주요 프로젝트중 하나이다. CAP (Composition After Paiting)이라고 불린다.)
+(Paint → Composite 는 현재 [Chromium의 주요 프로젝트중](https://bugs.chromium.org/p/chromium/issues/detail?id=471333) 하나이다. CAP (Composition After Paiting)이라고 불린다.)
+
+![Peek 2021-03-09 16-40](https://user-images.githubusercontent.com/18409763/110435489-6c2b0180-80f6-11eb-9c35-82824d8ad351.gif)
 
 여기서 즐거운 결론을 낼 수 있다. animation에서 만약 같은 결과를 내는 코드라면 **composite만 사용하는 애니메이션 (i.e.transform)**을 애용하자.
 
@@ -103,7 +109,9 @@ left를 사용한 아래 예시는 layout→composite.assign->paint의 절차를
 
 ![Screenshot_from_2021-03-08_13-45-51](https://user-images.githubusercontent.com/18409763/110277012-c608ca00-8017-11eb-999d-aa8f220241a2.png)
 
- 트레이스가 기록된 저 상자는 c++ 구현과 1대1로 대응되며, 필요하다면 소스코드를 볼 수 있다. 이 내용을 보면 layout과 paint가 끊임없이 일어난다는 것을 알 수 있다.
+ 트레이스가 기록된 저 상자는 c++ 구현과 1대1로 대응되며, 필요하다면 소스코드를 볼 수 있다. 이 내용을 보면 [LocalFrameView::UpdateStyleAndLayoutIfNeededRecursive()](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/local_frame_view.cc;l=3312;drc=3c992b98c58db034eb5af6bc51aac6fb1939d571)이 호출됨으로써 layout과 paint가 끊임없이 일어난다는 것을 알 수 있다.
+
+ 만약 DOM Tree의 깊이가 깊어진다면 그만큼의 recursion 호출이 발생한다.
 
 그렇다면 반대로 transform을 사용한 경우는 어떤 트레이싱을 볼 수 있을까?
 
