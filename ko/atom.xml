@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-10T11:36:42+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T09:00:01+09:00</published><updated>2021-03-08T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-11T14:17:58+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">CSS @counter-style</title><link href="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html" rel="alternate" type="text/html" title="CSS @counter-style" /><published>2021-03-11T09:00:01+09:00</published><updated>2021-03-11T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html">&lt;p&gt;오늘 아침 Blin-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110739167-fea4df80-8273-11eb-8cf5-0cae939349db.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;꾸준히 내가 진행중인 CSS Feature를 리뷰해주고 계신 Xiaocheng이 ship 한 기능이다.&lt;/p&gt;
+
+&lt;p&gt;Firefox에서는 2014년부터 이미 지원되는 기능이였던 것 같다.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style&quot;&gt;https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule&quot;&gt;표준에 따르면&lt;/a&gt; 아주다양한 방식으로 사용될 수 있을 것 같다.&lt;/p&gt;
+
+&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;@counter-style&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;footnote&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;py&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;symbolic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;py&quot;&gt;symbols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;'*'&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;⁑&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;†&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‡&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;py&quot;&gt;suffix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;It&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;will&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;produce&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;lists&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;that&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;look&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;like&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;One&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;⁑&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;Two&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;†&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;Three&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;‡&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;Four&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;Five&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;⁑⁑&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;Six&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110739184-082e4780-8274-11eb-8719-9f41aec52665.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;근 시일내 당장 쓸 수는 없고, M91버전부터 사용할 수 있을 것 같다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><summary type="html">오늘 아침 Blin-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.</summary></entry><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T09:00:01+09:00</published><updated>2021-03-08T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
 
 &lt;p&gt;이 내용은 &lt;a href=&quot;https://docs.google.com/spreadsheets/d/155euqrhdqVhtbAID7ydaUPjBstLIYZ4PJkpFmqJ6j-o/edit#gid=215381875&quot;&gt;What’s Shipping&lt;/a&gt; 시트를 참고하였다.&lt;/p&gt;
 
@@ -820,208 +848,4 @@ To coordinate events, user interaction, scripts, rendering, networking, and so f
 
 &lt;p&gt;이슈가 해결되는 패치가 등장하기 전까진,&lt;/p&gt;
 
-&lt;p&gt;html-loader 버전을 2.0에서 1.3.2 으로 다운그레이드 하는것으로 해결&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Webpack" /><category term="html" /><category term="Web" /><summary type="html">짧은 포스팅</summary></entry><entry><title type="html">Chromium CSS에 무한과 NaN 개념 도입하기 - 1</title><link href="https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" rel="alternate" type="text/html" title="Chromium CSS에 무한과 NaN 개념 도입하기 - 1" /><published>2020-12-24T00:00:20+09:00</published><updated>2020-12-24T00:00:20+09:00</updated><id>https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1</id><content type="html" xml:base="https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html">&lt;p&gt;Issue: &lt;a href=&quot;http://crbug.com/1133390&quot;&gt;http://crbug.com/1076508&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Patches:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2465414&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2465414&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;현재 진행 중인 프로젝트에 대한 활동 기록을 이 블로그에 적고자 한다.&lt;/p&gt;
-
-&lt;p&gt;아무래도 기능 추가에 관련된 이야기다 보니 글이 몇 개로 나누어질 것 같다.&lt;/p&gt;
-
-&lt;p&gt;이 글은 이 기능을 구현하면서 고민하고, 조사했던 내용을 담았다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/calc()&quot;&gt;https://developer.mozilla.org/en-US/docs/Web/CSS/calc()&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;CSS에는 calc라는 함수가 있다.&lt;/p&gt;
-
-&lt;p&gt;이 함수를 CSS에서 직접 사용하면 다음과 같다.&lt;/p&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위 결과는 20px값이 width에 반영된다.&lt;/p&gt;
-
-&lt;p&gt;앞으로 다룰 내용은 이 함수에 대한 기능 구현이다.&lt;/p&gt;
-
-&lt;p&gt;Chromium monorail에서 할만한 이슈를 찾던 중, 이 이슈가 눈에 들어왔다.&lt;/p&gt;
-
-&lt;p&gt;간결하디간결한 이슈 본문을 보니 간단할 것이라고 생각했다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I'm told that per the spec, calc(1px/0) should compute to infinity and not be a parse error.
-
-Testcase:
-&amp;lt;div style=&quot;width: calc(1px/0); height: 10px; background: green;&quot;&amp;gt;&amp;lt;/div&amp;gt;
-http://plexode.com/eval3/#s=aekVQXANJVQMbAx1yAXgePQOCGwFEQk1ECRJRWRARChwBg50SEaWqi51IU0ZGTxyaHx0Qch8DXgA=
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;요약하자면 1px/0을 했을때 무한을 내놔야 합니다. 라는 내용이다.&lt;/p&gt;
-
-&lt;p&gt;이것이 이번 프로젝트의 발단을 알린 첫 이슈의 제시문이였다.&lt;/p&gt;
-
-&lt;p&gt;이슈가 제시되었을 때, 부랴부랴 표준 문서를 읽어보았다. 
-CSS3와 MDN을 기준으로 “0으로 나누기는 무시되어야 합니다” 라고 쓰여있었다.&lt;/p&gt;
-
-&lt;p&gt;그래서 이슈 제시자한테 표준에 따르면 나누기 0은 무시되어야 한다는데 출처 있니? 라고 물어보았고, 제시자는 “새로운 스팩 CSS Values and Units Module Level 4”를 참조로 알려주었다. 즉, 표준에 따르면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;무한&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NaN&lt;/code&gt; 개념을 calc 함수가 지원해야 했다.  그 답을 보자마자 이슈 owner를 박고 조사를 시작했다.&lt;/p&gt;
-
-&lt;p&gt;처음으로 한 것은, calc 함수가 어디서 계산이 되는가를 찾는 것이었다.&lt;/p&gt;
-
-&lt;p&gt;기본적인 생각은 다음과 같았다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;calc 함수는 CSS 파서에 의해서 계산될 것&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;다음의 명령어를 치면 결과를 사람이 구별할 정도로 줄어든다.&lt;/p&gt;
-
-&lt;p&gt;그곳에서 parser 디렉토리 쪽 코드를 살펴보았다.&lt;/p&gt;
-
-&lt;p&gt;명령어를 좀 설명하자면 대소문자 상관없이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;calc(&lt;/code&gt; 문자가 매칭되는 test.cc가 아닌 .cc 파일로 끝나는 파일을 검색하여 리스트로 나타내라 이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'calc('&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rni&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--include&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.cc &lt;span class=&quot;nt&quot;&gt;--exclude&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;test.cc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/1.png&quot; alt=&quot;1.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;그중에서 눈에 띄는 주석이 있다.&lt;/p&gt;
-
-&lt;p&gt;이 글을 쓰면서 생각난 것이지만, k&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;토큰 이름&lt;/code&gt;으로 도 검색할 수 있었다고 생각한다. (i.e. kCalc) 이는 크로미움에서 json5 파일을 통해 토큰 식별자를 자동생성하는 메커니즘 덕분에 떠올릴 수 있었다.&lt;/p&gt;
-
-&lt;p&gt;하여튼 저곳을 들어가면,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/2.png&quot; alt=&quot;2.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;이런 코드를 볼 수 있는데, 이 말은 kCalc 함수에 대하여 참조하는 곳을 찾아서 수식이 계산되는 곳을 찾으면 된다는 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/3.png&quot; alt=&quot;3.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;10개 남짓한 레퍼런스를 보며 소스코드를 보다 보면 third_party/blink/renderer/core/css/css_math_expression_node.cc 코드 안에 관련 코드가 있음을 찾을 수 있다. (대부분 코드는 이렇게 검색할 수 있다)&lt;/p&gt;
-
-&lt;p&gt;일단 calc 함수는 재귀적인 방식을 통해 괄호와 사칙연산을 계산한다. 꽤 재밌는 부분인데 좀 간략히 설명하자면, parse 함수 호출→ Additive 함수 호출 → Multiplicative 함수 호출 → parse 함수 호출(재귀) 방식으로 사칙연산의 우선순위를 제공하고 있다.&lt;/p&gt;
-
-&lt;p&gt;사실 이러한 구현은, 웹 표준에서 정의하고 있다.&lt;/p&gt;
-
-&lt;p&gt;아래는 표준 문서에서 나타낸 식의 계산이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/4.png&quot; alt=&quot;4.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/5.png&quot; alt=&quot;5.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;이 내용을 깊이 따라가는 것도 꽤 재밌는 일이다. &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_math_expression_node.cc;l=1101;drc=8b5f6ef28dd93e62fc1a75bc7a812af1b33777ec&quot;&gt;이곳이&lt;/a&gt; 실제 소스코드를 따라가기 좋은 시작 포인트라고 생각된다. 관심 있으면 링크를 타고 가서 보길 바란다.&lt;/p&gt;
-
-&lt;p&gt;이제 시작점을 알았으니 값이 계산되는 부분을 찾고, 들어오는 문자열을 이용하여 infinity와 NaN을 구현하면 되는 것이다.&lt;/p&gt;
-
-&lt;p&gt;사실 첫 패치에선 NaN을 명시적으로 구현해야 함을 모르고 있었다. 따라서 코드리뷰를 통해 NaN 또한 추가되었다. 이번 포스팅에선 NaN을 다루는 이야기는 나오지 않을 것이다.&lt;/p&gt;
-
-&lt;p&gt;함수 콜을 잘 따라가다 보면 이러한 함수에 도달한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/6.png&quot; alt=&quot;6.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;즉 실질적인 계산을 담당하는 함수다.&lt;/p&gt;
-
-&lt;p&gt;무한을 구현하는 것을 정말 간단하게 생각하자면, case CSSMathOperator::kDivide: 에서 right_value가 0이라면 std::numeric_limits&amp;lt;double&amp;gt;::infinity() 를 리턴하면 되는 것이라고 할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;따라서 다음과 같이 추가하였다.
-&lt;img src=&quot;/uploads/2020-12-23/11.png&quot; alt=&quot;11.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;또한 토큰에 대하여&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/7.png&quot; alt=&quot;7.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;와 같이 infinity가 왔을 때 해당하는 형식으로 반환하게 하면 될 것이라고 생각했다.&lt;/p&gt;
-
-&lt;h4 id=&quot;테스트-작성&quot;&gt;테스트 작성&lt;/h4&gt;
-
-&lt;p&gt;위 코드와 함께 test 코드를 작성했다.&lt;/p&gt;
-
-&lt;p&gt;테스트 코드를 작성하면서 문제가 되었던 점은 round 함수가 없어 wpt 테스트가 실패하는 것과 blink_unittests 결과가 계속 실패하여 찾아보니 유닛테스트에는 다른 모듈을 이용하여 calc를 계산하고 있음이었다.&lt;/p&gt;
-
-&lt;p&gt;블링크 유닛테스트에는 calc 함수에 대해 다른 파서인 sizes_math_function_parser를 이용하여 파싱을 한다. 따라서 그에 해당하는 테스트인 sizes_math_function_parser_test.cc에서 테스트를 진행한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/8.png&quot; alt=&quot;8.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;이 테스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;third_party/blink/renderer/core/css/parser/sizes_math_function_parser.cc&lt;/code&gt; 안에 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CalcToReversePolishNotation&lt;/code&gt; 함수를 통하여 파싱이되고 계산이 된다. 스택 기반으로 작성되어 있다. 따라서 이곳에 우리가 필요했던 코드를 넣어줘야 했다. 
-각각 무한을 스택에 집어넣는 AppendInfinity() 함수를 정의하여 사용하였다.&lt;/p&gt;
-
-&lt;p&gt;다음은 스택에서 토큰을 만났을 때 문자열을 비교하여 infinity일시 무한을 집어넣는 코드이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kIdentToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EqualIgnoringASCIICase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;infinity&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;EqualIgnoringASCIICase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-infinity&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;n&quot;&gt;AppendInfinity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-          &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;이를 통해 유닛테스트 부분은 해결할 수 있었다.&lt;/p&gt;
-
-&lt;p&gt;또한, blink_web_tests에 새로운 테스트 파일들을 추가하였다.&lt;/p&gt;
-
-&lt;p&gt;자바스크립트 기반의 테스트를 작성하였고, dumpAsText() (이 함수를 호출하면 -expected.txt 라는 파일의 렌더링 결과 텍스트와 비교한다. 간단히 말하면 화면에 나오는 텍스트를 덤프 뜨는 것)를 사용하였다.&lt;/p&gt;
-
-&lt;p&gt;아래는 새로 추가한 blink/web_tests/css3/calc/calc-infinity.html 파일이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE HTML&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dummy&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;results&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Calc could handle an infinity value&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;testRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;testRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dumpAsText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity / infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * 0 * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity + -infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (-infinity + infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity - infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * -infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (infinity + infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * (-infinity + -infinity)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * 1/infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * infinity * infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1px * -infinity * -infinity&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;calc(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; =&amp;gt; &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dummy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위 결과는 blink/web_tests/css3/calc/calc-infinity-expected.txt 파일로 다음과 같이 저장되고 추후에 테스트에 사용된다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Calc could handle an infinity value
-
-1px * infinity / infinity =&amp;gt;
-1px * 0 * infinity =&amp;gt;
-1px * (infinity + -infinity) =&amp;gt;
-1px * (-infinity + infinity) =&amp;gt;
-1px * (infinity - infinity) =&amp;gt;
-1px * infinity =&amp;gt; calc(infpx)
-1px * -infinity =&amp;gt; calc(-infpx)
-1px * (infinity + infinity) =&amp;gt; calc(infpx)
-1px * (-infinity + -infinity) =&amp;gt; calc(-infpx)
-1px * 1/infinity =&amp;gt; calc(0px)
-1px * infinity * infinity =&amp;gt; calc(infpx)
-1px * -infinity * -infinity =&amp;gt; calc(infpx)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;패치-작성&quot;&gt;패치 작성&lt;/h4&gt;
-&lt;p&gt;테스트와 소스코드를 추가한 한 뒤, 이렇게 완성한 패치를 git cl format을 통해 포멧팅을 하고, 소스코드를 정리하는 등 적절히 정리하여 아래와 같은 커밋메시지와 함깨 패치를 올렸다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/9.png&quot; alt=&quot;9.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/uploads/2020-12-23/10.png&quot; alt=&quot;10.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;여러 글로 나뉠 것 같았는데, 이번 글은 여기서 끊는 게 맞을 것 같다.&lt;/p&gt;
-
-&lt;p&gt;다음 글에는 이 패치에 대한 코드리뷰, 그리고 그것에 대한 반영 부분일 듯하다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="C++" /><category term="Web Engine" /><category term="HTML/CSS" /><category term="InfinityAndNaN" /><category term="DevLog" /><summary type="html">Issue: http://crbug.com/1076508</summary></entry></feed>
+&lt;p&gt;html-loader 버전을 2.0에서 1.3.2 으로 다운그레이드 하는것으로 해결&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Webpack" /><category term="html" /><category term="Web" /><summary type="html">짧은 포스팅</summary></entry></feed>
