@@ -12,7 +12,7 @@ tags:
 - CSS
 ---	
 
-오늘 아침 Blin-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.
+오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.
 
 ![Untitled](https://user-images.githubusercontent.com/18409763/110739167-fea4df80-8273-11eb-8cf5-0cae939349db.png)
 
