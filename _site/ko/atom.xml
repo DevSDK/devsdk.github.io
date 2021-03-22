@@ -1,4 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-17T09:38:04+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chromium 새로 개발되는 DOM API Seamless Transitions</title><link href="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html" rel="alternate" type="text/html" title="Chromium 새로 개발되는 DOM API Seamless Transitions" /><published>2021-03-11T09:00:02+09:00</published><updated>2021-03-11T09:00:02+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">&lt;p&gt;오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-24T15:49:04+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle</title><link href="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" rel="alternate" type="text/html" title="double 형의 &quot;계산 가능한 범위&quot; 그리고 chromium의 maximum angle" /><published>2021-03-22T09:00:01+09:00</published><updated>2021-03-22T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/22/double-calcable</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html">&lt;p&gt;Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.&lt;/p&gt;
+
+&lt;p&gt;삽질을 하게 된 계기는 표현한 최댓값이 “계산 가능한” 값인 줄 알았던 것이다.&lt;/p&gt;
+
+&lt;p&gt;또한 현재 코드리뷰는 진행중이기 때문에 값은 얼마든지 변할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;하지만 매커니즘이 변하진 않을 것 같다.&lt;/p&gt;
+
+&lt;p&gt;Review: &lt;a href=&quot;https://chromium-review.googlesource.com/c/chromium/src/+/2774851&quot;&gt;https://chromium-review.googlesource.com/c/chromium/src/+/2774851&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2867080569122160은 -방향으로 오차를 줄이는 방식으로 다시 계산된 값이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112242530-648b6100-8c8f-11eb-8021-41c1247058b6.png&quot; alt=&quot;Screenshot from 2021-03-24 10-54-26&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3월 24일 오전, 2개의 LGTM을 받아 머지시켰다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/angle&quot;&gt;&amp;lt;angle&amp;gt;&lt;/a&gt;은 각도를 나타내는 CSS 값 타입이다.&lt;/p&gt;
+
+&lt;p&gt;새로운 &lt;a href=&quot;https://drafts.csswg.org/css-values/#numeric-types&quot;&gt;CSS-Values-4&lt;/a&gt; 표준에 의하면 &amp;lt;angle&amp;gt;의 최댓값은 표현가능한 범위에서 360값의 배수여야 한다.&lt;/p&gt;
+
+&lt;p&gt;360의 배수이면서 특정한 값보다 작으면서 가장 가까운 값을 구하는 방법이 무엇일까?&lt;/p&gt;
+
+&lt;p&gt;바로 다음과 같은 식을 이용하면 된다.&lt;/p&gt;
+
+\[result = target - target \ mod \  360\]
+
+&lt;p&gt;하지만 double의 최댓값에선 다음과 같은 문제가 발생한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/111940095-44359800-8b11-11eb-9471-8ba0282e9f62.png&quot; alt=&quot;Screenshot_from_2021-03-21_13-30-22&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 결과는 우리가 예상한 동작과는 거리가 있어보인다. 실제로, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1.79769e+308 === 1.79769e+308 - 100&lt;/code&gt; 은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt; 를 내놓는다.&lt;/p&gt;
+
+&lt;p&gt;왜 이런 걸까?&lt;/p&gt;
+
+&lt;p&gt;컴퓨터 공학 학부, 혹은 컴퓨터를 처음 입문하게 되면 컴퓨터가 값을 표현하는 자료형의 범위를 배우게 된다.&lt;/p&gt;
+
+&lt;p&gt;그중에서 배정밀도 double은 8바이트로써, 범위는 다음과 같다.&lt;/p&gt;
+
+&lt;p&gt;±1.7 ×10^-307 이상 ± 3.4 × 10^308 이하&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/IEEE_754&quot;&gt;IEEE 754&lt;/a&gt;에 따르면 배정밀도는 다음과 같은 비트열을 가지게 된다.&lt;/p&gt;
+
+&lt;p&gt;위 값은 exponent를 포함한 아래 비트열의 모든 비트를 사용했을 때 나올 수 있는 최댓값이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/111940123-4f88c380-8b11-11eb-85ad-6d1e37a46068.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;하지만 실제로 계산할 수 있는 범위는 훨씬 작아지는데, 그 이유는 부동소수점에서 exponent 값을 넘어가게 되면 2의 배수로 증가하기 때문이다. 즉, 일반적으로 우리가 기대하는 연산(사칙연산, 삼각함수 등)이 불가능하다.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Double-precision_floating-point_format&quot;&gt;Double-precision floating-point format&lt;/a&gt; 의 &lt;strong&gt;Precision limitations on integer values&lt;/strong&gt; 에 따르면, 정수에 대응될 수 있는 숫자의 표현 범위는 2^53 ~ -2^53인, 9007199254740992 ~ -9007199254740992이다.&lt;/p&gt;
+
+&lt;p&gt;이 아래부터는 chromium에 대한 이야기다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;chromium에서 &amp;lt;angle&amp;gt;의 무한 값은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt; 로 정하게 되었는데 그 이유는 다음과 같다.&lt;/p&gt;
+
+&lt;p&gt;Chromium에서 “각”은 결국 &lt;strong&gt;라디안&lt;/strong&gt; 이라는 단위로 계산이 된다. 이는 rotation matrix에서 삼각함수를 사용할 때 활용된다. 이와 반대로 CSS Math Function은 항상 &lt;strong&gt;degree&lt;/strong&gt;로 반환한다. 즉, degree 값을 radian으로 변환시켜야 transform matrix로 사용할 수 있다는 이야기가 된다. 이 것은 &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/platform/wtf/math_extras.h&quot;&gt;deg2rad function&lt;/a&gt; 함수를 통해 degree를 radian으로 변환하게 되는데 이 식은 다음과 같다.&lt;/p&gt;
+
+\[rad = \frac{degree *\pi}{180}\]
+
+&lt;p&gt;여기서 문제는 저 최댓값인 9007199254740992에 원주율을 곱하게 되면 우리가 예상하지 못한 동작을 하게 된다는것 이다. 따라서 다음과 같은 식으로 PI를 곱했을 때 표현 가능한 범위를 넘어가지 않도록 해주었다.&lt;/p&gt;
+
+\[base = \frac{9007199254740992}{\pi}\]
+
+\[degree = base - base \ mod \ 360\]
+
+&lt;p&gt;여기서 sin함수를 dgree에 사용했을 때 0.01의 오차를 가지게 되었다. 하지만 이는 충분하지 않다고 생각하여 다음과 같은 스크립트로 0.00001의 오차를 가진 값을 찾아냈다.&lt;/p&gt;
+
+&lt;div class=&quot;language-jsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//To find nearest value using trigonometric functions&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;degree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.00001&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; 
+       &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;degree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;degree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;degree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;degree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이렇게 해서 나온 결과가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt; 이다.&lt;/p&gt;
+
+&lt;p&gt;따라서 값(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-2867080569122160&lt;/code&gt; ~ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt;)을 &amp;lt;angle&amp;gt;의 clamp값으로 선정하였다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="ieee 754" /><summary type="html">Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.</summary></entry><entry><title type="html">Chromium 새로 개발되는 DOM API Seamless Transitions</title><link href="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html" rel="alternate" type="text/html" title="Chromium 새로 개발되는 DOM API Seamless Transitions" /><published>2021-03-11T09:00:02+09:00</published><updated>2021-03-11T09:00:02+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">&lt;p&gt;오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.&lt;/p&gt;
 
 &lt;p&gt;2021.03.11 기준으로 아직 한창 개발되고 있는 feature이다. Android Webview와 깊은 연관이 있는 만큼 나중에 완성되면 Google IO 같은 데서 한번 말하지 않을까 라는 생각이 든다. (아닐 수도 있다. ㅎㅎ..)&lt;/p&gt;
 
@@ -749,106 +830,4 @@
 
 &lt;p&gt;혹시 이 글을 보고 Chromium에 흥미가 생겼다면, 오픈소스 개발자의 문은 언제나 열려있다! 누구든 같이 Chromium을 개발하면 좋겠다.&lt;/p&gt;
 
-&lt;p&gt;취준생이 돼서 개인프로젝트도 진행하며 바빠지고, 불안함이 많아졌지만, 시간 날 때마다 책임감을 가지고 활동을 이어나가고 있다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Open Source" /><summary type="html">Chromium에서 활동한 지 반년 정도 되어가는 것 같고, 11개의 패치를 머지시켰다.</summary></entry><entry><title type="html">Chromium, Event Loop는 싱글 스레드</title><link href="https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop.html" rel="alternate" type="text/html" title="Chromium, Event Loop는 싱글 스레드" /><published>2021-02-25T05:02:20+09:00</published><updated>2021-02-25T05:02:20+09:00</updated><id>https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop.html">&lt;p&gt;이곳저곳 코딩테스트를 마치고,&lt;/p&gt;
-
-&lt;p&gt;면접준비를 하면서 Javascript의 Event Loop에 대하여 설명하세요 라는 질문이 자주 나온다는 사실을 알았다.&lt;/p&gt;
-
-&lt;p&gt;내가 기억하는 이벤트 루프는 싱글스레드라서  태스크들을 순서대로 처리한다는 것이었다.&lt;/p&gt;
-
-&lt;p&gt;자바스크립트를 자주 사용했고, 분명 언제 본 내용일 텐데 까먹어서 표준 문서와 브라우져 코드를 좀 보았다.&lt;/p&gt;
-
-&lt;p&gt;검색을 하니까 알기 쉽게 잘 나와 있는 글을 발견했다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://meetup.toast.com/posts/89&quot;&gt;https://meetup.toast.com/posts/89&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;이 글을 보고,  의문점이 좀 생겨 알아보기로 했다.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-이벤트루프의-정의&quot;&gt;2. 이벤트루프의 정의&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://html.spec.whatwg.org/multipage/webappapis.html#event-loops&quot;&gt;WHATWG의 HTML 표준&lt;/a&gt;에 따르면,&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;
-To coordinate events, user interaction, scripts, rendering, networking, and so forth, user agents must use event loops
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;“이벤트, 유저 인터렉션, 스크립트, 렌더링, 네트워킹 등등과 같은 것들은 이벤트 루프를 &lt;strong&gt;반드시&lt;/strong&gt; 사용해야 합니다.”&lt;/p&gt;
-
-&lt;p&gt;즉 무엇인가 “일” (화면을 그린다거나, HTML을 파싱한다거나)을 하는 모든 것들은 이벤트 루프를 사용해야 한다고 명시되어 있다. 실제로 표준에서는 구체적으로 어떤 일들이 이벤트 루프를 사용할지 적어두었다.&lt;/p&gt;
-
-&lt;p&gt;내가 이해한 바로는, 웹브라우저가 OS 라고 한다면, Event Loop라는 CPU에서 처리되어야 한다는 느낌을 받았다.&lt;/p&gt;
-
-&lt;p&gt;하지만, 위 구조라면 통신과 같은 작업이 동기적으로 실행되고 이는 HTTP 통신이 있다면 다른 태스크를 실행하지 못한다는 이야기가 된다. 우리가 웹 환경을 이용하면서 통신이 있을 때마다 클릭이 안 된다거나 그런 일은 있지 않았다. 어떻게 된 일일까?&lt;/p&gt;
-
-&lt;h3 id=&quot;3-이벤트루프&quot;&gt;3. 이벤트루프&lt;/h3&gt;
-
-&lt;p&gt;MDN의 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop&quot;&gt;Concurrency model and the event loop&lt;/a&gt; 에 따르면, 현대 자바스크립트는 다음 그림으로 설명할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109103285-f32ec000-776d-11eb-8db8-58de71874a3c.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;위 이미지에서 중요하게 봐야 할 것은 &lt;strong&gt;단일스택&lt;/strong&gt; 이라는 점이다.&lt;/p&gt;
-
-&lt;p&gt;또한 중요하게 다루고 있는 개념이 있는데 &lt;strong&gt;“Run-to-completion”&lt;/strong&gt;이다.&lt;/p&gt;
-
-&lt;p&gt;메시지가 처리되고 난 뒤 다음 메시지를 처리하는 것이다. (만약 무한루프와 같이 처리가 끝나지 않는다면 다음 이벤트는 영원히 처리되지 않게 된다. 물론 브라우져에서 이에 대한 alert을 제공한다.)&lt;/p&gt;
-
-&lt;p&gt;위에서 말한 것과 같이 Event Loop 혹은 Message Queue에는 다양한 작업이 들어간다.&lt;/p&gt;
-
-&lt;p&gt;이 다양한 작업 중 하나인 Javascript Execution의 끝은 무엇일까?&lt;/p&gt;
-
-&lt;p&gt;조금 단순히 말하자면, 스택이 비었다→ JS작업이 완료되었다고 볼 수 있다.&lt;/p&gt;
-
-&lt;p&gt;그렇다면 여러 콜백 함수, 비동기적인 실행은 어떻게 처리하는 것일까?&lt;/p&gt;
-
-&lt;h3 id=&quot;4-이벤트루프의-내부-구조&quot;&gt;4. 이벤트루프의 내부 구조&lt;/h3&gt;
-
-&lt;p&gt;이벤트루프에 등록된 일들은 태스크라는 단위로 변경되어 브라우져에서 처리된다.&lt;/p&gt;
-
-&lt;p&gt;(사실 크롬에서는 EventLoop 라는 개념이 스팩과 조금 다르게 구현되어 있다.)&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;third_party/blink/renderer/platform/scheduler/public/event_loop.h&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  // The specification says an event loop has (non-micro) task queues. However,
-  // we process regular tasks in a different granularity; in our implementation,
-  // a frame has task queues. This is an intentional violation of the
-  // specification.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;문서와 코드를 좀 보니까, 의외로 금방 찾았는데 MessagePump라는 곳에 있었다.&lt;/p&gt;
-
-&lt;p&gt;Chromium에서의 스케줄링은 다양한 방식으로 진행한다. 그리고 그 스케쥴링의 결과가 아래 함수에서 실행된다.&lt;/p&gt;
-
-&lt;p&gt;아래 코드에서 Task는 이벤트랑은 조금 다른, 브라우져에서 관리하는 실행 컨텍스트이다.&lt;/p&gt;
-
-&lt;p&gt;DoWork 내에서 우리가 알고있는 이벤트 루프의 행위가 벌어진다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:base/message_loop/message_pump_default.cc;l=31;drc=9d1a1d6154cae517f76de279682185c8abc30868&quot;&gt;[여기]&lt;/a&gt; 서 더 자세히 볼 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109103312-fd50be80-776d-11eb-894f-6a7a0da624bc.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;연관된 코드가 너무 많아 다 설명하기 어려울 것 같지만 위 코드면 어느 정도 정리가 될 것 같다.&lt;/p&gt;
-
-&lt;p&gt;위 코드를 보면&lt;/p&gt;
-
-&lt;p&gt;무한루프 속에 태스크가 순차적으로 실행되고 있음을 알 수 있다.&lt;/p&gt;
-
-&lt;p&gt;태스크는 &lt;em&gt;아마도&lt;/em&gt; 스케줄러에 의해 계속 변할 것이다.&lt;/p&gt;
-
-&lt;p&gt;(Event Loop의 경우 microtask를 우선 실행하고, 원래 태스크를 실행하는 그런 일련의 작업)&lt;/p&gt;
-
-&lt;p&gt;메인 Task가 아니거나, 비동기적으로 실행될 수 있는 태스크의 경우 다른 곳에서 실행된다.&lt;/p&gt;
-
-&lt;p&gt;setTimeout, xmlhttprequest와 같은 것은 내부 API를 사용하며, JS에서는 Non-Blocking으로 실행된다.&lt;/p&gt;
-
-&lt;p&gt;이들은 메시지 큐를 콜백 혹은 이벤트를 등록하는 데 사용한다. 만약 async 태스크가 완료되었다면 아까 등록한 이벤트나 콜백을 이벤트루프에 던져서 실행하는 형식이다.&lt;/p&gt;
-
-&lt;p&gt;그렇다면 그때 또 다른 실행 context가 생길 것(스택이 쌓이고 등등..)이고, 그 태스크가 끝나면 다음 이벤트를 처리할 것이다.&lt;/p&gt;
-
-&lt;p&gt;따라서 이벤트루프, 자바스크립트의 동작은 &lt;strong&gt;싱글스레드&lt;/strong&gt; 지만, &lt;strong&gt;내부적인 동작이나, API(DOM API 등) 들은 다른 Thread를 활용할 수도 있다&lt;/strong&gt;. 하지만 이러한 요청과 결과는 이벤트 루프에 의해 순차적으로 처리된다.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;부족한 내용이나, 틀린 내용이 있으면 언제든지 댓글을 …&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Javascript" /><category term="Web Sepc" /><summary type="html">이곳저곳 코딩테스트를 마치고,</summary></entry></feed>
+&lt;p&gt;취준생이 돼서 개인프로젝트도 진행하며 바빠지고, 불안함이 많아졌지만, 시간 날 때마다 책임감을 가지고 활동을 이어나가고 있다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Open Source" /><summary type="html">Chromium에서 활동한 지 반년 정도 되어가는 것 같고, 11개의 패치를 머지시켰다.</summary></entry></feed>
