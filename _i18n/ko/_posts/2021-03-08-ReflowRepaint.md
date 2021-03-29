@@ -40,6 +40,8 @@ Reflow와 Repaint에 대해서 면접 단골 질문이라고 해서 조금 깊�
 
 Composite은 각각의 분리 가능한 레이어를 분리해서 처리한 뒤 합성하는 것이다. 거시적인 관점에서 **Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트** 할 수 있다. 즉 비동기적으로 실행된 후 기존 레이어에 합성된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.
 
+Composition에 대해서는 [이곳에](https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html) 정리를 해두었다.
+
 ![image](https://user-images.githubusercontent.com/18409763/110417527-1dbb3a00-80d9-11eb-9724-e26417c8324d.png)
 *Composition example from [Life of Pixels](https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_1213)*
 

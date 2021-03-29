@@ -1,4 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-29T15:43:46+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">\[CSS-Values-4] 삼각함수 구현 준비</title><link href="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html" rel="alternate" type="text/html" title="\[CSS-Values-4] 삼각함수 구현 준비" /><published>2021-03-29T09:00:01+09:00</published><updated>2021-03-29T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html">&lt;p&gt;Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-29T21:26:55+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Chromium Composition과 Layer</title><link href="https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html" rel="alternate" type="text/html" title="Chromium Composition과 Layer" /><published>2021-03-29T09:00:11+09:00</published><updated>2021-03-29T09:00:11+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html">&lt;p&gt;웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.&lt;/p&gt;
+
+&lt;p&gt;다음은 chromium의 렌더링 과정을 도식화한 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830711-dd464f00-90cd-11eb-8750-3ec8b70fa093.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이번 글에서 다루고자 하는 내용은 빨간색으로 네모 친 Composition(합성)이다.&lt;/p&gt;
+
+&lt;p&gt;저번에 &lt;a href=&quot;https://devsdk.github.io/ko/development/2021/03/08/ReflowRepaint.html&quot;&gt;Reflow와 Repaint&lt;/a&gt;라는 내용을 다루면서 짧게 이야기를 한 적 있다.&lt;/p&gt;
+
+&lt;p&gt;이번 글에는 조금 더 구체적으로 이야기해 보고자 한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;compositing&quot;&gt;Compositing?&lt;/h3&gt;
+
+&lt;p&gt;한국어로 합성이라고 한다.&lt;/p&gt;
+
+&lt;p&gt;실제로 브라우져는 렌더링을 최대한 최적화 하기 위한 많은 노력을 하고 있는데 여기에 Composition이 포함된다.&lt;/p&gt;
+
+&lt;p&gt;설명하기 이전에 용어를 조금 정리한다.&lt;/p&gt;
+
+&lt;p&gt;화면에 보이는 공간을 &lt;a href=&quot;https://en.wikipedia.org/wiki/Viewport&quot;&gt;Viewport&lt;/a&gt;라고 부른다.&lt;/p&gt;
+
+&lt;p&gt;그리고 특정한 정보를 화면의 픽셀로 만드는 과정을 &lt;a href=&quot;https://en.wikipedia.org/wiki/Rasterisation&quot;&gt;레스터라이즈&lt;/a&gt; 라고 한다.&lt;/p&gt;
+
+&lt;p&gt;만약 Compositing이 없었다면 렌더링은 어땠을까?&lt;/p&gt;
+
+&lt;p&gt;아래는 composite 없이 single layer로 렌더링이 되었을 때 벌어질 수 있는 것을 그림으로 나타낸 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830531-a07a5800-90cd-11eb-8a8c-3de432ac0a8b.gif&quot; alt=&quot;ezgif-6-f0af620c7a69&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 이미지는 Chromium의 가장 첫 번째 버전에서 동작하는 방식이었다.&lt;/p&gt;
+
+&lt;p&gt;스크롤과 같은 행위로 뷰포트를 넘어가는 경우 빈 공간을 다시 레스터라이즈 하는 과정이 있었다.&lt;/p&gt;
+
+&lt;p&gt;여기서 문제는 다른 요소가 변경(위치, 색상 등등)된다면 그 해당하는 공간을 다시 계산해야 한다는 점이었다.&lt;/p&gt;
+
+&lt;p&gt;현대의 브라우져는 이러한 문제를 세련되게 해결하고 있다.&lt;/p&gt;
+
+&lt;p&gt;다음 그림은 layered composition을 설명하는 그림이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830733-e7684d80-90cd-11eb-8bfb-02cef19c7124.gif&quot; alt=&quot;ezgif-6-d9bdba71caac&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Composition은 분리 가능한 레이어를 분리하고 미리 레스터라이즈를 한 뒤, 그 레이어를 움직이거나 Viewport를 움직이는 방식이다.&lt;/p&gt;
+
+&lt;p&gt;특정한 레이어의 레스터가 변경되고, 위치가 변경된다고 해서 다른 레이어의 요소에 영향을 끼치진 않는다.&lt;/p&gt;
+
+&lt;p&gt;실제로 분리된 레이어를 살펴보자.&lt;/p&gt;
+
+&lt;p&gt;다음은 토이프로젝트로 만들었던 &lt;a href=&quot;https://github.com/DevSDK/DFD&quot;&gt;DFD&lt;/a&gt;의 layer이다.&lt;/p&gt;
+
+&lt;p&gt;React-Virtualized에 의하여 실시간으로 리스트가 갱신되는 것을 볼 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830772-f51dd300-90cd-11eb-9f3c-f4a749a82ae9.gif&quot; alt=&quot;Peek_2021-03-29_14-48&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다음은 github의 layer이다.&lt;/p&gt;
+
+&lt;p&gt;스크롤에 의해 floating이 되는 부분이 새로운 레이어로 만들어짐을 잘 살펴보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830808-01099500-90ce-11eb-9bff-a802957b2ff5.gif&quot; alt=&quot;Peek_2021-03-29_14-53&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이처럼 실제로 composition은 웹에서 최적화를 담당하는 큰 축중 하나로 사용되고 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;how&quot;&gt;How?&lt;/h3&gt;
+
+&lt;p&gt;그렇다면 Layer은 어떻게 분리가 될까?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830907-27c7cb80-90ce-11eb-9c56-b98824525a47.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;렌더러는 DOMTree에서 만들어진 LayoutTree를 이용하여 Compositing Trigger를 가진 녀석들을 layer로 분리시킬 후보로 만든다. 여기서 말하는 트리거는 다양한 이유가 될 수 있는데 대표적으로 transform 요소가 될 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112830912-29918f00-90ce-11eb-94f0-337026cb0326.png&quot; alt=&quot;Untitled 2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;기존에는 LayerTree를 사용했던 것 같은데, v2부터는 Layer List를 사용하는 것 같다.&lt;/p&gt;
+
+&lt;p&gt;또한 Scrollable Area에 대해서는 아래와 같이 layer를 나뉘게 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831024-4e860200-90ce-11eb-86f6-7a46e2de1f99.png&quot; alt=&quot;Untitled 3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이렇게 만들어진 레이어들은 Compositing Assignment라는 단계에서 그래픽 레이어로 변환된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831051-59409700-90ce-11eb-9746-d18617675748.png&quot; alt=&quot;Untitled 4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;각각에 레이어에 대해 다양한 파라미터를 줄 수 있는데 이것을 &lt;strong&gt;property tree&lt;/strong&gt;라고 부른다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831071-5f367800-90ce-11eb-9219-736535770b5a.png&quot; alt=&quot;Untitled 5&quot; /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831085-63629580-90ce-11eb-996c-26286c59d5fd.png&quot; alt=&quot;Untitled 6&quot; /&gt;
+현재까지의 Chromium의 구현체 (Composite After Paint 이전)에는 이 프로퍼티 트리를 레이어가 가지고 있게 된다. 아마 CAP에서는 이를 분리시킬것 이라고 한다.&lt;/p&gt;
+
+&lt;p&gt;이렇게 만들어진 Layer과 Property Tree는 메인쓰래드에서 별도의 compositor thread로 넘기게 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831088-6493c280-90ce-11eb-88d0-04ff9ac4e242.png&quot; alt=&quot;Untitled 7&quot; /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112831091-652c5900-90ce-11eb-8c0a-6a0b9093d1e7.png&quot; alt=&quot;Untitled 8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그 후 draw콜에 의하여 레이어가 화면에 그려지도록 렌더 커멘드를 생성하며 다음 스테이지로 넘기게 된다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;refs&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.google.com/web/updates/2018/09/inside-browser-part3#what_is_compositing&quot;&gt;https://developers.google.com/web/updates/2018/09/inside-browser-part3#what_is_compositing&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://bit.ly/lifeofapixel&quot;&gt;http://bit.ly/lifeofapixel&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&quot;&gt;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="Blink" /><category term="Renderer" /><summary type="html">웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.</summary></entry><entry><title type="html">\[CSS-Values-4] 삼각함수 구현 준비</title><link href="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html" rel="alternate" type="text/html" title="\[CSS-Values-4] 삼각함수 구현 준비" /><published>2021-03-29T09:00:01+09:00</published><updated>2021-03-29T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html">&lt;p&gt;Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.&lt;/p&gt;
 
 &lt;p&gt;이 기능을 구현하며 스팩을 자주 보게 되었는데, 익숙해 진 것도 있고, 눈에 띄는 기능이 보여서 다음 구현 목표를 css-values-4 스팩에서 찾게 되었다.&lt;/p&gt;
 
@@ -339,6 +442,8 @@
 
 &lt;p&gt;Composite은 각각의 분리 가능한 레이어를 분리해서 처리한 뒤 합성하는 것이다. 거시적인 관점에서 &lt;strong&gt;Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트&lt;/strong&gt; 할 수 있다. 즉 비동기적으로 실행된 후 기존 레이어에 합성된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.&lt;/p&gt;
 
+&lt;p&gt;Composition에 대해서는 &lt;a href=&quot;https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html&quot;&gt;이곳에&lt;/a&gt; 정리를 해두었다.&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110417527-1dbb3a00-80d9-11eb-9724-e26417c8324d.png&quot; alt=&quot;image&quot; /&gt;
 &lt;em&gt;Composition example from &lt;a href=&quot;https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_1213&quot;&gt;Life of Pixels&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -610,115 +715,4 @@
 
 &lt;p&gt;개발환경이 워낙 CLI와 가깝다 보니 CLI 기반으로 작성하였다.&lt;/p&gt;
 
-&lt;p&gt;레포지토리 &lt;a href=&quot;https://github.com/DevSDK/scl&quot;&gt;https://github.com/DevSDK/scl&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Python" /><category term="Notion" /><category term="CLI" /><category term="Productivity" /><summary type="html">아침 일찍 일어나서 취업준비를 위해 Chromium 커밋 리스트를 다시한번 훑어보는데 아뿔싸… 머지한 커밋중에 Commit Message와 코드가 다른 것을 보았다.</summary></entry><entry><title type="html">Flux 아키텍처</title><link href="https://devsdk.github.io/ko/development/2021/03/03/FluxArchitecture.html" rel="alternate" type="text/html" title="Flux 아키텍처" /><published>2021-03-03T14:02:20+09:00</published><updated>2021-03-03T14:02:20+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/03/FluxArchitecture</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/03/FluxArchitecture.html">&lt;p&gt;이번 글에서는 면접 질문으로 들어왔던 Redux 써봤냐 → 그럼 flux 구조를 아느냐 에 대한 답변을 내 개인적으로 시원하게 하지 못해 아쉬움에 내용을 정리해 보도록 한다.&lt;/p&gt;
-
-&lt;p&gt;Q: Flux 구조에 대해서 알고 계신 게 있나요?&lt;/p&gt;
-
-&lt;p&gt;“사실 Flux는 들어만 보았고, 정확하게 어떤 것을 의미하는지는 기억하지 못합니다. 저는 이 구조가 글로벌 상태 관리를 하는 패턴이라고 알고 있습니다. 이 구조를 활용한 Redux를 사용하여 어플리케이션을 개발했는데~”.&lt;/p&gt;
-
-&lt;p&gt;이번 기회에 Flux 구조에 대해 다시 한 번 공부해보도록 한다.&lt;/p&gt;
-
-&lt;p&gt;3줄 요약부터 해보도록 한다.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;FLUX는 MVC패턴과 같은 패턴의 한 일종이다.&lt;/li&gt;
-  &lt;li&gt;단방향으로 데이터가 흐른다.&lt;/li&gt;
-  &lt;li&gt;Redux와 같은 녀석들은 이러한 구조를 편하게 쓸 수 있게 해주는 것들이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;사실 위 3줄 요약보다 더 간단한 이미지가 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109767232-93875780-7c3a-11eb-86f3-753e5c7a4674.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;화살표는 데이터의 흐름을 의미한다.&lt;/p&gt;
-
-&lt;p&gt;이미지에서 볼 수 있듯이 단방향으로 흐른다.&lt;/p&gt;
-
-&lt;p&gt;그렇다면 만약 사용자가 인터렉션을 취해서 상태를 변경한다면 어떻게 될까?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109767265-9f731980-7c3a-11eb-95fb-089ead36252c.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;다시 dispatcher를 통해 데이터를 action을 이용해 보내게 된다.&lt;/p&gt;
-
-&lt;h3 id=&quot;dispatcher&quot;&gt;Dispatcher&lt;/h3&gt;
-
-&lt;p&gt;Dispatcher는 Flux 아키텍처에서 모든 데이터의 흐름을 관리한다.  액션을 분배하고 store에 콜백을 등록하는 등 간단한 메커니즘으로 동작한다.&lt;/p&gt;
-
-&lt;p&gt;Action Creator가 새로운 action이 있다고 dispatch를 호출하면 어플리케이션의 모든 store는 action을 등록한 callback으로 전달받는다.&lt;/p&gt;
-
-&lt;p&gt;아래는 dispatcher의 실제 구조이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-tsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TPayload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;invariant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_isDispatching&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_startDispatching&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_callbacks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_isPending&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_invokeCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_stopDispatching&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/flux/blob/5f6d5817a63e275c95b571ca2949379c4c1640b5/src/Dispatcher.js#L180&quot;&gt;https://github.com/facebook/flux/blob/5f6d5817a63e275c95b571ca2949379c4c1640b5/src/Dispatcher.js#L180&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;위 설명대로 모든 callback을 invoke한다. (_invokeCallback함수에서 payload를 전달해준다.)&lt;/p&gt;
-
-&lt;h3 id=&quot;store&quot;&gt;Store&lt;/h3&gt;
-
-&lt;p&gt;스토어는 어플리케이션의 상태와 로직을 가지고 있다. Store라는 이름답게 상태를 저장하고 있다고 생각해도 좋을 것 같다.&lt;/p&gt;
-
-&lt;p&gt;store는 개별적인 도메인에서 상태를 관리해주는데 이는 스토어별로 dispatcher token을 별도로 할당하기 때문이다.&lt;/p&gt;
-
-&lt;p&gt;이걸 조금 더 풀어쓰기 위해 flux 공식 문서에 따르면 “페이스북의 되돌아보기 비디오 편집기”는 트랙의 플레이 백 포지션 같은 정보를 TimeStore에 관리(트레킹) 하고 “이미지”는 ImageStore에서 관리하는 것을 말할 수 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;action&quot;&gt;Action&lt;/h3&gt;
-
-&lt;p&gt;Dispatcher는 action을 호출해 데이터를 불러오고 store로 전달할 수 있게 해주는 메서드를 제공한다.&lt;/p&gt;
-
-&lt;p&gt;변경할 데이터가 담겨진 객체라고 이해해도 괜찮을 것 같다.&lt;/p&gt;
-
-&lt;p&gt;이런식으로 생겼다.&lt;/p&gt;
-
-&lt;div class=&quot;language-tsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;actionType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;city-update&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;selectedCity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;paris&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;view와-controller-view&quot;&gt;View와 Controller-View&lt;/h3&gt;
-
-&lt;p&gt;store로부터 이벤트를 받으면 데이터를 비교하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setState()&lt;/code&gt;  또는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;forceUpdate()&lt;/code&gt; 매서드를 호출하게 되어 화면이 갱신된다.&lt;/p&gt;
-
-&lt;p&gt;컨트롤러 뷰는 자식에게도 데이터를 흘려보낸다고 한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/flux/blob/5f6d5817a63e275c95b571ca2949379c4c1640b5/src/container/FluxContainer.js#L187&quot;&gt;https://github.com/facebook/flux/blob/5f6d5817a63e275c95b571ca2949379c4c1640b5/src/container/FluxContainer.js#L187&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;여기서 그 역할을 하는 것 같다.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;redux&quot;&gt;Redux?&lt;/h2&gt;
-
-&lt;p&gt;Redux는 Reducer + Flux 라는 뜻을 가지고&lt;/p&gt;
-
-&lt;p&gt;Flux에서 간소화시키고 간단한 사용을 주제로 개발되었다고 한다.&lt;/p&gt;
-
-&lt;p&gt;Flux 개발자인 Jing Chen이나 Bill Fisher의 찬사를 받았다고 한다.&lt;/p&gt;
-
-&lt;p&gt;아래는 차이점이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109767292-aa2dae80-7c3a-11eb-8b03-3fb8c41fc800.png&quot; alt=&quot;Untitled 2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109767214-8b2f1c80-7c3a-11eb-9b79-2819f00a1311.gif&quot; alt=&quot;1_f3gS9znOZvX8HfCLg7T--Q&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;리덕스는 스토어가 하나이고, 디스페쳐가 없으며, immutable state(Reducer가 순수함수여서 copy 해서 replace 하는 방식으로 변경)이라고 한다.&lt;/p&gt;
-
-&lt;p&gt;나중에 기회가 된다면 redux 내부 코드도 한번 훑어보고 싶다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="React" /><category term="Web" /><category term="Flux" /><summary type="html">이번 글에서는 면접 질문으로 들어왔던 Redux 써봤냐 → 그럼 flux 구조를 아느냐 에 대한 답변을 내 개인적으로 시원하게 하지 못해 아쉬움에 내용을 정리해 보도록 한다.</summary></entry></feed>
+&lt;p&gt;레포지토리 &lt;a href=&quot;https://github.com/DevSDK/scl&quot;&gt;https://github.com/DevSDK/scl&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Python" /><category term="Notion" /><category term="CLI" /><category term="Productivity" /><summary type="html">아침 일찍 일어나서 취업준비를 위해 Chromium 커밋 리스트를 다시한번 훑어보는데 아뿔싸… 머지한 커밋중에 Commit Message와 코드가 다른 것을 보았다.</summary></entry></feed>
