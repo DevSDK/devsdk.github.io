@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-24T15:49:04+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle</title><link href="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" rel="alternate" type="text/html" title="double 형의 &quot;계산 가능한 범위&quot; 그리고 chromium의 maximum angle" /><published>2021-03-22T09:00:01+09:00</published><updated>2021-03-22T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/22/double-calcable</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html">&lt;p&gt;Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-03-29T15:43:46+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">\[CSS-Values-4] 삼각함수 구현 준비</title><link href="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html" rel="alternate" type="text/html" title="\[CSS-Values-4] 삼각함수 구현 준비" /><published>2021-03-29T09:00:01+09:00</published><updated>2021-03-29T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html">&lt;p&gt;Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.&lt;/p&gt;
+
+&lt;p&gt;이 기능을 구현하며 스팩을 자주 보게 되었는데, 익숙해 진 것도 있고, 눈에 띄는 기능이 보여서 다음 구현 목표를 css-values-4 스팩에서 찾게 되었다.&lt;/p&gt;
+
+&lt;p&gt;새로운 w3c/csswg의 표준인 CSS-values-4를 보면, &lt;a href=&quot;https://drafts.csswg.org/css-values/#trig-funcs&quot;&gt;삼각함수에 대한 내용&lt;/a&gt;이 담겨있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112796569-203ffc80-90a5-11eb-90b0-911861731219.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;더 빠르고, 안정적으로 CSS에서 삼각함수를 사용할 수 있게 될 것이라고 기대하고 있다.&lt;/p&gt;
+
+&lt;p&gt;아마도, hue 컬러 공간 및 삼각함수 관련된 스타일이 필요한 부분에서 유용하게 쓰일 수 있을 것 이라고 생각한다.&lt;/p&gt;
+
+&lt;p&gt;첫번째로 type=feature로 크로미움 이슈 모노레일 &lt;a href=&quot;http://crbug.com&quot;&gt;crbug.com&lt;/a&gt; 에 올려두었다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/112796587-26ce7400-90a5-11eb-982e-6c34cbf9c7e1.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아마 이 기능도 무한과 NaN 기능을 구현할 때와 마찬가지로 Intent to Prototype과 Design Docs, Chromium Platform Status 등에 등록이 필요할 것 같다.&lt;/p&gt;
+
+&lt;p&gt;구글 크롬팀과 이야기하면서 알게 되었는데 구글 내부적으로는 이 기능을 2분기 계획으로 잡으려고 한다고 했다.&lt;/p&gt;
+
+&lt;p&gt;다만 요즘 이래저래 바빠서 2분기까지 완전히 완성하긴 어려울 것 같고, 프로토타이핑 및 문서화 정도까진 가능할 것 같다고 이야기하긴 했는데 얼른 바쁜 게 끝나면 좋겠다.&lt;/p&gt;
+
+&lt;p&gt;Feature 구현을 시작하기 전에 간단하게 블로그에 정리해 보았다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><category term="Feature" /><category term="css-values-4" /><summary type="html">Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.</summary></entry><entry><title type="html">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle</title><link href="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" rel="alternate" type="text/html" title="double 형의 &quot;계산 가능한 범위&quot; 그리고 chromium의 maximum angle" /><published>2021-03-22T09:00:01+09:00</published><updated>2021-03-22T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/22/double-calcable</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html">&lt;p&gt;Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.&lt;/p&gt;
 
 &lt;p&gt;삽질을 하게 된 계기는 표현한 최댓값이 “계산 가능한” 값인 줄 알았던 것이다.&lt;/p&gt;
 
@@ -699,135 +721,4 @@
 
 &lt;p&gt;리덕스는 스토어가 하나이고, 디스페쳐가 없으며, immutable state(Reducer가 순수함수여서 copy 해서 replace 하는 방식으로 변경)이라고 한다.&lt;/p&gt;
 
-&lt;p&gt;나중에 기회가 된다면 redux 내부 코드도 한번 훑어보고 싶다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="React" /><category term="Web" /><category term="Flux" /><summary type="html">이번 글에서는 면접 질문으로 들어왔던 Redux 써봤냐 → 그럼 flux 구조를 아느냐 에 대한 답변을 내 개인적으로 시원하게 하지 못해 아쉬움에 내용을 정리해 보도록 한다.</summary></entry><entry><title type="html">Chromium 첫번째 패치부터 지금까지 돌아보기</title><link href="https://devsdk.github.io/ko/development/2021/03/02/FirstStoryWithChromiumContributing.html" rel="alternate" type="text/html" title="Chromium 첫번째 패치부터 지금까지 돌아보기" /><published>2021-03-02T17:02:20+09:00</published><updated>2021-03-02T17:02:20+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/02/FirstStoryWithChromiumContributing</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/02/FirstStoryWithChromiumContributing.html">&lt;p&gt;Chromium에서 활동한 지 반년 정도 되어가는 것 같고, 11개의 패치를 머지시켰다.&lt;/p&gt;
-
-&lt;p&gt;라인수로는 정확하지는 않지만 1600라인 넘게 수정한 것 같다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109617938-5360a000-7b7a-11eb-86a0-1bd7d6d20773.png&quot; alt=&quot;Screenshot_from_2021-03-02_12-56-55&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;그중의 하나인 첫 패치는 deprecated 된 매크로 함수를 지우는 오타 수정과 비슷한 패치 trivial 패치여서 제외하면 10개에 도달한 것이다.&lt;/p&gt;
-
-&lt;p&gt;이 말은 &lt;a href=&quot;http://www.chromium.org/getting-involved/become-a-committer&quot;&gt;커미터가 되기 위한 조건&lt;/a&gt; 중 첫 번째를 달성했다는 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10-20 non-trivial patches in the Chromium src Git repository&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;2~3개월 내로 커미터를 달 수 있을 것이라고 기대하고 있는데, 언제 노미네이션 될지는 잘 모르겠다.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;크로미움 이메일 주소 가지고 싶다….&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;웹브라우져를-만들자&quot;&gt;웹브라우져를 만들자&lt;/h3&gt;
-
-&lt;p&gt;사실 Chromium 건들기 시작하게 된 계기는 반년 전이 아니라 1년 전이다. 친한 형하고 놀면서 (프론트엔드 개발자) 이야기하다가 웹브라우져를 이해하기 위해 웹브라우져를 만드는 프로젝트를 해보고 싶다는 대화가 오고 갔다.&lt;/p&gt;
-
-&lt;p&gt;그렇게 웹브라우져의 코드를 분석하고 공유하는 팀인 team_seoksoo (친한 형 이름이 ‘영수’라 내 이름의 석과 형 이름의 수를 붙여 만들었다.)를 만들게 되었다.&lt;/p&gt;
-
-&lt;p&gt;시작부터 수월하지는 않았다. 상대는 3000만 라인이 넘는 거대한 오픈소스 프로젝트 Chromium과 하나부터 알아가야 했던 WebKit이였기 때문이다.&lt;/p&gt;
-
-&lt;p&gt;첫번째로 직면했던 문제 중 하나는 레포 덩치가 어마어마하다는 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://chromium.googlesource.com/chromium/src/+/master/docs/linux/build_instructions.md&quot;&gt;여기&lt;/a&gt;서 볼 수 있는 Chromium의 권장 빌드 스팩은 다음과 같다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;A 64-bit Intel machine with at least 8GB of RAM. More than 16GB is highly recommended.&lt;/li&gt;
-  &lt;li&gt;At least 100GB of free disk space.&lt;/li&gt;
-  &lt;li&gt;You must have Git and Python v2 installed already.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;실제로 내 컴퓨터에서는 150GB (…) 정도를 크로미움이 먹고 있다.&lt;/p&gt;
-
-&lt;p&gt;빌드하는데는 3시간 정도 걸린다. (XPS 9560 최고급모델, i7 7700HQ, 32GB)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109617999-66737000-7b7a-11eb-9fae-0f4199fe7f27.png&quot; alt=&quot;Untitled&quot; /&gt;
-)&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;이 글을 쓰기 한참 전부터 빌드를 돌려놨는데 아직도 끝나지 않았다..&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;우여곡절 끝에 코드를 받고 빌드해서 실행까지 해내는 데 성공했고, 그 시기에 Blink Renderer의 정수가 담긴 문서 “&lt;a href=&quot;http://bit.ly/lifeofapixel&quot;&gt;Life of Pixels&lt;/a&gt;“를 보게 되었다. “웹브라우져가 구체적으로 어떻게 동작하는구나~” 라는 것을 배울 수 있던 시기였다.&lt;/p&gt;
-
-&lt;p&gt;idl에 대해 배우고, 콘솔에 로그 찍어보고, 여타 다른 것들 분석하듯이 분석하다가,  자연스럽게 다른 task들의 비중이 높아지고, 팀의 의욕이 줄어들어서 (서로 본업과, 학업 및 기타 등등) 멈춘 것 같다. 그렇게 2학년 1학기가 흘러갔다.&lt;/p&gt;
-
-&lt;h3 id=&quot;본격적인-시작&quot;&gt;본격적인 시작&lt;/h3&gt;
-
-&lt;p&gt;Chromium 활동에 불이 다시 붙은 건 2학년 여름방학이었다. 컨트리뷰톤이라는 활동에서  Chromium 팀에 선정되었다. 대단한 멘토 분들 (hyunjune.kim&amp;amp;samsung.com,jh718.park&amp;amp;gmail.com) 이 컨트리뷰션 프로세스에 대해 잘 알려주고 간단한 trivial issue를 지정해줘서 전체적인 컨트리뷰션 프로세스를 경험할 수 있었다.&lt;/p&gt;
-
-&lt;p&gt;그리고 GoodFirstBug 라는 태그를 이용해 초심자가 해결하기 좋은 이슈를 찾아다녔다.&lt;/p&gt;
-
-&lt;p&gt;(그렇게 나는 속았다.) 사실 GoodFirstBog로 분류된 이슈 중에서는 사실 GoodFirstBug가 아닌 경우도 꽤 많고, 까고 보니까 규모가 커지는 경우도 많은 것 같다.&lt;/p&gt;
-
-&lt;p&gt;컨트리뷰톤 내내 잡고 있던 이슈는 select의 스크롤바 이슈를 해결하는 것, 이 내용에 대해서는 &lt;a href=&quot;https://devsdk.github.io/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html&quot;&gt;이 글에&lt;/a&gt; 나와 있다. 놀랍게도 GoodFirstBug였다.&lt;/p&gt;
-
-&lt;p&gt;이 패치 말고도 html form의 validation message를 수정하는 등의 패치를 이어나갔다.&lt;/p&gt;
-
-&lt;p&gt;그렇게 패치를 이어나가고, 3~4패치가 머지 되었을 때 멘토님이 커미터 분들한테 프로젝트 맴버 권한을 요청해주셨다.&lt;/p&gt;
-
-&lt;p&gt;그렇게 받은 권한들.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109618232-a33f6700-7b7a-11eb-992d-5a754dfe5c23.png&quot; alt=&quot;permissions&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;tryjob-access: &lt;a href=&quot;https://ci.chromium.org/p/chromium&quot;&gt;testfarm&lt;/a&gt;에 테스트를 실행하고 코드 리뷰를 받고 내 패치를 &lt;strong&gt;머지&lt;/strong&gt;시킬 수 있는 권한&lt;/p&gt;
-
-&lt;p&gt;edit-bug-access: &lt;a href=&quot;https://crbug.com/&quot;&gt;https://crbug.com/&lt;/a&gt; 에 올라온 모든 이슈를 직접 &lt;strong&gt;수정&lt;/strong&gt;할 수 있는 권한. (이 권한이 있어야만 볼 수 있는 이슈도 있음).&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;이 권한들이 있고 없고의 차이가 꽤 크다고 생각한다.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;권한을 받고 활동을 하면서 욕심이 생겼다. 원동력이 된 것들은 다음과 같다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;영어를 계속 사용할(사용해야만) 환경&lt;/li&gt;
-  &lt;li&gt;디버깅 능력을 입증할 기회&lt;/li&gt;
-  &lt;li&gt;모두가 쓰는 SW를 개발한다는 것에 대한 자부심&lt;/li&gt;
-  &lt;li&gt;코드를 읽고 수정하는 능력 향상 및 증명&lt;/li&gt;
-  &lt;li&gt;전 세계의 훌륭한 개발자들과의 협업&lt;/li&gt;
-  &lt;li&gt;맡은 것에 대한 책임감&lt;/li&gt;
-  &lt;li&gt;프로젝트 맴버로써 받은 권한에 대한 자부심&lt;/li&gt;
-  &lt;li&gt;탐나는 ssh&amp;amp;chromium.org 커미터 이메일 (중요한 동기부여라고 생각한다.)&lt;/li&gt;
-  &lt;li&gt;취업에 도움이 될 것&lt;/li&gt;
-  &lt;li&gt;좋은 코드를 유지하는 방법에 대해 코드 리뷰를 받으며 성장 기회&lt;/li&gt;
-  &lt;li&gt;그리고…. &lt;strong&gt;재미있다&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;계속 커밋을 하고 리뷰를 받으며 점점 “내가 Owner로 마크한 이슈들을 해결하는 것”에 책임감을 가지고 조금 더 나은 방향과 좋은 구조를 항상 고민할 수 있게 되었다.&lt;/p&gt;
-
-&lt;p&gt;디버깅 관련 지식이 많이 늘어났다.&lt;/p&gt;
-
-&lt;p&gt;chrome://tracing 에서 트레이싱할 수 있는 것들이 정확히 어느 시점에서 (브라우져 내부에서) 기록이 되고 있는지를 그리고 -show-paint-rects와 같은 실제로 draw가 일어나는 영역에 대한 디버깅 관련한 지식을 3D Preserve 관련 패치를 하면서 살펴볼 수 있었다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109618315-bbaf8180-7b7a-11eb-95d7-1fcbc1159ff0.gif&quot; alt=&quot;Peek 2020-09-14 15-08&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;chromium-개발은-꾸준히-진행-중&quot;&gt;Chromium 개발은 꾸준히 진행 중!&lt;/h3&gt;
-
-&lt;p&gt;그러다가 현재에 와서, Chromium에 정식 기능 추가 절차를 밟으며 CSS에 기능을 추가하는 &lt;strong&gt;“프로젝트”&lt;/strong&gt;를 진행하게 되었다. 처음에는 작은 이슈에 대한 간단한 패치였지만, 이 내용이 커지고 CSS 전반적으로 영향을 미치게 되면서 프로젝트가 되었다.&lt;/p&gt;
-
-&lt;p&gt;Chromium에 feature 도입 상태에 대해 볼 수 있는 곳 Chromium Feature Status에 정식으로 &lt;a href=&quot;https://chromestatus.com/feature/5657825571241984&quot;&gt;등록되어&lt;/a&gt; 었다.&lt;/p&gt;
-
-&lt;p&gt;이 프로젝트를 진행하며 &lt;a href=&quot;https://bit.ly/349gXjq&quot;&gt;Design Docs&lt;/a&gt;를 쓰게 되었는데, 논의가 필요한 부분이 있어서 구글 본사 Chrome 팀 직원분과 Google Meet을 통해 화상통화를 하며 프로젝트에 대해 논의하는 어찌 보면 꿈과 같은 경험을 하게 되었다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109618401-d97ce680-7b7a-11eb-99d5-3486e6234614.png&quot; alt=&quot;googlemeet&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/109618399-d84bb980-7b7a-11eb-96f9-aec6610565b6.png&quot; alt=&quot;googlemeet2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;화상회의 한 번으로 프로젝트의 진행 방향을 어느 정도 정리할 수 있었다.&lt;/p&gt;
-
-&lt;p&gt;(여러 패치로 나누는 것, W3C의 스팩이 부족한 점이 있어서 논의가 필요한 부분이 있다는 것, 이 값에 대한 “animation” 에서의 “보간”에 대해 추후에 논의가 필요할 것 같다 등등)&lt;/p&gt;
-
-&lt;p&gt;이 프로젝트는 현재 진행형이다. 3개의 패치가 이 프로젝트에 대한 패치이다.&lt;/p&gt;
-
-&lt;p&gt;어떤 기능을 함께 만들어나간다는 기쁨을 온몸으로 즐기고 있다.&lt;/p&gt;
-
-&lt;p&gt;느낀것 혹은 얻은 것은 다음과 같다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Full Test driven의 이점과 3000만 라인의 거대한 프로젝트가 높은 퀄리티로 유지되는 방법&lt;/li&gt;
-  &lt;li&gt;웹 표준의 중요성. Browser 간의 interoperability를 생각하는 능력&lt;/li&gt;
-  &lt;li&gt;개발자를 위한 좋은 인프라가 생산성에 어떤 이점을 주는지 (&lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_value_clamping_utils.h&quot;&gt;Chromium Source Search&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Code-review의 순기능&lt;/li&gt;
-  &lt;li&gt;Blink-dev에 새로 나오는 기능을 살펴보는 습관&lt;/li&gt;
-  &lt;li&gt;웹으로 무엇이든 할 수 있게 될 것이라는 생각&lt;/li&gt;
-  &lt;li&gt;매우 높은 수준의 개발자들과의 협업&lt;/li&gt;
-  &lt;li&gt;스택오버플로우 없이 문제 해결하기 (내부적인 이슈들은 소스코드를 보고 내가 해결해야 한다.)&lt;/li&gt;
-  &lt;li&gt;생각보다 웹브라우져에는 버그가 많다 (특히 scroll 쪽 이슈들 )&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;혹시 이 글을 보고 Chromium에 흥미가 생겼다면, 오픈소스 개발자의 문은 언제나 열려있다! 누구든 같이 Chromium을 개발하면 좋겠다.&lt;/p&gt;
-
-&lt;p&gt;취준생이 돼서 개인프로젝트도 진행하며 바빠지고, 불안함이 많아졌지만, 시간 날 때마다 책임감을 가지고 활동을 이어나가고 있다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Open Source" /><summary type="html">Chromium에서 활동한 지 반년 정도 되어가는 것 같고, 11개의 패치를 머지시켰다.</summary></entry></feed>
+&lt;p&gt;나중에 기회가 된다면 redux 내부 코드도 한번 훑어보고 싶다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="React" /><category term="Web" /><category term="Flux" /><summary type="html">이번 글에서는 면접 질문으로 들어왔던 Redux 써봤냐 → 그럼 flux 구조를 아느냐 에 대한 답변을 내 개인적으로 시원하게 하지 못해 아쉬움에 내용을 정리해 보도록 한다.</summary></entry></feed>
