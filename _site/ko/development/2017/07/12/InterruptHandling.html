@@ -1,0 +1,724 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화 | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다." />
+<meta property="og:description" content="사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다." />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-12T07:34:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화" />
+<script type="application/ld+json">
+{"url":"https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html"},"author":{"@type":"Person","name":"Seokho Song"},"@type":"BlogPosting","description":"사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.jpeg"},"name":"Seokho Song"},"headline":"PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화","dateModified":"2017-07-12T07:34:20+09:00","datePublished":"2017-07-12T07:34:20+09:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  pic-인터럽트-인터럽트-핸들링-인터럽트-활성화">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">6 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-07-12T07:34:20+09:00"><a class="u-url" href="">July 12, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/ko/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/ko/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/ko/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/ko/tags/#paging" title="Pages tagged Paging" rel="tag">Paging</a></li><li class="page-taxonomy"><a href="/ko/tags/#interrupt" title="Pages tagged Interrupt" rel="tag">Interrupt</a></li><li class="page-taxonomy"><a href="/ko/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/07/12/InterruptHandling.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/07/12/InterruptHandling.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>사실 오늘 오후쯤에 만들었는데, 잠깐 서버 작업할게 생겨서 글을 지금쯤 쓴다.</p>
+
+<p>이번에는 PIC인터럽트 핸들링을 성공했다.</p>
+
+<p><img src="/uploads/2017-07-11/OS/InterruptSuccess.png" alt="인터럽트핸들링" /></p>
+
+<p>딱히, 티나진 않지만 우측 상단에 작게 INT 라고 써있다.</p>
+
+<p>뒤에 바로 나오는 숫자는 인터럽트 번호, 뒤에 나오는건 카운터이다.</p>
+
+<p>그냥 실행시켜두면 카운터가 00부터 99까지 계속 증가한다</p>
+
+<p>32는 타이머 인터럽트.</p>
+
+<p>아무튼간</p>
+
+<p>이번에 해준일은 PIC드라이버 제작, IDT에 인터럽트 핸들링을 위한 루틴을 연결, 인터럽트 핸들링 하기전 문맥을 저장, 처리후 복원하는 것을 다뤘다.</p>
+
+<p>우선 최근에는 더 많은 기능을 제공하는 APIC를 사용한다고 한다. 책에서는 나중에 다룬다고 하니 일단 패스.</p>
+
+<p>그래서 그냥 PIC를 다루는데, 이제 PIC라고 하는 것의 드라이버를 작성해야 한다.</p>
+
+<p><img src="/uploads/2017-07-11/OS/PICDriver.gif" alt="PIC" /></p>
+
+<p>작성할 PIC 드라이버의 다이어그램이다.</p>
+
+<p>마스터와 슬레이브로 나뉘어있고, 각각  PortIO Map 방식으로 마스터는 0x20, 0x21 슬레이브는 0xA0, 0xA1로 연결되어있다.</p>
+
+<p>여기서, ICW (Initalize Command Word)로 초기화를 해주고</p>
+
+<p>사용할때는 OCW (Operation Command Word)로 사용한다.</p>
+
+<p><a href="https://www.allsyllabus.com/aj/note/EEE/8086%20Microprocessor%20&amp;%20Peripherals/unit%207/Command%20Words%20of%208259A.php#.WWTTAIjyhEY">이곳 그림 참고</a></p>
+
+<p>초기화 할때는 Port IO Mapping을 사용한다. 저번에 만들었던 Port IO 드라이버를 쓰면 되겠다.</p>
+
+<p>Driver 디렉토리에 PIC 디렉토리를 만들고, PIC.h, PIC.c를 만들었다.</p>
+
+<p>내용은 다음과 같다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//PIC.h</span>
+
+<span class="cp">#ifndef __PIC_H__
+#define __PIC_H__
+#include &lt;Types.h&gt;
+</span>
+<span class="cp">#define PIC_MASTER_PORT_1   0x20
+#define PIC_MASTER_PORT_2   0x21
+</span>
+<span class="cp">#define PIC_SLAVE_PORT_1    0xA0
+#define PIC_SLAVE_PORT_2    0xA1
+</span>
+<span class="cp">#define PIC_IRQ_VECTOR      0x20
+</span>
+<span class="kt">void</span> <span class="nf">InitializePIC</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">MaskPICInterrupt</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_IRQ_Mask</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">SendPIC_EOI</span><span class="p">(</span><span class="kt">int</span> <span class="n">_IRQ_Number</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/* __PIC_H__ */</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<p>위에서 4개는 포트 번호, 아래는 Interrupt 루틴의 시작 벡터 (시스템 예외로 예약된 31번까지를 제외하고 32부터 사용한다.)</p>
+
+<p>그리고 ICW, OCW를 이용해 함수를 만들었다.</p>
+
+<p>그 구현</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//PIC.c</span>
+<span class="cp">#include "PIC.h"
+#include &lt;Driver/IO/PortIO.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">InitializePIC</span><span class="p">()</span>
+<span class="p">{</span>
+
+    <span class="c1">//Initalize Master PIC</span>
+    <span class="c1">//ICW1 IC4 = 1</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_1</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">);</span>
+    <span class="c1">//ICW2 Interrupt Vector Offset = 0x20 (32)</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_2</span><span class="p">,</span> <span class="n">PIC_IRQ_VECTOR</span><span class="p">);</span>
+    <span class="c1">//ICW3 Master-Slave Pin S2=1   |  0x04</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_2</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">);</span>
+    <span class="c1">//ICW4 SFNM = 0 BUF = 0 M/S = 0 AEOI = 0 uPM = 1 </span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_2</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">);</span>
+    
+    <span class="c1">//Initalize Slave PIC</span>
+    <span class="c1">//ICW1 IC4 = 1</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_1</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">);</span>
+    <span class="c1">//ICW2 Interrupt Vector Offset = 0x28</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_2</span><span class="p">,</span> <span class="n">PIC_IRQ_VECTOR</span> <span class="o">+</span> <span class="mi">8</span><span class="p">);</span>
+    <span class="c1">//ICW3 Master-Slave Pin Number = 2 | 0x2</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_2</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">);</span>
+    <span class="c1">//ICW4 SFNM = 0 BUF = 0 M/S = 0 AEOI = 0 uPM = 1</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_2</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">);</span>
+
+
+<span class="p">}</span>   
+
+<span class="kt">void</span> <span class="nf">MaskPICInterrupt</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_IRQ_Mask</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//OCW1 IRQ0~IRQ7</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_2</span><span class="p">,</span> <span class="n">_IRQ_Mask</span><span class="p">);</span>
+    <span class="c1">//OCW1 IRQ8~IRQ15</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_2</span> <span class="p">,</span> <span class="p">(</span><span class="n">BYTE</span><span class="p">)(</span><span class="n">_IRQ_Mask</span><span class="o">&gt;&gt;</span><span class="mi">8</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">SendPIC_EOI</span><span class="p">(</span><span class="kt">int</span> <span class="n">_IRQ_Number</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//OCW2 NonSpecific EOI Command.</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_MASTER_PORT_1</span><span class="p">,</span> <span class="mh">0X20</span><span class="p">);</span>
+
+    <span class="c1">//If Slave Interrupt.</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_IRQ_Number</span><span class="o">&gt;=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIC_SLAVE_PORT_1</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>사실, Port IO를 이용해 계속 Command Word 를 날리는게 이 드라이버의 역할이다.</p>
+
+<p>그리고 인터럽트 처리를 위한 코드들</p>
+
+<p><img src="/uploads/2017-07-11/OS/InterruptFiles.png" alt="인터럽트 처리 파일" /></p>
+
+<p>각각 인터럽트 설정, 인터럽트 핸들러, 인터럽트 서비스 루틴이 들어있다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Interrupt.h</span>
+
+<span class="cp">#ifndef __INTERRUPT_H__
+#define __INTERRUPT_H__
+#include &lt;Types.h&gt;
+</span><span class="kt">void</span> <span class="nf">EnableInterrupt</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">DisableInterrupt</span><span class="p">();</span>
+<span class="n">QWORD</span> <span class="nf">ReadFlags</span><span class="p">();</span>
+<span class="cp">#endif </span><span class="cm">/*__INTERRUPT_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>이런 짧은 해더파일이다. 이 코드는 어셈블리 코드랑 직접 연결된다.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;Interrupt.asm</span>
+<span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+
+<span class="k">SECTION</span> <span class="nv">.text</span>
+
+<span class="nf">global</span> <span class="nv">EnableInterrupt</span><span class="p">,</span> <span class="nb">Di</span><span class="nv">sableInterrupt</span><span class="p">,</span> <span class="nv">ReadFlags</span>
+
+<span class="nl">EnableInterrupt:</span>
+    <span class="nf">sti</span>
+    <span class="nf">ret</span>
+<span class="nl">DisableInterrupt:</span>
+    <span class="nf">cli</span>
+    <span class="nf">ret</span>
+<span class="nl">ReadFlags:</span>
+    <span class="nf">pushfq</span>
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">ret</span>
+</code></pre></div></div>
+<p>인터럽트를 활성화(sti), 비활성화(cli), Flag 레지스터 조회(pushfq)
+에 사용된다.</p>
+
+<p>그리고 인터럽트 서비스 루틴</p>
+
+<p>인터럽트 서비스 루틴은, 인터럽트 핸들러를 호출하기 전</p>
+
+<p>Context의 보관(스택에 싹 집어넣기)</p>
+
+<p><img src="/uploads/2017-07-11/OS/ContextSave.png" alt="ContextSave" /></p>
+
+<p>후, Cotext 복원 (pop pop pop pop!!)</p>
+
+<p>(Error Code가 있을경우 파라미터 처리)</p>
+
+<p>후 다시 스택 스위칭하고 원래 코드로 복귀하는 역할을 한다.</p>
+
+<p>인터럽트 서비스 루틴의 해더파일은 다음과 같다.</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//InterService.h</span>
+<span class="cp">#ifndef __INTERRUPT_SERVICE_H__
+#define __INTERRUPT_SERVICE_H__
+</span>
+<span class="c1">//Reserved Exceptions</span>
+<span class="kt">void</span> <span class="nf">ISRDividError</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRDebug</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRNMI</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRBreakPoint</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISROverflow</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRBoundRangeExceeded</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRInvalidOpCode</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRDeviceNotAvailable</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRDoubleFault</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRCoProcessorSegmentOverrun</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRInvalidTSS</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRSegmentNotPresent</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRStackSegmentFault</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRGeneralProtection</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRPageFault</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISR15</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRFloatingPointError</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRAlignmentCheck</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRMachineCheck</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRSIMDError</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRDefaultException</span><span class="p">();</span>
+<span class="c1">//PIC Interrupt</span>
+<span class="kt">void</span> <span class="nf">ISRTimer</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRPS2Keyboard</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRSlavePIC</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRSerialPort2</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRSerialPort1</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRParallel2</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRFloppy</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRParallel1</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRRTC</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRReserved</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRNotUsed1</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRNotUsed2</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRPS2Mouse</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRCoprocessor</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRHDD1</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRHDD2</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ISRDefaultInterrupt</span><span class="p">();</span>
+<span class="cp">#endif </span><span class="cm">/* __INTERRUPT_SERVICE_H__ */</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>위 해더파일은 전부 어셈블리 구현으로 연결되며, 코드가 너무 길어서 일부만 가져왔다.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;InterruptService.asm</span>
+
+<span class="c1">;...생략...</span>
+
+<span class="nl">ISRDividError:</span>
+    <span class="nf">SAVECONTEXT</span>
+    <span class="nf">mov</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="nf">call</span> <span class="nv">DefaultExceptionHandler</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+<span class="nl">ISRDebug:</span>
+    <span class="nf">SAVECONTEXT</span>
+    <span class="nf">mov</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="nf">call</span> <span class="nv">DefaultExceptionHandler</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+<span class="nl">ISRNMI:</span>
+    <span class="nf">SAVECONTEXT</span>
+    <span class="nf">mov</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="nf">call</span> <span class="nv">DefaultExceptionHandler</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+<span class="nl">ISRBreakPoint:</span>
+    <span class="nf">SAVECONTEXT</span>
+    <span class="nf">mov</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">3</span>
+    <span class="nf">call</span> <span class="nv">DefaultExceptionHandler</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+<span class="nl">ISROverflow:</span>
+    <span class="nf">SAVECONTEXT</span>
+    <span class="nf">mov</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">4</span>
+    <span class="nf">call</span> <span class="nv">DefaultExceptionHandler</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+
+<span class="c1">;...생략...</span>
+
+</code></pre></div></div>
+
+<p>SAVECONTEXT
+LOADCONTEX는 각각 Contex를 보관,복귀 할때 쓰는 코드의 메크로.</p>
+
+<p><a href="https://github.com/DevSDK/0SOS/blob/master/02_Kernel64/Source/Interrupt/InterruptService.asm">인터럽트 서비스 루틴 어셈블리 Full Source Code</a></p>
+
+<p>저 서비스 루틴은 Handler함수를 호출하게 되는데,</p>
+
+<p>InterruptHandler 에 구현이 되어있다.</p>
+
+<p>그 전에, 이번에 비디오메모리에 출력하는 함수를 이파일 저파일에서 사용하게 되서 Utility/Console.h 에 PrintVideoMemory를 옮겼다.</p>
+
+<p>인터럽트 핸들러의 해더파일이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//InterruptHandler.h</span>
+
+<span class="cp">#ifndef __INTERRUPT_HANDLER_H__
+#define __INTERRUPT_HANDLER_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">DefaultExceptionHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ErrorCode</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">DefaultInterruptHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">KeyboardInterruptHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/*__INTERRUPT_HANDLER_H__*/</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<p>각각, 기본 핸들러, 키보드 핸들러다.</p>
+
+<p>구현은 다음과 같다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//InterruptHandler.c</span>
+<span class="cp">#include "InterruptHandler.h"
+#include &lt;Driver/PIC/PIC.h&gt;
+#include &lt;Utility/Console.h&gt;
+</span><span class="kt">void</span> <span class="nf">__DebugIntOutput</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_Count</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">Buffer</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"[INT:  ,  ]"</span><span class="p">;</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Vector</span><span class="o">/</span><span class="mi">10</span> <span class="o">+</span> <span class="sc">'0'</span><span class="p">;</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Vector</span><span class="o">%</span><span class="mi">10</span> <span class="o">+</span> <span class="sc">'0'</span><span class="p">;</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Count</span><span class="o">/</span><span class="mi">10</span>  <span class="o">+</span> <span class="sc">'0'</span><span class="p">;</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Count</span><span class="o">%</span><span class="mi">10</span>  <span class="o">+</span> <span class="sc">'0'</span><span class="p">;</span>  
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">69</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mh">0x0F</span><span class="p">,</span><span class="n">Buffer</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">DefaultExceptionHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ErrorCode</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">Buffer</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,};</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="n">_Vector</span><span class="o">/</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">Buffer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="n">_Vector</span><span class="o">%</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mh">0xF</span><span class="p">,</span><span class="s">"================================================================================"</span><span class="p">);</span>
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mh">0xF</span><span class="p">,</span><span class="s">"Exception:                                                                      "</span><span class="p">);</span>
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mh">0xF</span><span class="p">,</span><span class="s">"                                                                                "</span><span class="p">);</span>
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mh">0xF</span><span class="p">,</span><span class="s">"================================================================================"</span><span class="p">);</span>
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mh">0xF</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">DefaultInterruptHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">)</span>
+<span class="p">{</span>
+    
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">g_DefaultInterruptCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">g_DefaultInterruptCounter</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_DefaultInterruptCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">100</span><span class="p">;</span>
+    <span class="n">__DebugIntOutput</span><span class="p">(</span><span class="n">_Vector</span><span class="p">,</span> <span class="n">g_DefaultInterruptCounter</span><span class="p">);</span>
+    <span class="n">SendPIC_EOI</span><span class="p">(</span><span class="n">_Vector</span> <span class="o">-</span> <span class="n">PIC_IRQ_VECTOR</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">KeyboardInterruptHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">_Vector</span><span class="p">)</span>
+<span class="p">{</span>
+    
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">g_KeyboardInterruptCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">g_KeyboardInterruptCounter</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_KeyboardInterruptCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">100</span><span class="p">;</span>
+    <span class="n">__DebugIntOutput</span><span class="p">(</span><span class="n">_Vector</span><span class="p">,</span> <span class="n">g_KeyboardInterruptCounter</span><span class="p">);</span>
+    <span class="n">SendPIC_EOI</span><span class="p">(</span><span class="n">_Vector</span> <span class="o">-</span> <span class="n">PIC_IRQ_VECTOR</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>내용을 보면 예외가 발생하면 일단, 시스템을 정지시키고 예외 번호를 보여주게 만들어뒀고,</p>
+
+<p>인터럽트 처리구믄을 보면 더이상 멈춰있지않고 반환을 한다.</p>
+
+<p>또한, 인터럽트 발생정보와, 발생횟수를 우측 상단에 출력한다!</p>
+
+<p>이제, 아까 만들었던 인터럽트 서비스 루틴을</p>
+
+<p>저번에 열씸히 만든 IDT에 싹 올려놓으면 된다.</p>
+
+<p>저번의 IDT 초기화 구문은 이랬다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">InitializeIDTTables</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">IDTR</span><span class="o">*</span> <span class="n">idtr</span> <span class="o">=</span> <span class="p">(</span><span class="n">IDTR</span><span class="o">*</span><span class="p">)</span> <span class="n">IDTR_POINTER</span><span class="p">;</span>
+    <span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span>  <span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span><span class="p">)(</span><span class="n">IDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDTR</span><span class="p">));</span>
+    
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">BaseAddress</span>   <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">entry</span><span class="p">;</span>
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">Size</span>          <span class="o">=</span> <span class="n">IDT_TABLE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">IDT_MAX_ENTRY_COUNT</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">DummyHandler</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이제, 더미 핸들러는 버리고</p>
+
+<p>실제로 동작하는 핸들러와 잇는다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//IDT.c</span>
+
+<span class="kt">void</span> <span class="nf">InitializeIDTTables</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">IDTR</span><span class="o">*</span> <span class="n">idtr</span> <span class="o">=</span> <span class="p">(</span><span class="n">IDTR</span><span class="o">*</span><span class="p">)</span> <span class="n">IDTR_POINTER</span><span class="p">;</span>
+    <span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span>  <span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span><span class="p">)(</span><span class="n">IDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDTR</span><span class="p">));</span>
+    
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">BaseAddress</span>   <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">entry</span><span class="p">;</span>
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">Size</span>          <span class="o">=</span> <span class="n">IDT_TABLE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ISRDividError</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ISRDebug</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">ISRNMI</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">ISRBreakPoint</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">ISROverflow</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="n">ISRBoundRangeExceeded</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span><span class="n">ISRInvalidOpCode</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span><span class="n">ISRDeviceNotAvailable</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span><span class="n">ISRDoubleFault</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span><span class="n">ISRCoProcessorSegmentOverrun</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span><span class="n">ISRInvalidTSS</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span><span class="n">ISRSegmentNotPresent</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span><span class="n">ISRStackSegmentFault</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span><span class="n">ISRGeneralProtection</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span><span class="n">ISRPageFault</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span><span class="n">ISR15</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span><span class="n">ISRFloatingPointError</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span><span class="n">ISRAlignmentCheck</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span><span class="n">ISRMachineCheck</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span><span class="n">ISRSIMDError</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span><span class="n">ISRDefaultException</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">32</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ISRDefaultException</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span><span class="n">ISRTimer</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">33</span><span class="p">],</span><span class="n">ISRPS2Keyboard</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span><span class="n">ISRSlavePIC</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span><span class="n">ISRSerialPort2</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">36</span><span class="p">],</span><span class="n">ISRSerialPort1</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">37</span><span class="p">],</span><span class="n">ISRParallel2</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">38</span><span class="p">],</span><span class="n">ISRFloppy</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">39</span><span class="p">],</span><span class="n">ISRParallel1</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">40</span><span class="p">],</span><span class="n">ISRRTC</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">41</span><span class="p">],</span><span class="n">ISRReserved</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">42</span><span class="p">],</span><span class="n">ISRNotUsed1</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">43</span><span class="p">],</span><span class="n">ISRNotUsed2</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">44</span><span class="p">],</span><span class="n">ISRPS2Mouse</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">45</span><span class="p">],</span><span class="n">ISRCoprocessor</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">46</span><span class="p">],</span><span class="n">ISRHDD1</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="mi">47</span><span class="p">],</span><span class="n">ISRHDD2</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">48</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">IDT_MAX_ENTRY_COUNT</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ISRDefaultInterrupt</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>뭔가 많은데, 반복되는 코드일 뿐이다.</p>
+
+<p>저번에 더미 코드로 이어주었던 이 코드를 아까 만든 서비스루틴하고 이은것이다.</p>
+
+<p>아무튼 위 코드를 작성하고 빌드하고, 자잘한 버그 고치고</p>
+
+<p>실행</p>
+
+<p>깜빡거린다 흠…</p>
+
+<p>왜 그런지 찾아보고 찾아봤다.</p>
+
+<p>일단 깜빡거리는게 발생하는건</p>
+
+<p>인터럽트를 활성화 할때였다.</p>
+
+<p>1차 멘붕오고 다시 멘탈 잡고 코드를 자세히 봤다.</p>
+
+<p>인터럽트 활성화 코드를 잠깐 빼고, Divide By Zero 예외를 발생시켰는데</p>
+
+<p>동작한다.</p>
+
+<p>이상하다. IDT 자체가 이상하면 둘다 안됬어야 하는데, 이상하게 일부만 동작한다.</p>
+
+<p>그래서 좀더 자세하게 코드를 보니</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IDT_MAX_ENTRY_COUNT</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDT_ENTRY</span><span class="p">)</span>
+</code></pre></div></div>
+<p>여야 할 코드가</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IDT_MAX_ENTRY_COUNT</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDT_ENTRY</span><span class="p">)</span>
+</code></pre></div></div>
+<p>로 되어있었다. 이러니까, 0번 익셉션인 Divide By Zero 는 먹히고</p>
+
+<p>PIC의 Timer Interrupt 처리는 못해서 시스템이 다운되고 켜지고 반복했던거다.</p>
+
+<p>해결해서 인터럽트가 동작하고, 카운터 올라가는 모습을 보니 뿌듯하다.</p>
+
+<p>이제 인터럽트 방식으로 키보드 처리하게끔 키보드 드라이버를 업데이트 하는 일이 남았다.</p>
+
+<p>그다음은 드디어 쉘!</p>
+
+<p>이 길고 긴 글 읽어주셔서 고맙다고 인사를 드리고 싶다.</p>
+
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2017/07/12/InterruptHandling.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2017/07/10/ReadyInterrupt.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> GDT 변경 &amp; IDT 정의 TSS 설정
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2017/07/13/InterruptKeyboard.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        키보드 드라이버의 업데이트-인터럽트 방식
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2021 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

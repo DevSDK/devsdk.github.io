@@ -1,0 +1,509 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Port IO memory and Input input process PS/2 Keyboard IO. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="Port IO memory and Input input process PS/2 Keyboard IO." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a result until today from yesterday thinking a lot." />
+<meta property="og:description" content="This is a result until today from yesterday thinking a lot." />
+<link rel="canonical" href="https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html" />
+<meta property="og:url" content="https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-05T07:00:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Port IO memory and Input input process PS/2 Keyboard IO." />
+<script type="application/ld+json">
+{"url":"https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html"},"author":{"@type":"Person","name":"Seokho Song"},"@type":"BlogPosting","description":"This is a result until today from yesterday thinking a lot.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/images/avator.jpeg"},"name":"Seokho Song"},"headline":"Port IO memory and Input input process PS/2 Keyboard IO.","dateModified":"2017-07-05T07:00:20+09:00","datePublished":"2017-07-05T07:00:20+09:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  port-io-memory-and-input-input-process-ps-2-keyboard-io">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Port IO memory and Input input process PS/2 Keyboard IO.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">4 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-07-05T07:00:20+09:00"><a class="u-url" href="">July 5, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/tags/#paging" title="Pages tagged Paging" rel="tag">Paging</a></li><li class="page-taxonomy"><a href="/tags/#input" title="Pages tagged Input" rel="tag">Input</a></li><li class="page-taxonomy"><a href="/tags/#keyboard" title="Pages tagged Keyboard" rel="tag">Keyboard</a></li><li class="page-taxonomy"><a href="/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/07/05/PortIOAndKeyboard.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/07/05/PortIOAndKeyboard.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			
+			<hr />
+
+<p><strong>I’m not a native English speaker. Please understand misspells or wrong grammar.</strong></p>
+
+<p>The contents are not fully translated. 
+So I recommand read korean if you can.</p>
+
+<p>If you find some mistakes or improvement points, Please leave a comment below.</p>
+
+<hr />
+<p><br /></p>
+
+			
+			<p>This is a result until today from yesterday thinking a lot.</p>
+
+<p><img src="/uploads/2017-07-04/OS/Keyboard.png" alt="Keyboard Input" /></p>
+
+<p>The red text was input text.</p>
+
+<p>Now, 0SOS support keyboard input.</p>
+
+<p>Of course, it isn’t a shell, it is just a keyboard driver.</p>
+
+<p>It just simply works that input data to video memory.</p>
+
+<p>I’m a little bit worried about it is designed for PS/2 interface. (Old computer’s port)</p>
+
+<p>Well, I don’t wanna develop exactly the same as the book.</p>
+
+<p>But…</p>
+
+<p>I tried to google it, even I tried to ask the author:</p>
+
+<p><img src="/uploads/2017-07-04/OS/writer1.png" alt="저자1" /></p>
+
+<p><img src="/uploads/2017-07-04/OS/writer2.png" alt="저자2" /></p>
+
+<p>He said like that.</p>
+
+<p>He said you need to control the PCI.</p>
+
+<p>So I defer about that, and I’ll design to extentionable.</p>
+
+<p>From the book, It uses input data to queue buffer, I think the queue will be used to the interface.</p>
+
+<p>Well, this problem also defers when I need to develop USB Driver and PCI control.</p>
+
+<p>First, Let’s develop the Keyboard Driver on the PS/2 version.</p>
+
+<p>Fortunately, the Laptop keyboard was PS/2 internally.</p>
+
+<p>This is no problem to develop.</p>
+
+<p>It needs a classification of the source codes, because this will begin in earnest.</p>
+
+<p>So I made Driver directory in Source folder.</p>
+
+<p>My method for this is <a href="https://ko.wikipedia.org/wiki/%EC%9E%85%EC%B6%9C%EB%A0%A5_%EB%A7%B5_%EC%9E%85%EC%B6%9C%EB%A0%A5">Port-Map IO</a>, So I separate between PortIO and keyboard.</p>
+
+<p>So Below image was the tree that was made from that directories</p>
+
+<p><img src="/uploads/2017-07-04/OS/DirectoryTree.png" alt="DirectoryTree" /></p>
+
+<p>*I don’t know why gch file is added, dammit Google said it was made from gcc when it running with the header file. I don’t know how can fix. I think I should take time for checking makefile.</p>
+
+<p>Fist, I hate the ‘../../’ when ‘include’ so I add the gcc include path option at source directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -I ../Source
+</code></pre></div></div>
+
+<p>Okay now,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "../../Types.h" //We can use below line instead of this line.
+#include &lt;Types.h&gt;
+</span></code></pre></div></div>
+
+<p>Well, I tried to make better than before…</p>
+
+<p>Now Let’s build time.</p>
+
+<p>Build failure. LoL.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>undefined reference to PS2~~
+</code></pre></div></div>
+
+<p>It makes a message above.</p>
+
+<p>As I check that message more carefully, that would compile header, and not compile the source file.</p>
+
+<p>Maybe the reason is that in the book was described by a single path.</p>
+
+<p>Okay, Now I start the editing makefile.</p>
+
+<p>I think I spent 3 hours for that.</p>
+
+<p>Below code is 02_Kernel64/makefile.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nv">CSOURCEFILES</span> <span class="o">=</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../<span class="nv">$(SOURCEDIR)</span>/<span class="k">*</span>.c<span class="nf">)</span>
+<span class="nv">ASSEMBLYSOURCEFILES</span> <span class="o">=</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../<span class="nv">$(SOURCEDIR)</span>/<span class="k">*</span>.asm<span class="nf">)</span>
+</code></pre></div></div>
+<p>I changed C and assembly code assignment expression above codes to below codes.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">CSOURCEFILES</span> <span class="o">=</span> <span class="nf">$(</span><span class="nb">shell</span> find ../<span class="nv">$(SOURCEDIR)</span>/ <span class="nt">-name</span> <span class="k">*</span>.c<span class="nf">)</span>
+<span class="nv">ASSEMBLYSOURCEFILES</span> <span class="o">=</span> <span class="nf">$(</span><span class="nb">shell</span> find ../<span class="nv">$(SOURCEDIR)</span>/ <span class="nt">-name</span> <span class="k">*</span>.asm<span class="nf">)</span>
+</code></pre></div></div>
+
+<p>It has made a target all about C file, but It wouldn’t compile properly.</p>
+
+<p>So It cannot link on ld command at linking step because the file was lost.</p>
+
+<p>Thus I changed the rule of making o file.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">%.o</span><span class="o">:</span> <span class="nf">../$(SOURCEDIR)/%.c         </span>
+    <span class="err">$(GCC64)</span> <span class="err">-c</span> <span class="err">$&lt;</span>         
+<span class="nl">%.o</span><span class="o">:</span> <span class="nf">../$(SOURCEDIR)%.asm</span>
+    <span class="err">$(NASM64)</span> <span class="err">-c</span> <span class="err">$@</span> <span class="err">$&lt;</span>
+</code></pre></div></div>
+<p>Above codes to below codes.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">$(COBJECTFILES)</span><span class="o">:</span> <span class="nf">$(CSOURCEFILES)</span>
+    <span class="err">$(GCC64)</span> <span class="err">-c</span> <span class="err">$^</span>
+<span class="nl">$(ASSEMBLYOBJECTFILES)</span><span class="o">:</span> <span class="nf">$(ASSEMBLYSOURCEFILES)</span>
+    <span class="err">$(NASM64)</span> <span class="err">-o</span> <span class="err">$@</span> <span class="err">$&lt;</span>
+</code></pre></div></div>
+
+<p>After building all of the files, that result file would be transfer in Obj directory.</p>
+
+<p>And linker was executed, the disk was completely baked.</p>
+
+<p><img src="/uploads/2017-07-04/OS/BuildComplate.png" alt="BuildComplate" /></p>
+
+<p>I almost cry -_-.</p>
+
+<p>Anyway,</p>
+
+<p>The build was complete, launch the qemu with happy.</p>
+
+<p>Keep blinking -_-;;;; I try to find why it is working like it.</p>
+
+<p>I wanna use GDB, but… I can’t handle it. Also QEMU host the server, so It cannot work step by step.</p>
+
+<p>I’ll try to find a GUI version.</p>
+
+<p>Anyway, I found the reason.</p>
+
+<p>Two of the functions in PortIO assembly and header connected oppositely.</p>
+
+<p>Thus they return not properly, also parameter not work properly, the stack was exploded.</p>
+
+<p>PortIO function now available and I start to write keyboard driver using PS/2 Keyboard port.</p>
+
+<p><a href="https://github.com/DevSDK/0SOS/tree/master/02_Kernel64/Source/Driver/Keyboard">I think keyboard driver codes quite a bit long, so you can check here</a></p>
+
+<p>When the user presses the keyboard, they send the scan code.</p>
+
+<p>I make a g_KeyboardStatus structure for using shift and caps lock functions, I implement that when it press that keys, that value would be updated.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Keyboard.h</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_KeyboardSataus</span>
+<span class="p">{</span>
+    <span class="n">BOOL</span> <span class="n">isShiftKeyDown</span><span class="p">;</span>
+    <span class="n">BOOL</span> <span class="n">isCapsLockOn</span><span class="p">;</span>
+    <span class="n">BOOL</span> <span class="n">isNumLockOn</span><span class="p">;</span>
+    <span class="n">BOOL</span> <span class="n">isScrollLockOn</span><span class="p">;</span>
+
+    <span class="n">BOOL</span> <span class="n">isExtendCode</span><span class="p">;</span>
+    <span class="kt">int</span>  <span class="n">SkipPauseCount</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="n">KeyboardStatus</span><span class="p">;</span>
+
+
+
+<span class="k">static</span> <span class="n">KeyboardStatus</span>    <span class="n">g_KeyboardStatus</span><span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,};</span>
+
+
+</code></pre></div></div>
+
+<p>And I create scan code-askii code map.</p>
+
+<p>I made it can possible separate between combined-key and normal-key.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Keyboard.h</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_StructKeyMapEntry</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span>     <span class="n">NormalCode</span><span class="p">;</span>
+    <span class="n">BYTE</span>     <span class="n">CombinedCode</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="n">KeyMapEntry</span><span class="p">;</span>
+
+
+<span class="k">static</span> <span class="n">KeyMapEntry</span>         <span class="n">g_KeyMapScanTable</span><span class="p">[</span><span class="n">KEYMAP_TABLE_SIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span> <span class="n">KEY_NONE</span>                <span class="p">,</span>        <span class="n">KEY_NONE</span>        <span class="p">},</span> <span class="c1">//    0</span>
+    <span class="p">{</span> <span class="n">KEY_ESC</span>                 <span class="p">,</span>        <span class="n">KEY_ESC</span>            <span class="p">},</span> <span class="c1">//    1</span>
+    <span class="p">{</span> <span class="sc">'1'</span>                    <span class="p">,</span>         <span class="sc">'!'</span>                <span class="p">},</span> <span class="c1">//    2</span>
+    <span class="p">{</span> <span class="sc">'2'</span>                    <span class="p">,</span>        <span class="sc">'@'</span>                <span class="p">},</span> <span class="c1">//    3</span>
+    <span class="p">{</span> <span class="sc">'3'</span>                    <span class="p">,</span>        <span class="sc">'#'</span>                <span class="p">},</span> <span class="c1">//    4</span>
+    <span class="p">{</span> <span class="sc">'4'</span>                    <span class="p">,</span>        <span class="sc">'$'</span>                <span class="p">},</span> <span class="c1">//    5</span>
+    <span class="p">{</span> <span class="sc">'5'</span>                    <span class="p">,</span>        <span class="sc">'%'</span>                <span class="p">},</span> <span class="c1">//    6</span>
+    <span class="p">{</span> <span class="sc">'6'</span>                    <span class="p">,</span>        <span class="sc">'^'</span>                <span class="p">},</span> <span class="c1">//    7</span>
+    <span class="p">{</span> <span class="sc">'7'</span>                    <span class="p">,</span>        <span class="sc">'&amp;'</span>                <span class="p">},</span> <span class="c1">//    8</span>
+    <span class="p">{</span> <span class="sc">'8'</span>                    <span class="p">,</span>        <span class="sc">'*'</span>                <span class="p">},</span> <span class="c1">//    9</span>
+    <span class="p">{</span> <span class="sc">'9'</span>                    <span class="p">,</span>        <span class="sc">'('</span>                <span class="p">},</span> <span class="c1">//    10</span>
+    <span class="p">{</span> <span class="sc">'0'</span>                    <span class="p">,</span>        <span class="sc">')'</span>                <span class="p">},</span> <span class="c1">//    11</span>
+    <span class="p">{</span> <span class="sc">'-'</span>                    <span class="p">,</span>        <span class="sc">'_'</span>                <span class="p">},</span> <span class="c1">//    12</span>
+    <span class="c1">// 나머지는 생략 89개다.</span>
+
+</code></pre></div></div>
+
+<p>Anyway, We can process keyboard input through the table.</p>
+
+<p>You can find Internal Implement on github.</p>
+
+<p>So you can use on kernel entry like that:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//__Kernel_Entry.c</span>
+<span class="kt">void</span> <span class="nf">__KERNEL_ENTRY</span><span class="p">()</span>
+<span class="p">{</span>
+
+    <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span><span class="s">"64 bit C Language Kernel."</span><span class="p">);</span>    
+    <span class="n">BYTE</span> <span class="n">flags</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">temps</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,};</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">PS2ActivationKeyboard</span><span class="p">()</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span><span class="s">"Keyboard Error    ."</span><span class="p">);</span>    
+        <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+        
+        
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">PS2CheckOutputBufferNotEmpty</span><span class="p">()</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span>
+        <span class="p">{</span>
+
+                <span class="n">BYTE</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">PS2GetKeyboardScanCode</span><span class="p">();</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ConvertScancodeToASCII</span><span class="p">(</span> <span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">flags</span><span class="p">)</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">KEY_DOWN</span> <span class="p">)</span>
+                        <span class="n">PrintVideoMemory</span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span> <span class="n">temps</span><span class="p">);</span>
+                
+            
+        <span class="p">}</span>
+
+
+            
+    <span class="p">}</span>
+        
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>As you can see, if the input value exists, that would take that value and change to ASCII, and checking whether that is keyboard input.</p>
+
+<p>Not use interrupt yet.</p>
+
+<p>I’m so happy because it works properly.</p>
+
+<p>Finally, I will.. make… Shell..</p>
+
+<p>Anyway, the next thing was inttrupt… It should be hard.</p>
+
+<p><a href="https://github.com/DevSDK/0SOS/tree/master/02_Kernel64">Full Source Code of Kernel64</a></p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html';
+        this.page.identifier = 'https://devsdk.github.io/development/2017/07/05/PortIOAndKeyboard.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/07/03/QemuAndGdb.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Make a debugging environment using QEMU + GDB
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/07/10/ReadyInterrupt.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Changing GDT &amp; Defining GDT &amp; Setting TSS
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2021 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
