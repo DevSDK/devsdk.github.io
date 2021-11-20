@@ -160,9 +160,9 @@
 			
 			<h1 id="blinkon-15-day1">BlinkOn 15 Day1</h1>
 
-<p>Created: November 18, 2021 11:01 PM</p>
-
 <p>블링크온 이라는 크로미움 렌더링 엔진에 대한 컨퍼런스가 이번주 목요일 금요일 새벽 한시부터 4시까지 진행이 되었었다.</p>
+
+<p>이번 글에서는 각 세션에 대해 간력히 나열하고 정리해보는 글 일것 같다.</p>
 
 <h3 id="networking">Networking</h3>
 <p>네트워킹 세션은 상당히 흥미로웠다. 네트워킹 세션 페이지에서 조인 버튼을 누르면 실제 블링크온에 참여한 사람을 렌덤하게 매치시켜준다.</p>
@@ -188,7 +188,9 @@
 
 <p>대체로 individual contributor에 대해 관심이 많았던 것 같다. 개인 컨트리뷰터에 대해 항상 감사하다고 생각한다고 그들이 오픈소스 컨트리뷰터들을 어떻게 생각하는지 어떤 태도로 대하고 있는지 엿볼 수 있었다.</p>
 
-<p>케나다 여행 가고 싶다고 하니까 나중에 놀러오라고, 학생이면 구글의 학생 인턴쉽 프로그램도 있다 한번 찾아봐봐 라는 이야기를 들었다.</p>
+<p>인상적이였던 이야기중 하나는 코딩 시간은 어느정도로 잡냐고 물어보니 하루를 3단계로 나눠서 1페이즈 스팩작성 및 스팩관련 작업 2페이즈 코딩 3페이즈 코드리뷰 및 문서작성을 한다고 했다. 다만 항상 그런건 아니고 때에 따라 개발만 하거나 문서만 쓰거나 한다고…</p>
+
+<p>케나다 여행 가고 싶다고 하니까 나중에 놀러오라고, 학생이면 구글의 학생 인턴쉽 프로그램도 있다고 그거 통해서 와보라고 소개해줬다. ㅋㅋ</p>
 
 <h2 id="day1">Day1</h2>
 
@@ -319,19 +321,19 @@
 
     <p>.a:has(.b:hover) 와 같이도 사용할 수도 있다. 유용할 것 같다.</p>
   </li>
-  <li>MathML by Frederic</li>
-</ul>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H-7kG2lEKQ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <li>
+    <p>MathML by Frederic</p>
 
-<p>수식 렌더링에 대한 이야기인듯, DOM처럼 다룰 수 있고 스타일이 가능해지지 않을까..?</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/H-7kG2lEKQ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
-<p>아직 잘 모르겠다..</p>
+    <p>수식 렌더링에 대한 이야기인듯, DOM처럼 다룰 수 있고 스타일이 가능해지지 않을까..?</p>
 
-<ul>
+    <p>아직 잘 모르겠다..</p>
+  </li>
   <li>Armv9 Security Update
     <iframe width="560" height="315" src="https://www.youtube.com/embed/0nxzSYz99pk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
-    <p>로우레벨 보안관련 업데이트가 많이 있던것 같은데 나중에 한번 여러번 좋을 것 같다.</p>
+    <p>로우레벨 보안관련 업데이트가 많이 있던것 같은데 나중에 한번 보면 좋을 것 같다.</p>
   </li>
   <li>Rendering 2022 Plans
     <iframe width="560" height="315" src="https://www.youtube.com/embed/NGRr_2afWnU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
@@ -371,55 +373,58 @@
       <li>Hit Testing the Fragment Tree</li>
     </ul>
   </li>
-  <li>Measuring Dropped Frames and Animation Smoothness by Michal</li>
-</ul>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jaE1PoSNwZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <li>
+    <p>Measuring Dropped Frames and Animation Smoothness by Michal</p>
 
-<ul>
-  <li>Animation Smoothness 오버뷰</li>
-  <li>Visual Completeness vs Smoothness vs Latency</li>
-  <li>어느정도 했는지</li>
-  <li>어떻게 할 수 있는지</li>
-</ul>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/jaE1PoSNwZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
-<p>Animation Smoothness 의 목표</p>
-
-<ul>
-  <li>애니메이션중에 Visual Completeness 프레임에 라벨링을 하는것</li>
-  <li>어떤 애니메이션 프레임이 사용자에게 영향이 갔는지 구분하는 것</li>
-  <li>페이지의 전체 라이프사이클을 측정하는 것</li>
-</ul>
-
-<p><a href="https://web.dev/smoothness/">https://web.dev/smoothness/</a></p>
-
-<p>기존 메트릭과 다른점은 visual smoothness를 실행중인 애니메이션에서 캡쳐하는 것과 모든 애니메이션에 대한 것 등이 있다.</p>
-
-<ul>
-  <li>Visual Completness
     <ul>
-      <li>렌더 프레임이 될 수 있는 기회를 가진 것</li>
-      <li>애니메이션 프레임으로 4개의 상태를 가질 수 있다
-        <ol>
-          <li>No Update Desired</li>
-          <li>Fully Presented</li>
-          <li>Partially Presented : 메인스래드 없이 컴포지터 업데이트</li>
-          <li>Dropped</li>
-        </ol>
+      <li>Animation Smoothness 오버뷰</li>
+      <li>Visual Completeness vs Smoothness vs Latency</li>
+      <li>어느정도 했는지</li>
+      <li>어떻게 할 수 있는지</li>
+    </ul>
+
+    <p>Animation Smoothness 의 목표</p>
+
+    <ul>
+      <li>애니메이션중에 Visual Completeness 프레임에 라벨링을 하는것</li>
+      <li>어떤 애니메이션 프레임이 사용자에게 영향이 갔는지 구분하는 것</li>
+      <li>페이지의 전체 라이프사이클을 측정하는 것</li>
+    </ul>
+
+    <p><a href="https://web.dev/smoothness/">https://web.dev/smoothness/</a></p>
+
+    <p>기존 메트릭과 다른점은 visual smoothness를 실행중인 애니메이션에서 캡쳐하는 것과 모든 애니메이션에 대한 것 등이 있다.</p>
+
+    <ul>
+      <li>Visual Completness
+        <ul>
+          <li>렌더 프레임이 될 수 있는 기회를 가진 것</li>
+          <li>애니메이션 프레임으로 4개의 상태를 가질 수 있다
+            <ol>
+              <li>No Update Desired</li>
+              <li>Fully Presented</li>
+              <li>Partially Presented : 메인스래드 없이 컴포지터 업데이트</li>
+              <li>Dropped</li>
+            </ol>
+          </li>
+        </ul>
       </li>
-    </ul>
-  </li>
-  <li>Animation Smoothness
-    <ul>
-      <li>Frame sequences는 애니메이션 도중 매우 중요하다</li>
-      <li>몇몇의 애니메이션은 Partially Presented다</li>
-      <li>몇몇의 애니메이션은 다른 애니메이션을 마스킹 할 수 있다 (i.e. 스크롤링)</li>
-    </ul>
-  </li>
-  <li>#show-performance-metrices-hud
-    <ul>
-      <li>퍼포먼스 메트릭을 실시간으로 볼 수 있는 HUD다</li>
-      <li>드랍된 프레임들의 확률을 볼 수 있다.</li>
-      <li>레이아웃 시프트도 측정해주는듯..?</li>
+      <li>Animation Smoothness
+        <ul>
+          <li>Frame sequences는 애니메이션 도중 매우 중요하다</li>
+          <li>몇몇의 애니메이션은 Partially Presented다</li>
+          <li>몇몇의 애니메이션은 다른 애니메이션을 마스킹 할 수 있다 (i.e. 스크롤링)</li>
+        </ul>
+      </li>
+      <li>#show-performance-metrices-hud
+        <ul>
+          <li>퍼포먼스 메트릭을 실시간으로 볼 수 있는 HUD다</li>
+          <li>드랍된 프레임들의 확률을 볼 수 있다.</li>
+          <li>레이아웃 시프트도 측정해주는듯..?</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
