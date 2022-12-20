@@ -1,0 +1,572 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>TCB and Context and ContextSwitch | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="TCB and Context and ContextSwitch" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal." />
+<meta property="og:description" content="Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal." />
+<link rel="canonical" href="https://devsdk.github.io/development/2017/08/23/BeginTask.html" />
+<meta property="og:url" content="https://devsdk.github.io/development/2017/08/23/BeginTask.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-23T05:00:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TCB and Context and ContextSwitch" />
+<script type="application/ld+json">
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/images/avator.jpeg"},"name":"Seokho Song"},"author":{"@type":"Person","name":"Seokho Song"},"@type":"BlogPosting","headline":"TCB and Context and ContextSwitch","dateModified":"2017-08-23T05:00:20+09:00","datePublished":"2017-08-23T05:00:20+09:00","description":"Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/development/2017/08/23/BeginTask.html"},"url":"https://devsdk.github.io/development/2017/08/23/BeginTask.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  tcb-and-context-and-contextswitch">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">TCB and Context and ContextSwitch
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">4 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-08-23T05:00:20+09:00"><a class="u-url" href="">August 23, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/tags/#performance" title="Pages tagged Performance" rel="tag">Performance</a></li><li class="page-taxonomy"><a href="/tags/#task" title="Pages tagged Task" rel="tag">Task</a></li><li class="page-taxonomy"><a href="/tags/#multicore" title="Pages tagged MultiCore" rel="tag">MultiCore</a></li><li class="page-taxonomy"><a href="/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/08/23/BeginTask.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/08/23/BeginTask.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			
+			<hr />
+
+<p><strong>I’m not a native English speaker. Please understand misspells or wrong grammar.</strong></p>
+
+<p>The contents are not fully translated. 
+So I recommand read korean if you can.</p>
+
+<p>If you find some mistakes or improvement points, Please leave a comment below.</p>
+
+<hr />
+<p><br /></p>
+
+			
+			<p>Before I named the data structure ‘Universal Data Structure’ shortly ‘UDS’, I think General is more properly instead of Universal.</p>
+
+<p>So I changed UDS to GDS.</p>
+
+<p>I implemented Context Switching and Task for multitasking that was not yet supported.</p>
+
+<p>It doesn’t look massive. But It is task switching definitely.</p>
+
+<p><img src="/uploads/2017-08-22/ShellContext.png" alt="Result" /></p>
+
+<p>Before we define “Task” we need to check out about Context.</p>
+
+<p>This Context, it was leaned OS in college.</p>
+
+<p>It’s Process and Task’s executed status.</p>
+
+<p>Context is just Register stored values and Stack.</p>
+
+<p>Context Switching is literally switching, that would execute here and there.</p>
+
+<p>The task is work that can be processed separately.</p>
+
+<p>In Task, Code and Data can be shared but Stack and Context keep separation.</p>
+
+<p>Latency time will be increased when you use timeslice instead of the batch process.</p>
+
+<p>So I’ll use Timeslice multitasking.</p>
+
+<p>Timeslice multitasking is context switching every millisecond by IRQ0 interrupt.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//shell.c</span>
+<span class="k">static</span> <span class="n">TCB</span> <span class="n">g_task</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">.};</span>
+<span class="k">static</span> <span class="n">QWORD</span> <span class="n">test_stack</span><span class="p">[</span><span class="mi">1024</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,};</span>
+
+<span class="kt">void</span> <span class="nf">TaskTask</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"[%d] Message from test task Press any key to switching</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">iteration</span><span class="o">++</span><span class="p">);</span>
+        <span class="n">_GetCh</span><span class="p">();</span>
+        <span class="n">ContextSwitch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_task</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">Context</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_task</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Context</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">Command_CreateTask</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">KEYDATA</span> <span class="n">key</span><span class="p">;</span>
+    <span class="n">InitTask</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_task</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">TaskTask</span><span class="p">,</span> <span class="n">test_stack</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">test_stack</span><span class="p">));</span>
+    
+    <span class="kt">int</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"[%d] message from shell Press any key to switching</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">iteration</span><span class="o">++</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">_GetCh</span><span class="p">()</span> <span class="o">==</span><span class="sc">'q'</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">ContextSwitch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_task</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Context</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_task</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">Context</span><span class="p">);</span>  
+        <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>CreatTask function, it works for the creation of task and initialization.</p>
+
+<p>Context Switching, switching context function.</p>
+
+<p>Task Control Block, it is data-structure for context.</p>
+
+<p>And Defining offsets and context.</p>
+
+<p>I created Directory “Tasking”</p>
+
+<p>Tasking/Task.h:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __TASK_H__
+#define __TASK_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+</span>
+<span class="c1">//SS, RSP, RFLAGS, CS, RIP..  Context</span>
+<span class="cp">#define CONTEXT_REGISTER_COUNT     25
+#define CONTEXT_REGISTER_SIZE       8
+</span>
+<span class="cp">#define CONTEXT_OFFSET_GS           0
+#define CONTEXT_OFFSET_FS           1
+#define CONTEXT_OFFSET_ES           2
+#define CONTEXT_OFFSET_DS           3
+#define CONTEXT_OFFSET_R15          4
+#define CONTEXT_OFFSET_R14          5
+#define CONTEXT_OFFSET_R13          6
+#define CONTEXT_OFFSET_R12          7
+#define CONTEXT_OFFSET_R11          8
+#define CONTEXT_OFFSET_R10          9
+#define CONTEXT_OFFSET_R9           10
+#define CONTEXT_OFFSET_R8           11
+#define CONTEXT_OFFSET_RSI          12
+#define CONTEXT_OFFSET_RDI          13
+#define CONTEXT_OFFSET_RDX          14
+#define CONTEXT_OFFSET_RCX          15
+#define CONTEXT_OFFSET_RBX          16
+#define CONTEXT_OFFSET_RAX          17
+#define CONTEXT_OFFSET_RBP          18
+#define CONTEXT_OFFSET_RIP          19
+#define CONTEXT_OFFSET_CS           20
+#define CONTEXT_OFFSET_RFLAG        21
+#define CONTEXT_OFFSET_RSP          22
+#define CONTEXT_OFFSET_SS           23
+</span>
+<span class="cp">#pragma pack(push,1)
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__CONTEXT_STRUCT</span>
+<span class="p">{</span>
+    <span class="n">QWORD</span> <span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_REGISTER_COUNT</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">CONTEXT</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__TCB_STRUCT</span>
+<span class="p">{</span>
+    <span class="n">CONTEXT</span> <span class="n">Context</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">ID</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">Flags</span><span class="p">;</span>
+
+    <span class="kt">void</span><span class="o">*</span> <span class="n">StackAddress</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">StackSize</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">TCB</span><span class="p">;</span>
+<span class="cp">#pragma pack(pop)
+</span>
+<span class="kt">void</span> <span class="nf">InitTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_StackAddress</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_StackSize</span><span class="p">);</span>
+
+<span class="c1">//Link Assembly File</span>
+<span class="kt">void</span> <span class="nf">ContextSwitch</span><span class="p">(</span><span class="n">CONTEXT</span><span class="o">*</span> <span class="n">_CurrentContext</span><span class="p">,</span> <span class="n">CONTEXT</span><span class="o">*</span> <span class="n">_NextContext</span><span class="p">);</span>
+<span class="cp">#endif </span><span class="cm">/*__TASK_H__*/</span><span class="cp">   
+</span></code></pre></div></div>
+
+<p>It has many definitions, but there are just index and registers.</p>
+
+<p>It’ll be great for statically assigning value in the array.</p>
+
+<p>And than Context (It is just register-values)</p>
+
+<p>And TCB (It can be Task Control Block and Thread Control Block)</p>
+
+<p>TCB contain Context, ID, Flags, Stack Address, and Stack size</p>
+
+<p>Tasing/Task.c:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include "Task.h"
+#include &lt;Utility/Memory.h&gt;
+#include &lt;Descriptor/GDT.h&gt;
+</span><span class="kt">void</span> <span class="nf">InitTask</span><span class="p">(</span><span class="n">TCB</span><span class="o">*</span> <span class="n">_Tcb</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_ID</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_EntryPointAddress</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_StackAddress</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_StackSize</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_MemSet</span><span class="p">(</span><span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">));</span>
+    
+    <span class="c1">//초기화 과정의 RSP, RBP 해당 Task의 Stack Pointer 기 떄문에 + Size </span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RSP</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_StackAddress</span> <span class="o">+</span> <span class="n">_StackSize</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RBP</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_StackAddress</span> <span class="o">+</span> <span class="n">_StackSize</span><span class="p">;</span>
+    
+    <span class="c1">//Segment Register Setup in Context </span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_CS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_CODE_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_DS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_ES</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_FS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_GS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_SS</span><span class="p">]</span> <span class="o">=</span> <span class="n">GDT_KERNEL_DATA_SEGMENT</span><span class="p">;</span>
+    
+    <span class="c1">//Next run instruction setup</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RIP</span><span class="p">]</span> <span class="o">=</span> <span class="n">_EntryPointAddress</span><span class="p">;</span>
+
+    <span class="c1">// 0 NT  IOPL  OF DF IF TF SF ZF 0  AF 0  PF 1  CF</span>
+    <span class="c1">// 0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Context</span><span class="p">.</span><span class="n">Registers</span><span class="p">[</span><span class="n">CONTEXT_OFFSET_RFLAG</span><span class="p">]</span> <span class="o">|=</span> <span class="mh">0x0200</span><span class="p">;</span>   
+    <span class="c1">//Setup TCB Block</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">ID</span>            <span class="o">=</span> <span class="n">_ID</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">StackAddress</span>  <span class="o">=</span> <span class="n">_StackAddress</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">StackSize</span>     <span class="o">=</span> <span class="n">_StackSize</span><span class="p">;</span>
+    <span class="n">_Tcb</span><span class="o">-&gt;</span><span class="n">Flags</span>         <span class="o">=</span> <span class="n">_Flags</span><span class="p">;</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>It is just function for the initialize of members.</p>
+
+<p>Segment register kernel segment and initialize register’s initial values.</p>
+
+<p>And next code of execution assigns in RIP register(PC, Program counter)’s EntryPoint.</p>
+
+<p>And ContextSwitch function linked with assembly code.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+
+<span class="nf">global</span> <span class="nv">ContextSwitch</span>
+
+<span class="k">SECTION</span> <span class="nv">.text</span>   
+
+<span class="cp">%macro SAVECONTEXT 0
+</span>    <span class="nf">push</span> <span class="nb">rbp</span>
+    <span class="nf">push</span> <span class="nb">rax</span>
+    <span class="nf">push</span> <span class="nb">rbx</span>
+    <span class="nf">push</span> <span class="nb">rcx</span>
+    <span class="nf">push</span> <span class="nb">rdx</span>
+    <span class="nf">push</span> <span class="nb">rdi</span>
+    <span class="nf">push</span> <span class="nb">rsi</span>
+    <span class="nf">push</span> <span class="nv">r8</span>
+    <span class="nf">push</span> <span class="nv">r9</span>
+    <span class="nf">push</span> <span class="nv">r10</span>
+    <span class="nf">push</span> <span class="nv">r11</span>
+    <span class="nf">push</span> <span class="nv">r12</span>
+    <span class="nf">push</span> <span class="nv">r13</span>
+    <span class="nf">push</span> <span class="nv">r14</span>
+    <span class="nf">push</span> <span class="nv">r15</span>
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">ds</span>
+    <span class="nf">push</span> <span class="nb">rax</span>
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">es</span>
+    <span class="nf">push</span> <span class="nb">rax</span>
+    <span class="nf">push</span> <span class="nb">fs</span>
+    <span class="nf">push</span> <span class="nb">gs</span>
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0x10</span>
+    <span class="nf">mov</span> <span class="nb">ds</span><span class="p">,</span><span class="nb">ax</span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span><span class="nb">ax</span>
+    <span class="nf">mov</span> <span class="nb">gs</span><span class="p">,</span><span class="nb">ax</span>
+    <span class="nf">mov</span> <span class="nb">fs</span><span class="p">,</span><span class="nb">ax</span>
+
+<span class="cp">%endmacro
+
+
+%macro LOADCONTEXT 0
+</span>    <span class="nf">pop</span> <span class="nb">gs</span>
+    <span class="nf">pop</span> <span class="nb">fs</span>
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span> <span class="nb">ax</span>
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">mov</span> <span class="nb">ds</span><span class="p">,</span> <span class="nb">ax</span>
+
+    <span class="nf">pop</span> <span class="nv">r15</span>
+    <span class="nf">pop</span> <span class="nv">r14</span>
+    <span class="nf">pop</span> <span class="nv">r13</span>
+    <span class="nf">pop</span> <span class="nv">r12</span>
+    <span class="nf">pop</span> <span class="nv">r11</span>
+    <span class="nf">pop</span> <span class="nv">r10</span>
+    <span class="nf">pop</span> <span class="nv">r9</span>
+    <span class="nf">pop</span> <span class="nv">r8</span>
+    <span class="nf">pop</span> <span class="nb">rsi</span>
+    <span class="nf">pop</span> <span class="nb">rdi</span>
+    <span class="nf">pop</span> <span class="nb">rdx</span>
+    <span class="nf">pop</span> <span class="nb">rcx</span>
+    <span class="nf">pop</span> <span class="nb">rbx</span>
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">pop</span> <span class="nb">rbp</span>
+
+<span class="cp">%endmacro
+</span>
+<span class="nl">ContextSwitch:</span>
+    <span class="nf">push</span> <span class="nb">rbp</span>
+    <span class="nf">mov</span> <span class="nb">rbp</span><span class="p">,</span> <span class="nb">rsp</span>
+    <span class="c1">;Push RFLAGS in stack</span>
+    <span class="nf">pushfq</span>
+    <span class="c1">;if _CurrentContext is NULL</span>
+    <span class="nf">cmp</span> <span class="nb">rdi</span><span class="p">,</span><span class="mi">0</span>
+    <span class="nf">je</span> <span class="nv">.LoadContext</span>
+    <span class="nf">popfq</span>
+    <span class="nf">push</span> <span class="nb">rax</span>    <span class="c1">;For use Context Offset </span>
+
+    <span class="c1">;Save SS RSP RFLAGS CS RIP Registers</span>
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">ss</span>
+    <span class="nf">mov</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rdi</span> <span class="o">+</span> <span class="mi">23</span> <span class="o">*</span> <span class="mi">8</span><span class="p">],</span> <span class="nb">rax</span>
+    <span class="nf">mov</span> <span class="nb">rax</span><span class="p">,</span> <span class="nb">rbp</span>
+
+    <span class="c1">;reset value to before, RSP Contextswitch  -(ReturnAddress + RBP)</span>
+    <span class="nf">add</span> <span class="nb">rax</span><span class="p">,</span> <span class="mi">16</span>
+    <span class="nf">mov</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rdi</span> <span class="o">+</span> <span class="mi">22</span> <span class="o">*</span> <span class="mi">8</span><span class="p">],</span> <span class="nb">rax</span>
+
+    <span class="c1">;Push FLAGS in stack</span>
+    <span class="nf">pushfq</span>
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">mov</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rdi</span> <span class="o">+</span> <span class="mi">21</span> <span class="o">*</span> <span class="mi">8</span><span class="p">],</span> <span class="nb">rax</span>
+    
+    <span class="c1">;Save Cs Segment</span>
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">cs</span>
+    <span class="nf">mov</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rdi</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">*</span> <span class="mi">8</span><span class="p">],</span> <span class="nb">rax</span>
+
+    <span class="nf">mov</span> <span class="nb">rax</span><span class="p">,</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rbp</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>
+    <span class="nf">mov</span> <span class="kt">qword</span><span class="p">[</span><span class="nb">rdi</span> <span class="o">+</span> <span class="mi">19</span> <span class="o">*</span> <span class="mi">8</span><span class="p">],</span> <span class="nb">rax</span>
+
+    <span class="nf">pop</span> <span class="nb">rax</span>
+    <span class="nf">pop</span> <span class="nb">rbp</span>
+    <span class="c1">;Context-&gt;Registers</span>
+    <span class="nf">add</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">19</span><span class="o">*</span><span class="mi">8</span>
+    <span class="nf">mov</span> <span class="nb">rsp</span><span class="p">,</span> <span class="nb">rdi</span>
+    <span class="nf">sub</span> <span class="nb">rdi</span><span class="p">,</span> <span class="mi">19</span><span class="o">*</span><span class="mi">8</span>
+
+    <span class="nf">SAVECONTEXT</span>
+
+<span class="nl">.LoadContext:</span>
+    <span class="nf">mov</span> <span class="nb">rsp</span><span class="p">,</span> <span class="nb">rsi</span>
+    <span class="nf">LOADCONTEXT</span>
+    <span class="nf">iretq</span>
+
+</code></pre></div></div>
+<p>If the first parameter Null(0) it is ShellTask.</p>
+
+<p>Jump to .LoadContext</p>
+
+<p>If working like that, We will context load by the second parameter.</p>
+
+<p>If not, it would save context.</p>
+
+<p>And then load by the second parameter.</p>
+
+<p>So It’s done of context-switching.</p>
+
+<p>Huh.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/development/2017/08/23/BeginTask.html';
+        this.page.identifier = 'https://devsdk.github.io/development/2017/08/23/BeginTask.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/08/03/timerdriver.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Implemented timer driver.
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/09/19/Scheduler.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Round robin scheduling and Timeslice Context-Switching
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2022 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

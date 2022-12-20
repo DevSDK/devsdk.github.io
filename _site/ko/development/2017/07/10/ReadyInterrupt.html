@@ -1,0 +1,798 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>GDT 변경 &amp; IDT 정의 TSS 설정 | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="GDT 변경 &amp; IDT 정의 TSS 설정" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서" />
+<meta property="og:description" content="중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서" />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-10T20:40:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="GDT 변경 &amp; IDT 정의 TSS 설정" />
+<script type="application/ld+json">
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.jpeg"},"name":"Seokho Song"},"author":{"@type":"Person","name":"Seokho Song"},"@type":"BlogPosting","headline":"GDT 변경 &amp; IDT 정의 TSS 설정","dateModified":"2017-07-10T20:40:20+09:00","datePublished":"2017-07-10T20:40:20+09:00","description":"중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html"},"url":"https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  gdt-변경-idt-정의-tss-설정">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">GDT 변경 &amp; IDT 정의 TSS 설정
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">7 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-07-10T20:40:20+09:00"><a class="u-url" href="">July 10, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/ko/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/ko/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/ko/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/ko/tags/#paging" title="Pages tagged Paging" rel="tag">Paging</a></li><li class="page-taxonomy"><a href="/ko/tags/#interrupt" title="Pages tagged Interrupt" rel="tag">Interrupt</a></li><li class="page-taxonomy"><a href="/ko/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/07/10/ReadyInterrupt.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/07/10/ReadyInterrupt.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>중간중간, 다른거 할것도 생겼었고 이번건 디버깅이 좀 더 오래걸리기도 해서</p>
+
+<p>지금 개발 일지를 올린다.</p>
+
+<p>음….</p>
+
+<p>일단, 지금까지 0SOS는 인터럽트를 처리할 수 있는 코드가 없었다.</p>
+
+<p>그렇다 보니, 인터럽트가 발생하면 시스템이 다운되거나, default handler에 의해 처리되곤 했다.</p>
+
+<p>아무튼간, 그건 맘에 안든다.</p>
+
+<p>앞으로 키보드 입력할때건, 기타 여러 상황에서 인터럽트를 활용하기 위해</p>
+
+<p>이번에는 IDT라는 인터럽트 처리를 위한 준비물을 만들었다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/InterruptShow.png" alt="결과임" /></p>
+
+<p>아직, 더미 핸들러로 연결이 되있긴 하지만 인터럽트가 발생을 했고, 그 인터럽트를 처리하기 위한 핸들러가 실행이 되었다.</p>
+
+<p>저것을 위해 인터럽트 핸들링에 쓸 Stack Switching 용 IST 자료구조를</p>
+
+<p>7~8MB 영역에 정의해주었다.</p>
+
+<p>그리고 TSS Segment 를 이용해 IST를 지정해 주었고 IDT에 들어간 100여개의 더미 디스크립터는 Dummy Handler 함수와 연결했다.</p>
+
+<p>메모리 맵을 만들면 대충 이럼.</p>
+
+<p><img src="/uploads/2017-07-10/OS/MemoryMap.png" alt="귀찮다" /></p>
+
+<p>다음엔 그냥 그림판으로 그려야겠다. 귀찮아져버려</p>
+
+<p>아무튼 이번 코드의 핵심은 GDT에서 TSS Selector를 두는것과 TSS를 정의하는것 IDT를 만드는거라고 볼 수 있겠다.</p>
+
+<p>아무튼, 말로만 하니까 저렇게 간단해 보이는데 음…</p>
+
+<p>코드를 보자.</p>
+
+<p>그리고 디버깅 일지를 쓰겠다.</p>
+
+<p>일단 더미 핸들러.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">DummyHandler</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Pt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mh">0x0F</span> <span class="p">,</span><span class="s">"==============================="</span><span class="p">);</span>
+    <span class="n">Pt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mh">0x0F</span> <span class="p">,</span><span class="s">"==============================="</span><span class="p">);</span>
+    <span class="n">Pt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mh">0x0F</span> <span class="p">,</span><span class="s">"===    Test Interrupt Hander==="</span><span class="p">);</span>
+    <span class="n">Pt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mh">0x0F</span> <span class="p">,</span><span class="s">"==============================="</span><span class="p">);</span>
+    <span class="n">Pt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mh">0x0F</span> <span class="p">,</span><span class="s">"==============================="</span><span class="p">);</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>   <span class="c1">//복귀 코드 없음</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>어떤 인터럽트가 발생하면 일단 저쪽으로 연결된다.</p>
+
+<p>즉, 숫자 나누기 0같은 연산을 시도했을때 인터럽트가 발생되어 저 함수가 실행이 된다.</p>
+
+<p>결과는 첫 이미지처럼.</p>
+
+<p>아무튼 이제 GDT를 재정의하고, TSS를 이용해 IST를 지정하고, IDT를 만들어 인터럽트를 처리할 수 있게 만들어야 한다.</p>
+
+<p>그러기 위해 Descriptor 디렉토리를 만들고, 그 안에 그를 담당하는 파일들을 정의해 주었다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/DirectoryTree.png" alt="파일트리" /></p>
+
+<p>Descriptor.asm과 Descriptor.h는, GDTR, IDTR , TSS 를 프로세서에 올리기 위한 어셈 코드들을 처리하며</p>
+
+<p>IDT.c IDT.h 는 IDT와 관련된 코드</p>
+
+<p>GDT.c GDT.h 는 GDT와 관련된 코드를 정의했다.</p>
+
+<p>일단 GDT.h를 자세하게 보고 싶으시면</p>
+
+<p><a href="https://github.com/DevSDK/0SOS/blob/master/02_Kernel64/Source/Descriptor/GDT.h">이곳에서 보길 바란다. 너무 길다.</a></p>
+
+<p>앞으로 자주 쓸 코드만 OR로 묶어서 define 해두었다. 
+아무튼간, 
+해더파일은 저렇고, 구현은 다음과 같다.</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//GDT.c</span>
+
+<span class="cp">#include "GDT.h"
+#include "IDT.h"
+#include &lt;Utility/Memory.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">InitializeGDTWithTSS</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">GDTR</span><span class="o">*</span> <span class="n">_gdtr</span> <span class="o">=</span> <span class="p">(</span><span class="n">GDTR</span><span class="o">*</span><span class="p">)</span><span class="n">GDTR_POINTER</span><span class="p">;</span>
+
+    <span class="n">GDT_ENTRY8</span><span class="o">*</span> <span class="n">_gdt_entry</span>      <span class="o">=</span> <span class="p">(</span><span class="n">GDT_ENTRY8</span><span class="o">*</span><span class="p">)(</span><span class="n">GDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">GDTR</span><span class="p">));</span> 
+    <span class="n">TSS_SEGMENT</span><span class="o">*</span> <span class="n">_tss_segment</span>    <span class="o">=</span> <span class="p">(</span><span class="n">TSS_SEGMENT</span><span class="o">*</span><span class="p">)((</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_gdt_entry</span><span class="o">+</span><span class="n">GDT_TABLE_SIZE</span><span class="p">);</span>    
+    <span class="n">_gdtr</span><span class="o">-&gt;</span><span class="n">Size</span>         <span class="o">=</span> <span class="n">GDT_TABLE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">_gdtr</span><span class="o">-&gt;</span><span class="n">BaseAddress</span>  <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_gdt_entry</span><span class="p">;</span>
+
+    <span class="n">SetGDT_Entry8</span><span class="p">((</span><span class="o">&amp;</span><span class="n">_gdt_entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">SetGDT_Entry8</span><span class="p">((</span><span class="o">&amp;</span><span class="n">_gdt_entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="mi">0</span><span class="p">,</span><span class="mh">0xFFFFF</span><span class="p">,</span> <span class="n">GDT_ENTRY_HIGH_CODE</span><span class="p">,</span> <span class="n">GDT_ENTRY_LOW_KERNEL_CODE</span><span class="p">,</span> <span class="n">GDT_TYPE_CODE</span><span class="p">);</span>
+    <span class="n">SetGDT_Entry8</span><span class="p">((</span><span class="o">&amp;</span><span class="n">_gdt_entry</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="mi">0</span><span class="p">,</span><span class="mh">0xFFFFF</span><span class="p">,</span> <span class="n">GDT_ENTRY_HIGH_DATA</span><span class="p">,</span> <span class="n">GDT_ENTRY_LOW_KERNEL_DATA</span><span class="p">,</span> <span class="n">GDT_TYPE_DATA</span><span class="p">);</span>
+    
+    <span class="n">SetGDT_Entry16</span><span class="p">(((</span><span class="n">GDT_ENTRY16</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">_gdt_entry</span><span class="p">[</span><span class="mi">3</span><span class="p">])),</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_tss_segment</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TSS_SEGMENT</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">GDT_ENTRY_HIGH_TSS</span><span class="p">,</span>
+                    <span class="n">GDT_ENTRY_LOW_TSS</span><span class="p">,</span> <span class="n">GDT_TYPE_TSS</span><span class="p">);</span>
+
+    <span class="n">InitializeTSSSegment</span><span class="p">(</span><span class="n">_tss_segment</span><span class="p">);</span>
+    
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">SetGDT_Entry8</span><span class="p">(</span><span class="n">GDT_ENTRY8</span><span class="o">*</span> <span class="n">_entry</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">_BaseAddress</span><span class="p">,</span>
+                     <span class="n">DWORD</span> <span class="n">_Size</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_HighFlags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_LowFlags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Type</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_Size</span>            <span class="o">=</span>   <span class="n">_Size</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_BaseAddress</span>     <span class="o">=</span> <span class="n">_BaseAddress</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_BaseAddress1</span>    <span class="o">=</span> <span class="p">(</span> <span class="n">_BaseAddress</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span> <span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_Flags</span>           <span class="o">=</span> <span class="n">_LowFlags</span> <span class="o">|</span> <span class="n">_Type</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_FlagsAndSize</span>   <span class="o">=</span> <span class="p">((</span><span class="n">_Size</span><span class="o">&gt;&gt;</span><span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">|</span> <span class="n">_HighFlags</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_BaseAddress</span>    <span class="o">=</span> <span class="p">(</span><span class="n">_BaseAddress</span><span class="o">&gt;&gt;</span><span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">SetGDT_Entry16</span><span class="p">(</span><span class="n">GDT_ENTRY16</span><span class="o">*</span> <span class="n">_entry</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">_BaseAddress</span><span class="p">,</span>
+                     <span class="n">DWORD</span> <span class="n">_Size</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_HighFlags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_LowFlags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Type</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_Size</span>            <span class="o">=</span> <span class="n">_Size</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_BaseAddress</span>     <span class="o">=</span> <span class="n">_BaseAddress</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Mid_BaseAddress</span>     <span class="o">=</span> <span class="p">(</span><span class="n">_BaseAddress</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span> <span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_Flags</span>           <span class="o">=</span> <span class="n">_LowFlags</span> <span class="o">|</span> <span class="n">_Type</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_FlagsAndSize</span>   <span class="o">=</span> <span class="p">((</span><span class="n">_Size</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">|</span> <span class="n">_HighFlags</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_BaseAddress</span>    <span class="o">=</span> <span class="p">(</span><span class="n">_BaseAddress</span>  <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_BaseAddress2</span>   <span class="o">=</span> <span class="p">(</span><span class="n">_BaseAddress</span><span class="o">&gt;&gt;</span><span class="mi">32</span><span class="p">);</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Reserved</span>            <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">InitializeTSSSegment</span><span class="p">(</span><span class="n">TSS_SEGMENT</span><span class="o">*</span> <span class="n">_tss</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_MemSet</span><span class="p">(</span><span class="n">_tss</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TSS_SEGMENT</span><span class="p">));</span>    
+    <span class="n">_tss</span><span class="o">-&gt;</span><span class="n">IST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">IST_POINTER</span> <span class="o">+</span> <span class="n">IST_SIZE</span><span class="p">;</span>
+    <span class="n">_tss</span><span class="o">-&gt;</span><span class="n">IOMapBaseAddress</span>  <span class="o">=</span>  <span class="mh">0xFFFF</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>뭐, 자세히 보면 InitializeGDTWithTSS함수를 통하여, GDT관련 데이터를 메모리에 올려놓는다. (GDTR_POINTER를 유심히 보고, 계산하면 메모리가 딱딱 맞아 떨어진다.)</p>
+
+<p>기존의 GDT구조랑 다른게 없으니 그건 구글링 해보시길 권장</p>
+
+<p>그리고 IDT 쪽을 보자</p>
+
+<p>IDT.h의 해더파일이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//IDT.h</span>
+
+<span class="cp">#ifndef __IDT_H__
+#define __IDT_H__
+#include "GDT.h"
+</span>
+<span class="cp">#define IDT_TYPE_INTERRUPT      0x0E    //0b00001110
+#define IDT_TYPE_TRAP           0x0F    //0b00001111
+#define IDT_ENTRY_DPL0          0x00    //0b00000000
+#define IDT_ENTRY_DPL1          0x20    //0b00100000
+#define IDT_ENTRY_DPL2          0x40    //0b01000000
+#define IDT_ENTRY_DPL3          0x60    //0b01100000
+#define IDT_ENTRY_P             0x80    //0b10000000
+#define IDT_ENTRY_IST1          1
+#define IDT_ENTRY_IST0          0
+</span>
+<span class="cp">#define IDT_ENTRY_KERNEL    (IDT_ENTRY_DPL0 | IDT_ENTRY_P)
+#define IDT_ENTRY_USER      (IDT_ENTRY_DPL3 | IDT_ENTRY_P)
+</span>
+<span class="cp">#define IDT_MAX_ENTRY_COUNT     100
+#define IDTR_POINTER            (sizeof(GDTR) + GDTR_POINTER \
+                                + GDT_TABLE_SIZE + TSS_SEGMENT_SIZE)
+#define IDT_POINTER            (sizeof(IDTR) + IDTR_POINTER)
+#define IDT_TABLE_SIZE          (IDT_MAX_ENTRY_COUNT + sizeof(IDT_ENTRY))
+</span>
+
+<span class="cp">#define IST_POINTER         0x700000
+#define IST_SIZE            0x100000
+</span>
+
+<span class="cp">#pragma pack(push, 1)
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_Struct_IDT_Entry</span>
+<span class="p">{</span>
+    <span class="n">WORD</span> <span class="n">Low_BaseAddress</span><span class="p">;</span>
+    <span class="n">WORD</span> <span class="n">SegmentSelector</span><span class="p">;</span>
+
+    <span class="n">BYTE</span> <span class="n">IST</span><span class="p">;</span>
+    <span class="c1">//3Bit IST, 5Bit set 0</span>
+    <span class="n">BYTE</span> <span class="n">FlagsAndType</span><span class="p">;</span>
+    <span class="c1">// 4Bit Type, 1 Bit set 0, 2Bit DPL, 1Bit P</span>
+    <span class="n">WORD</span> <span class="n">Mid_BaseAddress</span><span class="p">;</span>
+    <span class="n">DWORD</span> <span class="n">High_BaseAddres</span><span class="p">;</span>
+    <span class="n">DWORD</span> <span class="n">Reserved</span><span class="p">;</span>
+
+<span class="p">}</span><span class="n">IDT_ENTRY</span><span class="p">;</span>
+
+<span class="cp">#pragma pack(pop)
+</span>
+<span class="kt">void</span> <span class="nf">InitializeIDTTables</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">SetIDTEntry</span><span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">_entry</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_handler</span><span class="p">,</span> <span class="n">WORD</span> <span class="n">_Selector</span><span class="p">,</span> 
+                    <span class="n">BYTE</span> <span class="n">_IST</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Type</span><span class="p">);</span>
+
+
+<span class="kt">void</span> <span class="nf">Pt</span><span class="p">(</span><span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Attribute</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">DummyHandler</span><span class="p">();</span>
+
+<span class="cp">#endif </span><span class="cm">/* __IDT_H__ */</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<p>IDT.h 해더파일은 아직 길진 않다.</p>
+
+<p>자세히보면 알겠지만, 각각 시작주소를 나타내는 _POINTER의 경우 직접 지정하는것 보단, sizeof에 의해 메모리에 연속되게 배치되게끔 만들어졌다.</p>
+
+<p>그리고 구현인 IDT.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//IDT.c</span>
+<span class="cp">#include "IDT.h"
+</span>
+<span class="kt">void</span> <span class="nf">InitializeIDTTables</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">IDTR</span><span class="o">*</span> <span class="n">idtr</span> <span class="o">=</span> <span class="p">(</span><span class="n">IDTR</span><span class="o">*</span><span class="p">)</span> <span class="n">IDTR_POINTER</span><span class="p">;</span>
+    <span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span>  <span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span><span class="p">)(</span><span class="n">IDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDTR</span><span class="p">));</span>
+    
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">BaseAddress</span>   <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span><span class="n">entry</span><span class="p">;</span>
+    <span class="n">idtr</span><span class="o">-&gt;</span><span class="n">Size</span>          <span class="o">=</span> <span class="n">IDT_TABLE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">IDT_MAX_ENTRY_COUNT</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">SetIDTEntry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">DummyHandler</span><span class="p">,</span><span class="mh">0x08</span><span class="p">,</span> <span class="n">IDT_ENTRY_IST1</span><span class="p">,</span> <span class="n">IDT_ENTRY_KERNEL</span><span class="p">,</span> <span class="n">IDT_TYPE_INTERRUPT</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">SetIDTEntry</span><span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">_entry</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_handler</span><span class="p">,</span> <span class="n">WORD</span> <span class="n">_Selector</span><span class="p">,</span> 
+                    <span class="n">BYTE</span> <span class="n">_IST</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Flags</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Type</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Low_BaseAddress</span> <span class="o">=</span>  <span class="p">(</span><span class="n">QWORD</span><span class="p">)</span> <span class="n">_handler</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">SegmentSelector</span> <span class="o">=</span> <span class="n">_Selector</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">IST</span>             <span class="o">=</span> <span class="n">_IST</span> <span class="o">&amp;</span> <span class="mh">0x3</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">FlagsAndType</span>   <span class="o">=</span> <span class="n">_Flags</span> <span class="o">|</span> <span class="n">_Type</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Mid_BaseAddress</span> <span class="o">=</span> <span class="p">((</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_handler</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">;</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">High_BaseAddres</span> <span class="o">=</span> <span class="p">((</span><span class="n">QWORD</span><span class="p">)</span><span class="n">_handler</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="n">_entry</span><span class="o">-&gt;</span><span class="n">Reserved</span>        <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//Pt, DummyHandler 생략</span>
+
+</code></pre></div></div>
+<p>대충 dummyhandler하고, print vide memory를 담당했던 함수는 생략했다.</p>
+
+<p>위 코드를 이용해 IDT를 정의하고 메모리에 불러오게 된다.</p>
+
+<p>프로세서에 해당 핸들러를 이어주고 하는 역할을 하는게, Descriptor.h와 Descriptor.asm 이다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Descriptor.h</span>
+
+<span class="cp">#ifndef __DESCRIPTOR_H__
+#define __DESCRIPTOR_H__
+</span>
+<span class="kt">void</span> <span class="nf">LoadGDTR</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_GdtrAddress</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">LoadTR</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_TssSegmentOffset</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">LoadIDTR</span><span class="p">(</span><span class="n">QWORD</span> <span class="n">_IDTRAddress</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/*__DESCRIPTOR_H__*/</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<p>위 코드는 어셈블리랑 연결되어 있다. 해당 기능을 제공하는 어셈블리는</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;Descriptor.asm</span>
+
+<span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+                     
+<span class="nf">global</span> <span class="nv">LoadGDTR</span><span class="p">,</span> <span class="nv">LoadTR</span><span class="p">,</span> <span class="nv">LoadIDTR</span>
+                        
+<span class="k">SECTION</span> <span class="nv">.text</span>
+
+<span class="nl">LoadGDTR:</span>
+    <span class="nf">lgdt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+<span class="nl">LoadTR:</span>
+    <span class="nf">ltr</span> <span class="nb">di</span>
+    <span class="nf">ret</span>
+
+<span class="nl">LoadIDTR:</span>
+    <span class="nf">lidt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+
+</code></pre></div></div>
+
+<p>간단하다. 그저, 각 테이블을 프로세서에게 알리는 코드이다.</p>
+
+<p>그리고 마지막 대망의 커널 엔트리에는</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">//__Kernel_Entry.c</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span><span class="s">"Initialize GDT........................................"</span><span class="p">);</span>
+	<span class="n">InitializeGDTWithTSS</span><span class="p">();</span>
+	<span class="n">LoadGDTR</span><span class="p">(</span><span class="n">GDTR_POINTER</span><span class="p">);</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mh">0x0A</span><span class="p">,</span><span class="s">"[SUCCESS]"</span><span class="p">);</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span><span class="s">"Load TSS Segment ....................................."</span><span class="p">);</span>
+	<span class="n">LoadTR</span><span class="p">(</span><span class="n">GDT_TSS_SEGMENT</span><span class="p">);</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mh">0x0A</span><span class="p">,</span><span class="s">"[SUCCESS]"</span><span class="p">);</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span><span class="s">"Initialize IDT ......................................."</span><span class="p">);</span>
+	<span class="n">InitializeIDTTables</span><span class="p">();</span>
+	<span class="n">LoadIDTR</span><span class="p">(</span><span class="n">IDTR_POINTER</span><span class="p">);</span>
+	<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0x0A</span><span class="p">,</span><span class="s">"[SUCCESS]"</span><span class="p">);</span>
+    <span class="c1">//...</span>
+
+</code></pre></div></div>
+<p>이 코드를 추가해 초기화 및 프로세서에 연결을 취해주고 키보드 입력할때</p>
+
+<p>숫자를 0으로 나눠 divide by zero 인터럽트를 발생시켰다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//__Kernel_Entry.c</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">KEY_DOWN</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">PrintVideoMemory</span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span> <span class="n">temps</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>여기까지가 코드상에 추가된 내용이다.</p>
+
+<p>음… 앞으로 포스팅할때 코드를 다 붙여넣는건 고려를 좀 해봐야겠다.</p>
+
+<p>더 나은 방법이 있을거같다. 위에 Kernel Entry 쓰는거 처럼.</p>
+
+<p>이제 위 내용을 구현하며 했던 삽질과 디버깅 일지를 쓰겠다.</p>
+
+<p>위 내용을 열씸히 코딩하고 나서, 기쁜 마음으로 Build를 시도했다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+undefined reference to ....
+
+
+</code></pre></div></div>
+
+<p>젠장.</p>
+
+<p>뭐가 문제인지 찾아보기 시작했다.</p>
+
+<p>링크 로그를 뚫어져라 보니, 어셈블리 목적파일이 이상한갑다.</p>
+
+<p>그래서 objdump로 확인해보니 이럴수가 … 파일 이름만 다르지 두 파일의 내옹이 똑같았다.</p>
+
+<p>즉 asm code의 목적코드 변환이 이상하게 된것.</p>
+
+<p>(대충 PortIO.o와 Descriptor.o 안에, Port.o 내용이 있었다.)</p>
+
+<p>nasm은 gcc랑 대충 동작은 비슷한데 파일 여러개를 묶어서 빌드하는건 안되나보다.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">$(ASSEMBLYOBJECTFILES)</span><span class="o">:</span> <span class="nf">$(ASSEMBLYSOURCEFILES)</span>
+ 	<span class="err">$(NASM64)</span> <span class="err">-o</span> <span class="err">$@</span> <span class="err">$&lt;</span>
+</code></pre></div></div>
+
+<p>사실 $&lt; 때문에 빌드가 된거지 $^ 박았으면 인자 많다고 nasm에서 멈췄을것이다.</p>
+
+<p>저번까진 asm파일이 하나였으니 별 문제를 일으키진 않았는데,</p>
+
+<p>asm 파일이 두개 이상이 되니 빌드가 이상하게 됐다.</p>
+
+<p>gcc는 그냥 -c 옵션에 뒤에 소스파일을 죄다 주면 목적파일로 차근차근 빌드하나 싶었는데, nasm은 여러가지 파일을 인자로 안받는다 젠장.</p>
+
+<p>그래서 방법을 고민했다.</p>
+
+<p>처음엔 nasm 자체 기능으로 해결해볼까… 할수 있을까 고민했는데, 없었다. 아니 모르는건가…?</p>
+
+<p>아무튼, 그냥 makefile에 foreach문을 넣는거로 해결했다.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nl">$(ASSEMBLYOBJECTFILES)</span><span class="o">:</span><span class="nf">$(ASSEMBLYSOURCEFILES)</span>
+<span class="err">$(foreach</span> <span class="err">var,$(ASSEMBLYSOURCEFILES),$(NASM64)</span> <span class="err">$(var)</span> <span class="err">-o</span> <span class="err">$(notdir</span> <span class="err">$(patsubst</span> <span class="err">%.asm,</span> <span class="err">%.o,</span>  <span class="err">$(var)))</span> <span class="err">;)</span>
+</code></pre></div></div>
+
+<p>이 짧막한(아닌)코드를 위해 몇시간을 날려먹었다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/BuildDone.png" alt="빌드성공!" /></p>
+
+<p>이제…makefile건들일은 많이 없겠지.</p>
+
+<p>아무튼 빌드는 잘 된다.</p>
+
+<p>실행해보았다.</p>
+
+<p>딱히 동작하지 않는다.</p>
+
+<p>makefile때문에 멘탈이 흔들거렸던 나는 말그대로 부들부들 상태.</p>
+
+<p>좀 쉬었다가, 다시 잡았다.</p>
+
+<p>디버깅 할 내용은, GDT, IDT, TSS 데이터가 메모리에 잘 올라갔는지 확인하는것.</p>
+
+<p>가장 처음으로 해볼껀, 명시적으로 메모리 주소를 지정했던</p>
+
+<p>GDTR을 살펴보는 것 이다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/Hex_GDT.png" alt="GDTHEX" /></p>
+
+<p>초록색위는 GDTR, 빨간색은 GDT 테이블이다.</p>
+
+<p>GDTR의 가장 중요한 역할은 GDT의 위치를 지정해 주는 것이다.</p>
+
+<p>나는 GDTR바로 뒤에 GDT를 위치시켰으니 0x142010을 참조하고 있어야 할테고</p>
+
+<p>HEX를 보면 재대로 저장이 되어 있음을 볼 수 있다.</p>
+
+<p>그리고 뒤에나오는 GDT를 살펴보자.</p>
+
+<p>아무튼, GDTR 지정하고 프로세서한테 넘기고 출력까지 잘 되기 때문에 GDT 테이블 내용 자체의 문제는 없을꺼라 생각했다.</p>
+
+<p>다만, TSS 세그먼트디스크립터는 자세히 봤다.</p>
+
+<p>시작점은 0x142028</p>
+
+<p>표로 정리하면 다음과 같다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/Table_TSS.png" alt="TSSSelector" /></p>
+
+<p>메모리에 잘 불러와 지는지 보고 있었으므로, 일단 Base Address를 살펴본다.</p>
+
+<p>TSS 테이블 또한 GDT바로 뒤에 위치하게끔 의도했으므로</p>
+
+<p>0x142038부터 위치해야한다.</p>
+
+<p>일단 TSS 세그먼트디스크립터의 Base Address는 문제가 없어보인다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/HEX_TSS_ERROR.png" alt="HEX_TSS_ERROR" /></p>
+
+<p>한두번 다시 봤다. 뭔가 이상해</p>
+
+<p>마지막 2바이트 IOMap 설정에는 FFFF를 넣어놨는데 어디갔지?</p>
+
+<p>IST의 기준주소인 0x800000 은 어디간거지.</p>
+
+<p>코드로 돌아갔다.</p>
+
+<p>아뿔싸</p>
+
+<p>멀쩡한 InitializeTSSSegment 함수를 잘 만들얻두고 호출을 안했다.</p>
+
+<p>InitializeGDTWithTSS 함수 마지막에 위 함수를 호출함으로 해결했다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/Hex_TSS_Work.png" alt="HEX_TSS_WORK" /></p>
+
+<p>… 뭐가 달라진진 잘 안보이지만 마지막 2바이트가 FFFF로 들어갔고 잘 보면</p>
+
+<p>IST 기준 주소도 저장이 되었다.</p>
+
+<p>일단 여기까진 정상이다.</p>
+
+<p>그래도 동작 안한다.</p>
+
+<p>이제 그 뒤에 위치한 IDT를 살펴보았다.</p>
+
+<p>흐음.</p>
+
+<p><img src="/uploads/2017-07-10/OS/IDT_Error.png" alt="HEX_IDT_ERROR?" /></p>
+
+<p>음…??</p>
+
+<p>메모리 주소 계산이 이상하다.</p>
+
+<p>의도한건 바로 뒤였는데</p>
+
+<p>왜 0x1421A0로 지정이 되어있는가..??</p>
+
+<p>코드를 살펴보았다.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span>  <span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span><span class="p">)</span><span class="n">IDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDTR</span><span class="p">);</span>
+</code></pre></div></div>
+<p>또 똑같은 실수를 -_-</p>
+
+<p>저러면 당연히 뒤에 지정된다. 포인터로 케스팅하고 더해버리니까.</p>
+
+<p>위 코드를</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IDT_ENTRY</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span>  <span class="p">(</span><span class="n">IDT_ENTRY</span><span class="o">*</span><span class="p">)(</span><span class="n">IDTR_POINTER</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IDTR</span><span class="p">));</span>
+</code></pre></div></div>
+<p>로 변경하며 해결.</p>
+
+<p>참고로 이 코드는 동작하는데 전혀 문제가 없다. 다만 의도랑 다를 뿐더러 추후에, 문제를 일으킬 수 있다. 예를들면, IDT 바로 뒤에 어떤 데이터를 넣는다고 했을때 주소게산이 되서 덮어써버릴 수 있다.</p>
+
+<p>당장 안보이는 문제고, 주의깊게 보지 않으면 잡기 힘든 버그긴 하다.</p>
+
+<p>(IDTR에 들어간 메모리 주소와 실제 IDT 위치가 같기 떄문이다. 실제로 0x2021A0에 가면 IDT가 있다.)</p>
+
+<p>수정하니 정상적으로 데이터가 들어간다.</p>
+
+<p><img src="/uploads/2017-07-10/OS/IDT_Work.png" alt="HEX_IDT_WORK" /></p>
+
+<p>모든 데이터가 잘 들어갔다.</p>
+
+<p>이상하게 동작을 안하네.</p>
+
+<p>일단, 인터럽트가 걸리면 시스템이 다운되었다.</p>
+
+<p>이상하다.</p>
+
+<p>설마 해서 프로세서에게 전달을 잘못했나 살펴봤다.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+                     
+<span class="nf">global</span> <span class="nv">LoadGDTR</span><span class="p">,</span> <span class="nv">LoadTR</span><span class="p">,</span> <span class="nv">LoadIDTR</span>
+                        
+<span class="k">SECTION</span> <span class="nv">.text</span>
+
+<span class="nl">LoadGDTR:</span>
+    <span class="nf">lgdt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+<span class="nl">LoadTR:</span>
+    <span class="nf">ltr</span> <span class="nb">di</span>
+    <span class="nf">ret</span>
+
+<span class="nl">LoadIDTR:</span>
+    <span class="nf">lgdt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+</code></pre></div></div>
+
+<p>아 ㅆ..</p>
+
+<p>LoadIDTR 함수에서 
+lgdt를 해버리는 실수를 저질렀다.</p>
+
+<p>위 코드를</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+                     
+<span class="nf">global</span> <span class="nv">LoadGDTR</span><span class="p">,</span> <span class="nv">LoadTR</span><span class="p">,</span> <span class="nv">LoadIDTR</span>
+                        
+<span class="k">SECTION</span> <span class="nv">.text</span>
+
+<span class="nl">LoadGDTR:</span>
+    <span class="nf">lgdt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+<span class="nl">LoadTR:</span>
+    <span class="nf">ltr</span> <span class="nb">di</span>
+    <span class="nf">ret</span>
+
+<span class="nl">LoadIDTR:</span>
+    <span class="nf">lidt</span><span class="p">[</span><span class="nb">rdi</span><span class="p">]</span>
+    <span class="nf">ret</span>
+</code></pre></div></div>
+
+<p>이 코드로 변경 함으로 해결</p>
+
+<p>LoadIDTR 함수의 명령어를 lgdt 를 lidt로 변경했다.</p>
+
+<p>이러서 코드가 정상적으로 돈다.</p>
+
+<p>흠… 이번 글은 길다.</p>
+
+<p><a href="https://github.com/DevSDK/0SOS">이곳에서 Full Source Code를 볼 수 있다</a>
+간김에 스타도 박아주면 좋겠다.</p>
+
+<p>이제 남은건, 키보드처리를 인터럽트로 만드는것 이려나.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2017/07/10/ReadyInterrupt.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2017/07/05/PortIOAndKeyboard.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> PortIO 메모리와 PS/2 Keyboard IO 입력처리
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2017/07/12/InterruptHandling.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        PIC 인터럽트, 인터럽트 핸들링, 인터럽트 활성화
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2022 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

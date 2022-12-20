@@ -15,6 +15,8 @@ tags:
 - css-values-4
 ---	
 
+CSS 삼각 함수를 배포했다.
+
 <img width="402" alt="Screenshot 2022-12-20 at 9 08 24 AM" src="https://user-images.githubusercontent.com/18409763/208580491-09ba5854-aa6a-4149-b305-b9b5b271cfae.png">
 
 Feature Entry: https://chromestatus.com/feature/5165381072191488

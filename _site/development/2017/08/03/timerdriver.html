@@ -1,0 +1,713 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Implemented timer driver. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="Implemented timer driver." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Finally, I’ve got time for OS developing." />
+<meta property="og:description" content="Finally, I’ve got time for OS developing." />
+<link rel="canonical" href="https://devsdk.github.io/development/2017/08/03/timerdriver.html" />
+<meta property="og:url" content="https://devsdk.github.io/development/2017/08/03/timerdriver.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-03T20:11:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Implemented timer driver." />
+<script type="application/ld+json">
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/images/avator.jpeg"},"name":"Seokho Song"},"author":{"@type":"Person","name":"Seokho Song"},"@type":"BlogPosting","headline":"Implemented timer driver.","dateModified":"2017-08-03T20:11:20+09:00","datePublished":"2017-08-03T20:11:20+09:00","description":"Finally, I’ve got time for OS developing.","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/development/2017/08/03/timerdriver.html"},"url":"https://devsdk.github.io/development/2017/08/03/timerdriver.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  implemented-timer-driver">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.jpeg" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Implemented timer driver.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.jpeg" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">7 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-08-03T20:11:20+09:00"><a class="u-url" href="">August 3, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/tags/#paging" title="Pages tagged Paging" rel="tag">Paging</a></li><li class="page-taxonomy"><a href="/tags/#timer" title="Pages tagged Timer" rel="tag">Timer</a></li><li class="page-taxonomy"><a href="/tags/#interrupt" title="Pages tagged Interrupt" rel="tag">Interrupt</a></li><li class="page-taxonomy"><a href="/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/08/03/timerdriver.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/08/03/timerdriver.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			
+			<hr />
+
+<p><strong>I’m not a native English speaker. Please understand misspells or wrong grammar.</strong></p>
+
+<p>The contents are not fully translated. 
+So I recommand read korean if you can.</p>
+
+<p>If you find some mistakes or improvement points, Please leave a comment below.</p>
+
+<hr />
+<p><br /></p>
+
+			
+			<p>Finally, I’ve got time for OS developing.</p>
+
+<p>I’m so busy so I can’t make time.</p>
+
+<p>Actually, I wrote code quite a bit with my laptop but it wasn’t a huge change.
+So I didn’t write an article.</p>
+
+<p>Before the article, the following is changing.</p>
+
+<p>Changed BOOL type unsigned char to c99 _Bool type in Types.h</p>
+
+<p>The reason why is little bit complicate.</p>
+
+<p>One of the reason is ! operator to unsigned char.</p>
+
+<p>Usually, When we try to not operation, we can faster if we use x xor 1.</p>
+
+<p>But I found different! operation between unsigned char and x xor 1.</p>
+
+<p><img src="/uploads/2017-08-03/OS/UC_NOT.png" alt="UC_NotOp" /></p>
+
+<p><img src="/uploads/2017-08-03/OS/UC_XOR.png" alt="UC_XorOp" /></p>
+
+<p>It is definitely different.</p>
+
+<p>If I use compiler optimize option like -O3, it will be changed to xor. But It can be worked to un-properly.</p>
+
+<p>When I don’t use compiler optimize option, not operation’s instructions are more than xor.</p>
+
+<p>After cmp instruction, data was set through setne instruction. Because System thought it can use other bits not only t/f bit.</p>
+
+<p>So It has been solved by changing unsigned char to _Bool.</p>
+
+<hr />
+
+<p>Yeah, here we are the main topic.</p>
+
+<p>This time I’ve developed a timer.</p>
+
+<p>Specifically, I made PIT(Programmable Interval Timer) Driver, Timestamp and RTC(Real Time Clock) Driver.</p>
+
+<p>Below image is source tree.</p>
+
+<p><img src="/uploads/2017-08-03/OS/TimeTree.png" alt="SourceTree" /></p>
+
+<p>We can access PIT through PortIO Driver at 0x43, 0x40, 0x41 and 0x42.</p>
+
+<p>Well, It needs to setup many bits.</p>
+
+<p>7,6 - SC : Select Counter  for a target of a command</p>
+
+<p>5,4 - RW : Read/Write</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    00: Read the current value of the counter (2byte)
+
+    01: R/W counter low bytes (1Byte)
+
+    10: R/W counter high bytes (1Byte)
+
+    11: R/W low to a high byte in counter(2Byte)
+</code></pre></div></div>
+
+<p>3,2,1-Mode: Set up PIT controller count mode</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    000: Mode 0 (Interrupt during counting)
+
+    001: Mode 1 (Programmable monoflop)
+
+    010: Mode 2 (Clock rate generator)
+
+    011: Mode 3 (Square wave generator)
+
+    100: Mode 4 (Software-triggered impulse)
+
+    101: Mode 5 (Hardware-triggered impulse)
+</code></pre></div></div>
+
+<p>0   - BCD : Setup counter to binary or BCD format.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BCD format until 0~9999 
+
+    Binary format until 0x00~0xFFFF 
+</code></pre></div></div>
+
+<p>Anyway, that would be selected by SC field, below things are options.</p>
+
+<p>sDriver/Time/PIT.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __PIT_H__
+#define __PIT_H__
+</span>
+<span class="cp">#include &lt;Types.h&gt;
+</span><span class="c1">//PIT frequency 1.193182MHz </span>
+<span class="cp">#define PIT_FREQUENCY 1193182
+</span>
+<span class="cp">#define MS_TO_COUNT(x) (PIT_FREQUENCY * (x)/1000)
+#define US_TO_COUNT(x) (PIT_FREQUENCY * (x)/1000000)
+</span>
+<span class="cp">#define PIT_PORT_CONTROL    0x43
+#define PIT_PORT_COUNTER0   0x40
+#define PIT_PORT_COUNTER1   0x41
+#define PIT_PORT_COUNTER2   0x42
+</span>
+<span class="cp">#define PIT_CONTROL_SC_COUNTER0   0x00
+#define PIT_CONTROL_SC_COUNTER1   0x40
+#define PIT_CONTROL_SC_COUNTER2   0x80
+</span>
+<span class="cp">#define PIT_CONTROL_RW_BIT11      0x30
+#define PIT_CONTROL_RW_BIT00      0x00
+</span>
+<span class="cp">#define PIT_CONTROL_MODE_0        0x00
+#define PIT_CONTROL_MODE_2        0x04
+</span>
+<span class="cp">#define PIT_CONTROL_BCD_FALSE     0x00
+#define PIT_CONTROL_BCD_TRUE      0x01
+</span>
+<span class="cp">#define PIT_COUNTER0_FLAG_ONCE  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT11 | PIT_CONTROL_MODE_0 | PIT_CONTROL_BCD_FALSE)
+#define PIT_COUNTER0_FLAG_INTERVAL  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT11 | PIT_CONTROL_MODE_2 | PIT_CONTROL_BCD_FALSE)
+#define PIT_COUNTER0_FLAG_LATCH  (PIT_CONTROL_SC_COUNTER0 | PIT_CONTROL_RW_BIT00 )
+</span>
+
+
+
+<span class="c1">// SET PIT Counter 0 = _Count and Cange state Interval</span>
+<span class="kt">void</span> <span class="nf">InitializePIT</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">,</span> <span class="n">BOOL</span> <span class="n">_IsInterval</span><span class="p">);</span>
+
+<span class="n">WORD</span> <span class="nf">ReadTimerCount0</span><span class="p">();</span>
+
+
+<span class="cm">/*
+    Should be disable Interrupt
+    Parameter _Count : &lt; 50ms
+*/</span>
+
+<span class="kt">void</span> <span class="nf">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">);</span>
+
+
+
+<span class="cp">#endif </span><span class="cm">/*__PIT_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>PIT works on 1.19318 Mhz, decreasing counter value every single time to 0. If the counter value is 0, it would make a signal.</p>
+
+<p>We need to convert that PIC to time we use, we take formula t = 1193182 * rate ( ex: 1ms rate = 0.001 )</p>
+
+<p>0SOS is going to use counter 0 and the book said counter 1 and 2 are usually used main memory and speaker.</p>
+
+<p>It’ll be implemented by PortMapIO data read/write.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "PIT.h"
+#include &lt;Driver/IO/PortIO.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">InitializePIT</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">,</span> <span class="n">BOOL</span> <span class="n">_IsInterval</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//If it has interval, it would be mode 2. If not, mode 0.</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_IsInterval</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span>
+        <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_INTERVAL</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_ONCE</span><span class="p">);</span>
+    <span class="c1">//Set up upper bits and lower bits</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">,</span> <span class="n">_Count</span><span class="p">);</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">,</span> <span class="n">_Count</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">WORD</span> <span class="nf">ReadTimerCount0</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">;</span>
+    <span class="n">WORD</span> <span class="n">ret</span> <span class="o">=</span> <span class="mh">0x0000</span><span class="p">;</span>
+    <span class="c1">//Read data of Counter 0.</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PIT_PORT_CONTROL</span><span class="p">,</span> <span class="n">PIT_COUNTER0_FLAG_LATCH</span><span class="p">);</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">);</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PIT_PORT_COUNTER0</span><span class="p">);</span>
+    <span class="c1">//Transfer 2 byte using upper and lower bits.</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">high</span><span class="p">;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="n">low</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">WORD</span> <span class="n">_Count</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//Repeat 0~0xFFFF area.</span>
+
+    <span class="n">WORD</span> <span class="n">CurrentCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+    <span class="k">const</span> <span class="n">WORD</span> <span class="n">LastCounter0</span> <span class="o">=</span> <span class="n">ReadTimerCount0</span><span class="p">();</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//Get Counter 0 Value</span>
+        <span class="n">CurrentCounter</span> <span class="o">=</span> <span class="n">ReadTimerCount0</span><span class="p">();</span>
+        <span class="c1">//Value is incresed by time spent.  </span>
+        <span class="k">if</span><span class="p">(((</span><span class="n">LastCounter0</span> <span class="o">-</span> <span class="n">CurrentCounter</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFF</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">_Count</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>    
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Initialize PIT function and read the counter 0 function and waiting for function by millisecond</p>
+
+<p>Next is a time stamp.</p>
+
+<p>The time stamp would be increased by clock and bus speed.</p>
+
+<p>So We can measure more detail of time.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;Driver/Time/TSC.asm</span>
+<span class="err">[</span><span class="k">BITS</span> <span class="mi">64</span><span class="p">]</span>
+
+<span class="k">SECTION</span> <span class="nv">.text</span>
+
+<span class="nf">global</span> <span class="nv">ReadTSC</span>
+
+<span class="c1">;Return read value of time stamp counter.</span>
+<span class="nl">ReadTSC:</span>
+    <span class="nf">push</span> <span class="nb">rdx</span>
+    <span class="nf">rdtsc</span>   <span class="c1">;Save time stamp counter value in rdx:rax.</span>
+    <span class="nf">shl</span> <span class="nb">rdx</span><span class="p">,</span> <span class="mi">32</span>
+    <span class="nf">or</span> <span class="nb">rax</span><span class="p">,</span> <span class="nb">rdx</span> <span class="c1">; upper 32bit tcs value of rdx register and lower tsc value of rax register to rax.</span>
+    <span class="nf">pop</span> <span class="nb">rdx</span>
+    <span class="nf">ret</span>
+</code></pre></div></div>
+
+<p>Load by RDTSC command.</p>
+
+<p>And next is RTC driver.</p>
+
+<p>RTC controller works for memorizing time. Also, it still works after off your PC.</p>
+
+<p>RTC data stored in CMOS memory. We should get RTC value to access CMOS.</p>
+
+<p>CMOS memory can be access by PortIO Driver, using memory address port 0x70 and data port 0x71.</p>
+
+<p>Table of RTC.</p>
+
+<p><img src="/uploads/2017-08-03/OS/CMOSField.png" alt="CMOSMemory" /></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Driver/Time/RTC.h</span>
+<span class="cp">#ifndef __RTC_H__
+#define __RTC_H__
+#include &lt;Types.h&gt;
+</span>
+<span class="cp">#define  PORT_CMOS_ADDRESS      0x70
+#define  PORT_CMOS_DATA         0x71
+</span>
+<span class="cp">#define  CMOS_ADDRESS_RTC_SECOND       0x00
+#define  CMOS_ADDRESS_RTC_MINUTE        0x02
+#define  CMOS_ADDRESS_RTC_HOUR          0x04
+#define  CMOS_ADDRESS_RTC_DAY_OF_WEEK   0x06
+#define  CMOS_ADDRESS_RTC_DAY_OF_MONTH  0x07
+#define  CMOS_ADDRESS_RTC_MONTH         0x08
+#define  CMOS_ADDRESS_RTC_YEAR          0x09
+</span>
+<span class="c1">//Changing BCD code. </span>
+<span class="cp">#define  BCD_TO_BIN(x) ((((x) &gt;&gt; 4) * 10) + ((x)  &amp; 0x0F ))
+</span><span class="kt">void</span> <span class="nf">ReadRTCTime</span><span class="p">(</span><span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Hour</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Minute</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Second</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">ReadRTCDate</span><span class="p">(</span><span class="n">WORD</span><span class="o">*</span> <span class="n">_Out_Year</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Month</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfMonth</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfWeek</span><span class="p">);</span>
+<span class="kt">char</span><span class="o">*</span> <span class="nf">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_DayOfWeek</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/*__RTC_H__*/</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>Defining the address field and getting data and changing the date to string is this code’s role.</p>
+
+<p>And RTC data from CMOS should transfer BCD code to binary.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Driver/Time/RTC.c</span>
+<span class="cp">#include "RTC.h"
+</span>
+<span class="kt">void</span> <span class="nf">ReadRTCTime</span><span class="p">(</span><span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Hour</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Minute</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Second</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">data</span><span class="p">;</span>
+    <span class="c1">//Time data from CMOS memory is BCD code.</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_HOUR</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Hour</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_MINUTE</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Minute</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_SECOND</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Second</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>    
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">ReadRTCDate</span><span class="p">(</span><span class="n">WORD</span><span class="o">*</span> <span class="n">_Out_Year</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_Month</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfMonth</span><span class="p">,</span> <span class="n">BYTE</span><span class="o">*</span> <span class="n">_Out_DayOfWeek</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">data</span><span class="p">;</span>
+    <span class="c1">//Time data from CMOS memory is BCD code.</span>
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_YEAR</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Year</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2000</span><span class="p">;</span> <span class="c1">//연도에 2000을 더해 2000년도를 표현</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_MONTH</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_Month</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_DAY_OF_MONTH</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_DayOfMonth</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+    
+    <span class="n">PortIO_OutByte</span><span class="p">(</span><span class="n">PORT_CMOS_ADDRESS</span><span class="p">,</span> <span class="n">CMOS_ADDRESS_RTC_DAY_OF_WEEK</span><span class="p">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PortIO_InByte</span><span class="p">(</span><span class="n">PORT_CMOS_DATA</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">_Out_DayOfWeek</span> <span class="o">=</span> <span class="n">BCD_TO_BIN</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>    
+<span class="p">}</span>
+<span class="kt">char</span><span class="o">*</span> <span class="nf">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_DayOfWeek</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//weekdate to string</span>
+    <span class="k">static</span> <span class="kt">char</span><span class="o">*</span> <span class="n">WeekStringTable</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"NULL"</span><span class="p">,</span> <span class="s">"Sunday"</span><span class="p">,</span> <span class="s">"Monday"</span><span class="p">,</span> <span class="s">"Tushday"</span><span class="p">,</span> <span class="s">"Wednesday"</span><span class="p">,</span> <span class="s">"Thursday"</span><span class="p">,</span> <span class="s">"Friday"</span><span class="p">,</span> <span class="s">"Saturday"</span><span class="p">};</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">_DayOfWeek</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">WeekStringTable</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">return</span> <span class="n">WeekStringTable</span><span class="p">[</span><span class="n">_DayOfWeek</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>Timer driver is completed by this!</p>
+
+<p>So We can use this driver in the shell command.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="kt">void</span> <span class="nf">Command_SetTimer</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ParameterBuffer</span><span class="p">[</span><span class="mi">200</span><span class="p">];</span>
+    <span class="n">PARAMETERLIST</span> <span class="n">pList</span><span class="p">;</span>
+    <span class="n">InitializeParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span> <span class="n">_Parameter</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"settimer {time(ms)} {interval}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">long</span> <span class="n">value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"settimer {time(ms)} {interval}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">long</span> <span class="n">interval_value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">interval_value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter is not Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">interval_value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time = %d ms. Interval = %s Change Complate</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">interval_value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">?</span> <span class="s">"False"</span><span class="o">:</span> <span class="s">"True"</span><span class="p">);</span> 
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_PITWait</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ParameterBuffer</span><span class="p">[</span><span class="mi">200</span><span class="p">];</span>
+    <span class="n">PARAMETERLIST</span> <span class="n">pList</span><span class="p">;</span>
+    <span class="n">InitializeParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span> <span class="n">_Parameter</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">GetNextParameter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pList</span><span class="p">,</span><span class="n">ParameterBuffer</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"wait {time(ms)}</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">long</span> <span class="n">value</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_atoi</span><span class="p">(</span><span class="n">ParameterBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"Parameter is not Decimal number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"%d ms Sleep Start...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+
+    <span class="n">DisableInterrupt</span><span class="p">();</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">value</span><span class="o">/</span><span class="mi">30L</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="n">value</span> <span class="o">%</span> <span class="mi">30</span><span class="p">));</span>
+    
+    
+    <span class="n">EnableInterrupt</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"%d ms Sleep Complate.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span> 
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_ReadTimeStamp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">QWORD</span> <span class="n">tsc</span> <span class="o">=</span>  <span class="n">ReadTSC</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time Stamp Counter = %q </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">tsc</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_CPUSpeed</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">QWORD</span> <span class="n">last_tsc</span><span class="p">;</span>
+    <span class="n">QWORD</span> <span class="n">total_tsc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Now Calculate."</span><span class="p">);</span>
+    <span class="n">DisableInterrupt</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">last_tsc</span> <span class="o">=</span> <span class="n">ReadTSC</span><span class="p">();</span>
+        <span class="n">WaitUsingPITCounter0</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">50</span><span class="p">));</span>
+        <span class="n">total_tsc</span><span class="o">+=</span> <span class="n">ReadTSC</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_tsc</span><span class="p">;</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">InitializePIT</span><span class="p">(</span><span class="n">MS_TO_COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">TRUE</span><span class="p">);</span>
+    <span class="n">EnableInterrupt</span><span class="p">();</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> Cpu Clock = %d MHz </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">total_tsc</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">1000</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Command_ShowDateTime</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">Second</span><span class="p">,</span> <span class="n">Minute</span><span class="p">,</span> <span class="n">Hour</span><span class="p">;</span>
+    <span class="n">BYTE</span> <span class="n">DayOfWeek</span><span class="p">,</span> <span class="n">DayOfMonth</span><span class="p">,</span> <span class="n">Month</span><span class="p">;</span>
+    <span class="n">WORD</span> <span class="n">Year</span><span class="p">;</span>
+
+    <span class="n">ReadRTCTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Hour</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Minute</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Second</span><span class="p">);</span>
+    <span class="n">ReadRTCDate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Year</span><span class="p">,</span><span class="o">&amp;</span><span class="n">Month</span><span class="p">,</span><span class="o">&amp;</span><span class="n">DayOfMonth</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">DayOfWeek</span><span class="p">);</span>
+
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Date: %d-%d-%d %s, "</span><span class="p">,</span> <span class="n">Year</span><span class="p">,</span> <span class="n">Month</span><span class="p">,</span> <span class="n">DayOfMonth</span><span class="p">,</span> <span class="n">ConvertDayOfWeekString</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">));</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"Time: %d:%d:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">Hour</span><span class="p">,</span> <span class="n">Minute</span><span class="p">,</span> <span class="n">Second</span><span class="p">);</span>
+    
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>It is just print command from the driver.</p>
+
+<p><img src="/uploads/2017-08-03/OS/HelpCommand.png" alt="Result!" /></p>
+
+<p>Commands are added like this, rdtsc command works properly.</p>
+
+<p><img src="/uploads/2017-08-03/OS/TimeCommands.png" alt="Result!" /></p>
+
+<p>The result of another command.</p>
+
+<p>It prints date beautifully and measure CPU clock and waiting by milliseconds.</p>
+
+<p>Settimer works properly, but it cannot show by the image so I skip this.</p>
+
+<p>I fixed two of bugs, first thing is not properly working unsigned value at _Printf function.</p>
+
+<p>That fixed by %q and _u_itoa function.</p>
+
+<p>Second is reset bug from wrong setup control port in control 0 in PIT.</p>
+
+<p>It fixed the changing control port.</p>
+
+<p>Now we are going to make Task, multithread, synchronize and floating point.</p>
+
+<p>I expect that.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/development/2017/08/03/timerdriver.html';
+        this.page.identifier = 'https://devsdk.github.io/development/2017/08/03/timerdriver.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/07/18/shell.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Finally It looks OS! Shell development complete!
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/08/23/BeginTask.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        TCB and Context and ContextSwitch
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2022 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

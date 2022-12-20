@@ -15,6 +15,8 @@ tags:
 - css-values-4
 ---	
 
+I released CSS Trigonometric Functions
+
 <img width="402" alt="Screenshot 2022-12-20 at 9 08 24 AM" src="https://user-images.githubusercontent.com/18409763/208580491-09ba5854-aa6a-4149-b305-b9b5b271cfae.png">
 
 Feature Entry: https://chromestatus.com/feature/5165381072191488
@@ -51,7 +53,7 @@ Resolving relative length on atan2() has tricky problems (especially, evaluating
 This issue occurred in other mainstream browsers gecko, webkit.
 W3C/CSSWG is discussing this issue.
 
-Related issues::
+Related issues:
 
 - Crbug: [https://crbug.com/1392594](https://bugs.chromium.org/p/chromium/issues/detail?id=1392594)
 - Webkit Bugzilla: [https://bugs.webkit.org/show_bug.cgi?id=248513](https://bugs.webkit.org/show_bug.cgi?id=248513)
