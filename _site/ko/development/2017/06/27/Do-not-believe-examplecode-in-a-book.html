@@ -1,0 +1,341 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다. | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다." />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OS 책 읽으면서 (64비트 멀티코어 OS 원리와 구조) 설명을 읽고, 내 지식을 가지고" />
+<meta property="og:description" content="OS 책 읽으면서 (64비트 멀티코어 OS 원리와 구조) 설명을 읽고, 내 지식을 가지고" />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-27T07:52:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2017-06-27T07:52:20+09:00","datePublished":"2017-06-27T07:52:20+09:00","description":"OS 책 읽으면서 (64비트 멀티코어 OS 원리와 구조) 설명을 읽고, 내 지식을 가지고","headline":"그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다.","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.png"},"name":"Seokho Song"},"url":"https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  그-어느-서적을-읽던-이상하다-싶으면-오탈자인지-찾아보셔야-합니다">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">그 어느 서적을 읽던, 이상하다 싶으면 오탈자인지 찾아보셔야 합니다.
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">1 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-06-27T07:52:20+09:00"><a class="u-url" href="">June 27, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/ko/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/ko/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/ko/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/ko/tags/#function" title="Pages tagged function" rel="tag">function</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>OS 책 읽으면서 (64비트 멀티코어 OS 원리와 구조) 설명을 읽고, 내 지식을 가지고</p>
+
+<p>example code를 한참 들여다 보았다.</p>
+
+<p>149쪽 함수 호출쪽.</p>
+
+<p>그 이유는 스택 프레임에서 함수 안에는 변수 하나밖에 없는데, 스텍포인터를 8바이트나 내려버렸다.</p>
+
+<p>뒷 내용도 그래서 뭔가 이상했다.</p>
+
+<p>그래서 좀 더 찾아보고 오탈자 여부를 찾아보고 커뮤니티같은곳에 가서 확인해본 결과</p>
+
+<p>저자분게서 Visual Studio 상에서 나온 코드를 바로 넣어서 그렇게 나왓다고 하신다.</p>
+
+<p>분명 VS가 뭔짓을 한게 분명해.</p>
+
+<p>아무튼 한참 들여다 본 코드는</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kt">int</span> <span class="nf">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">Result</span><span class="p">;</span>
+        <span class="n">Result</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+    <span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>나도 안다 void main은 표준이 아닌거. 책에 이렇게 써있음.</p>
+
+<p>이 코드가 어셈블리로</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Add:</span>
+    <span class="nf">push</span> <span class="nb">ebp</span>
+    <span class="nf">mov</span> <span class="nb">ebp</span><span class="p">,</span> <span class="nb">esp</span>
+    
+    <span class="nf">mov</span> <span class="nb">eax</span><span class="p">,</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>
+
+    <span class="nf">add</span> <span class="nb">eax</span><span class="p">,</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">12</span><span class="p">]</span>
+    <span class="nf">add</span> <span class="nb">eax</span><span class="p">,</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
+
+    <span class="nf">pop</span> <span class="nb">ebp</span>
+    
+    <span class="nf">ret</span> <span class="mi">12</span>
+
+<span class="nl">main:</span>
+    <span class="nf">push</span> <span class="nb">ebp</span>
+    <span class="nf">mov</span> <span class="nv">evp</span><span class="p">,</span> <span class="nb">esp</span>
+
+    <span class="nf">sub</span> <span class="nb">esp</span><span class="p">,</span> <span class="mi">8</span>
+
+    <span class="nf">push</span> <span class="mi">3</span>
+    <span class="nf">push</span> <span class="mi">2</span>
+    <span class="nf">push</span> <span class="mi">1</span>
+    <span class="nf">call</span> <span class="nv">Add</span>
+    <span class="nf">mov</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">-</span> <span class="mi">4</span><span class="p">],</span><span class="nb">eax</span>
+    <span class="nf">ret</span>
+</code></pre></div></div>
+
+<p>이렇게 변한다고 써있다. 문제가 됬던건 main 함수에서 3번째 그리고 마지막에서 위로 2번째</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sub</span> <span class="nb">esp</span><span class="p">,</span> <span class="mi">8</span>
+
+
+<span class="nf">mov</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span> <span class="o">-</span> <span class="mi">4</span><span class="p">],</span> <span class="nb">eax</span>
+</code></pre></div></div>
+
+<p>스택프레임에서 남은 4바이트는 어디로 사라지는건가 했다.</p>
+
+<p>뭔가 안에서 필요한건지, 아님 단순 오타인지 모르겠다. 아무튼</p>
+
+<p>분명 c코드에는 변수 하나밖에 없는데 왠 8바이트인가 했다.</p>
+
+<p>예전에 컴파일러 공부했을때도 그냥 변수당 size를 스택에 할당 해서 넣던데, 뭔가 이상했다. OS개발할땐 또 다른가</p>
+
+<p>아냐 그럴리가 없어 하면서 스택프레임에 뭘 더 집어넣나 해서 보니까 그런거도 아님</p>
+
+<p>찾아보니까 저자분께서 VS에서 내놓은 바이너리를 역어셈블리해서 나온코드를 넣으셔서 저렇게 들어갔다고 한다.</p>
+
+<p>아무튼간, 정말 재대로 된 코드는 아마도</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sub</span> <span class="nb">esp</span><span class="p">,</span> <span class="mi">4</span>
+
+
+<span class="nf">mov</span> <span class="kt">dword</span><span class="p">[</span><span class="nb">ebp</span><span class="p">],</span> <span class="nb">eax</span>
+</code></pre></div></div>
+
+<p>가 아닐까 싶다.</p>
+
+<p>찾아보니까</p>
+
+<p><a href="http://jsandroidapp.cafe24.com/xe/6311#comment_6377">저자분께서 맞다고 하신다</a></p>
+
+<p>아무튼 또 하나 해결</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2017/06/27/Do-not-believe-examplecode-in-a-book.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2017/06/27/RealModeMemory.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> 리얼모드에서 메모리 접근하는 방식
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2017/06/27/MyFirstBootLoader.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        0SOS의 첫 BootLoader.
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

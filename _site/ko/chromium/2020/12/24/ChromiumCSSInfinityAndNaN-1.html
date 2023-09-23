@@ -1,0 +1,450 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chromium CSS에 무한과 NaN 개념 도입하기 - 1 | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Chromium CSS에 무한과 NaN 개념 도입하기 - 1" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Issue: http://crbug.com/1076508" />
+<meta property="og:description" content="Issue: http://crbug.com/1076508" />
+<link rel="canonical" href="https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-24T00:00:20+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chromium CSS에 무한과 NaN 개념 도입하기 - 1" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2020-12-24T00:00:20+09:00","datePublished":"2020-12-24T00:00:20+09:00","description":"Issue: http://crbug.com/1076508","headline":"Chromium CSS에 무한과 NaN 개념 도입하기 - 1","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.png"},"name":"Seokho Song"},"url":"https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  chromium-css에-무한과-nan-개념-도입하기-1">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Chromium CSS에 무한과 NaN 개념 도입하기 - 1
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">4 min read</span>
+
+    <time class="page-date dt-published" datetime="2020-12-24T00:00:20+09:00"><a class="u-url" href="">December 24, 2020</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#chromium" title="Pages filed under Chromium">Chromium</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#chromium" title="Pages tagged Chromium" rel="tag">Chromium</a></li><li class="page-taxonomy"><a href="/ko/tags/#c" title="Pages tagged C++" rel="tag">C++</a></li><li class="page-taxonomy"><a href="/ko/tags/#web-engine" title="Pages tagged Web Engine" rel="tag">Web Engine</a></li><li class="page-taxonomy"><a href="/ko/tags/#html-css" title="Pages tagged HTML/CSS" rel="tag">HTML/CSS</a></li><li class="page-taxonomy"><a href="/ko/tags/#infinityandnan" title="Pages tagged InfinityAndNaN" rel="tag">InfinityAndNaN</a></li><li class="page-taxonomy"><a href="/ko/tags/#devlog" title="Pages tagged DevLog" rel="tag">DevLog</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			
+			<p>Issue: <a href="http://crbug.com/1133390">http://crbug.com/1076508</a></p>
+
+<p>Patches:</p>
+
+<ol>
+  <li><a href="https://chromium-review.googlesource.com/c/chromium/src/+/2465414">https://chromium-review.googlesource.com/c/chromium/src/+/2465414</a></li>
+</ol>
+
+<p>현재 진행 중인 프로젝트에 대한 활동 기록을 이 블로그에 적고자 한다.</p>
+
+<p>아무래도 기능 추가에 관련된 이야기다 보니 글이 몇 개로 나누어질 것 같다.</p>
+
+<p>이 글은 이 기능을 구현하면서 고민하고, 조사했던 내용을 담았다.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/calc()">https://developer.mozilla.org/en-US/docs/Web/CSS/calc()</a></p>
+
+<p>CSS에는 calc라는 함수가 있다.</p>
+
+<p>이 함수를 CSS에서 직접 사용하면 다음과 같다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">div</span> <span class="p">{</span>
+	<span class="nl">width</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="m">10</span><span class="err">*</span><span class="m">2px</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>위 결과는 20px값이 width에 반영된다.</p>
+
+<p>앞으로 다룰 내용은 이 함수에 대한 기능 구현이다.</p>
+
+<p>Chromium monorail에서 할만한 이슈를 찾던 중, 이 이슈가 눈에 들어왔다.</p>
+
+<p>간결하디간결한 이슈 본문을 보니 간단할 것이라고 생각했다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I'm told that per the spec, calc(1px/0) should compute to infinity and not be a parse error.
+
+Testcase:
+&lt;div style="width: calc(1px/0); height: 10px; background: green;"&gt;&lt;/div&gt;
+http://plexode.com/eval3/#s=aekVQXANJVQMbAx1yAXgePQOCGwFEQk1ECRJRWRARChwBg50SEaWqi51IU0ZGTxyaHx0Qch8DXgA=
+</code></pre></div></div>
+
+<p>요약하자면 1px/0을 했을때 무한을 내놔야 합니다. 라는 내용이다.</p>
+
+<p>이것이 이번 프로젝트의 발단을 알린 첫 이슈의 제시문이였다.</p>
+
+<p>이슈가 제시되었을 때, 부랴부랴 표준 문서를 읽어보았다. 
+CSS3와 MDN을 기준으로 “0으로 나누기는 무시되어야 합니다” 라고 쓰여있었다.</p>
+
+<p>그래서 이슈 제시자한테 표준에 따르면 나누기 0은 무시되어야 한다는데 출처 있니? 라고 물어보았고, 제시자는 “새로운 스팩 CSS Values and Units Module Level 4”를 참조로 알려주었다. 즉, 표준에 따르면 <code class="language-plaintext highlighter-rouge">무한</code>, <code class="language-plaintext highlighter-rouge">NaN</code> 개념을 calc 함수가 지원해야 했다.  그 답을 보자마자 이슈 owner를 박고 조사를 시작했다.</p>
+
+<p>처음으로 한 것은, calc 함수가 어디서 계산이 되는가를 찾는 것이었다.</p>
+
+<p>기본적인 생각은 다음과 같았다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">calc 함수는 CSS 파서에 의해서 계산될 것</code></p>
+
+<p>다음의 명령어를 치면 결과를 사람이 구별할 정도로 줄어든다.</p>
+
+<p>그곳에서 parser 디렉토리 쪽 코드를 살펴보았다.</p>
+
+<p>명령어를 좀 설명하자면 대소문자 상관없이 <code class="language-plaintext highlighter-rouge">calc(</code> 문자가 매칭되는 test.cc가 아닌 .cc 파일로 끝나는 파일을 검색하여 리스트로 나타내라 이다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="s1">'calc('</span> <span class="nt">-rni</span> <span class="nt">--include</span><span class="o">=</span><span class="k">*</span>.cc <span class="nt">--exclude</span><span class="o">=</span><span class="k">*</span>test.cc
+</code></pre></div></div>
+
+<p><img src="/uploads/2020-12-23/1.png" alt="1.png" /></p>
+
+<p>그중에서 눈에 띄는 주석이 있다.</p>
+
+<p>이 글을 쓰면서 생각난 것이지만, k<code class="language-plaintext highlighter-rouge">토큰 이름</code>으로 도 검색할 수 있었다고 생각한다. (i.e. kCalc) 이는 크로미움에서 json5 파일을 통해 토큰 식별자를 자동생성하는 메커니즘 덕분에 떠올릴 수 있었다.</p>
+
+<p>하여튼 저곳을 들어가면,</p>
+
+<p><img src="/uploads/2020-12-23/2.png" alt="2.png" /></p>
+
+<p>이런 코드를 볼 수 있는데, 이 말은 kCalc 함수에 대하여 참조하는 곳을 찾아서 수식이 계산되는 곳을 찾으면 된다는 것이다.</p>
+
+<p><img src="/uploads/2020-12-23/3.png" alt="3.png" /></p>
+
+<p>10개 남짓한 레퍼런스를 보며 소스코드를 보다 보면 third_party/blink/renderer/core/css/css_math_expression_node.cc 코드 안에 관련 코드가 있음을 찾을 수 있다. (대부분 코드는 이렇게 검색할 수 있다)</p>
+
+<p>일단 calc 함수는 재귀적인 방식을 통해 괄호와 사칙연산을 계산한다. 꽤 재밌는 부분인데 좀 간략히 설명하자면, parse 함수 호출→ Additive 함수 호출 → Multiplicative 함수 호출 → parse 함수 호출(재귀) 방식으로 사칙연산의 우선순위를 제공하고 있다.</p>
+
+<p>사실 이러한 구현은, 웹 표준에서 정의하고 있다.</p>
+
+<p>아래는 표준 문서에서 나타낸 식의 계산이다.</p>
+
+<p><img src="/uploads/2020-12-23/4.png" alt="4.png" /></p>
+
+<p><img src="/uploads/2020-12-23/5.png" alt="5.png" /></p>
+
+<p>이 내용을 깊이 따라가는 것도 꽤 재밌는 일이다. <a href="https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/css/css_math_expression_node.cc;l=1101;drc=8b5f6ef28dd93e62fc1a75bc7a812af1b33777ec">이곳이</a> 실제 소스코드를 따라가기 좋은 시작 포인트라고 생각된다. 관심 있으면 링크를 타고 가서 보길 바란다.</p>
+
+<p>이제 시작점을 알았으니 값이 계산되는 부분을 찾고, 들어오는 문자열을 이용하여 infinity와 NaN을 구현하면 되는 것이다.</p>
+
+<p>사실 첫 패치에선 NaN을 명시적으로 구현해야 함을 모르고 있었다. 따라서 코드리뷰를 통해 NaN 또한 추가되었다. 이번 포스팅에선 NaN을 다루는 이야기는 나오지 않을 것이다.</p>
+
+<p>함수 콜을 잘 따라가다 보면 이러한 함수에 도달한다.</p>
+
+<p><img src="/uploads/2020-12-23/6.png" alt="6.png" /></p>
+
+<p>즉 실질적인 계산을 담당하는 함수다.</p>
+
+<p>무한을 구현하는 것을 정말 간단하게 생각하자면, case CSSMathOperator::kDivide: 에서 right_value가 0이라면 std::numeric_limits&lt;double&gt;::infinity() 를 리턴하면 되는 것이라고 할 수 있다.</p>
+
+<p>따라서 다음과 같이 추가하였다.
+<img src="/uploads/2020-12-23/11.png" alt="11.png" /></p>
+
+<p>또한 토큰에 대하여</p>
+
+<p><img src="/uploads/2020-12-23/7.png" alt="7.png" /></p>
+
+<p>와 같이 infinity가 왔을 때 해당하는 형식으로 반환하게 하면 될 것이라고 생각했다.</p>
+
+<h4 id="테스트-작성">테스트 작성</h4>
+
+<p>위 코드와 함께 test 코드를 작성했다.</p>
+
+<p>테스트 코드를 작성하면서 문제가 되었던 점은 round 함수가 없어 wpt 테스트가 실패하는 것과 blink_unittests 결과가 계속 실패하여 찾아보니 유닛테스트에는 다른 모듈을 이용하여 calc를 계산하고 있음이었다.</p>
+
+<p>블링크 유닛테스트에는 calc 함수에 대해 다른 파서인 sizes_math_function_parser를 이용하여 파싱을 한다. 따라서 그에 해당하는 테스트인 sizes_math_function_parser_test.cc에서 테스트를 진행한다.</p>
+
+<p><img src="/uploads/2020-12-23/8.png" alt="8.png" /></p>
+
+<p>이 테스트는 <code class="language-plaintext highlighter-rouge">third_party/blink/renderer/core/css/parser/sizes_math_function_parser.cc</code> 안에 있는 <code class="language-plaintext highlighter-rouge">CalcToReversePolishNotation</code> 함수를 통하여 파싱이되고 계산이 된다. 스택 기반으로 작성되어 있다. 따라서 이곳에 우리가 필요했던 코드를 넣어줘야 했다. 
+각각 무한을 스택에 집어넣는 AppendInfinity() 함수를 정의하여 사용하였다.</p>
+
+<p>다음은 스택에서 토큰을 만났을 때 문자열을 비교하여 infinity일시 무한을 집어넣는 코드이다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="n">kIdentToken</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">EqualIgnoringASCIICase</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">Value</span><span class="p">(),</span> <span class="s">"infinity"</span><span class="p">)</span> <span class="o">||</span>
+            <span class="n">EqualIgnoringASCIICase</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">Value</span><span class="p">(),</span> <span class="s">"-infinity"</span><span class="p">))</span> <span class="p">{</span>
+          <span class="n">AppendInfinity</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>이를 통해 유닛테스트 부분은 해결할 수 있었다.</p>
+
+<p>또한, blink_web_tests에 새로운 테스트 파일들을 추가하였다.</p>
+
+<p>자바스크립트 기반의 테스트를 작성하였고, dumpAsText() (이 함수를 호출하면 -expected.txt 라는 파일의 렌더링 결과 텍스트와 비교한다. 간단히 말하면 화면에 나오는 텍스트를 덤프 뜨는 것)를 사용하였다.</p>
+
+<p>아래는 새로 추가한 blink/web_tests/css3/calc/calc-infinity.html 파일이다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"dummy"</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"results"</span><span class="nt">&gt;</span>Calc could handle an infinity value<span class="nt">&lt;br&gt;&lt;br&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">testRunner</span><span class="p">)</span>
+    <span class="nx">testRunner</span><span class="p">.</span><span class="nx">dumpAsText</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">tests</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="dl">"</span><span class="s2">1px * infinity / infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * 0 * infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * (infinity + -infinity)</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * (-infinity + infinity)</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * (infinity - infinity)</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * -infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * (infinity + infinity)</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * (-infinity + -infinity)</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * 1/infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * infinity * infinity</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">1px * -infinity * -infinity</span><span class="dl">"</span><span class="p">,</span>
+<span class="p">];</span>
+
+<span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">results</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">dummy</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">dummy</span><span class="dl">"</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">tests</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">expression</span> <span class="o">=</span> <span class="nx">tests</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="nx">dummy</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">calc(</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">expression</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">)</span><span class="dl">'</span><span class="p">;</span>
+    <span class="nx">results</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">+=</span> <span class="nx">expression</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> =&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">dummy</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>위 결과는 blink/web_tests/css3/calc/calc-infinity-expected.txt 파일로 다음과 같이 저장되고 추후에 테스트에 사용된다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Calc could handle an infinity value
+
+1px * infinity / infinity =&gt;
+1px * 0 * infinity =&gt;
+1px * (infinity + -infinity) =&gt;
+1px * (-infinity + infinity) =&gt;
+1px * (infinity - infinity) =&gt;
+1px * infinity =&gt; calc(infpx)
+1px * -infinity =&gt; calc(-infpx)
+1px * (infinity + infinity) =&gt; calc(infpx)
+1px * (-infinity + -infinity) =&gt; calc(-infpx)
+1px * 1/infinity =&gt; calc(0px)
+1px * infinity * infinity =&gt; calc(infpx)
+1px * -infinity * -infinity =&gt; calc(infpx)
+</code></pre></div></div>
+
+<h4 id="패치-작성">패치 작성</h4>
+<p>테스트와 소스코드를 추가한 한 뒤, 이렇게 완성한 패치를 git cl format을 통해 포멧팅을 하고, 소스코드를 정리하는 등 적절히 정리하여 아래와 같은 커밋메시지와 함깨 패치를 올렸다.</p>
+
+<p><img src="/uploads/2020-12-23/9.png" alt="9.png" /></p>
+
+<p><img src="/uploads/2020-12-23/10.png" alt="10.png" /></p>
+
+<p>여러 글로 나뉠 것 같았는데, 이번 글은 여기서 끊는 게 맞을 것 같다.</p>
+
+<p>다음 글에는 이 패치에 대한 코드리뷰, 그리고 그것에 대한 반영 부분일 듯하다.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/chromium/2020/12/24/ChromiumCSSInfinityAndNaN-1.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/chromium/2020/12/13/ChromiumCustomscrollbarForSelect.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Chromium 에 대한 Custom ScrollBar 옵션 적용 구현
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2021/02/18/Webpack-HtmlLoader-Issue.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        html webpack plugin URL undefined 이슈
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

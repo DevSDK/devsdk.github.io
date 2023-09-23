@@ -352,5 +352,3 @@ https://v8.dev/blog/javascript-code-coverage
 https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#method-startPreciseCoverage
 
 https://docs.google.com/document/d/1wCydi2HEZRF0skDeLb6CH0abZnTyVo5Vz5u-jhwi7es/mobilebasic
-
-I’m flattered to be the first beta reader. good to know how jest ( or collect-v8-coverage, even or Profiler) calculate coverage and how and when V8 compiler helps. thanks

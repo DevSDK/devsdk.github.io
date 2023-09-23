@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jest는 Code Coverage를 어떻게 측정할까? (V8)
+title: How to collect coverage with Jest (V8)
 date:   2023-09-23 00:00:01
 categories: development
 comments: true
@@ -13,6 +13,10 @@ tags:
 - Javascript
 - Jest
 ---	
+
+## Motivation
+I wanted to organize a workflow centered around coverage at my company and sought to understand precisely what coverage is.
+
 ## Introduction
 
 We will learn how `jest --CollectCoverage --coverageProvider=v8` measures coverage. Starting with jest, we will briefly examine v8 and understand how coverage is measured. 
@@ -196,10 +200,10 @@ The compiler has multiple pipelines that process the source code to AST and fina
 
 Visualized AST
 
-The pipeline that processes the source code to AST and finally results in IR is called “compiler frontend”
+The pipeline that processes the source code to AST and finally results in IR(Intermediate Representation; v8 turboshaft) is called “compiler frontend”
 The target codes generator for a given IR is called ‘compiler backend’. The object code is executed on the machine with x86 asm or VM with bytecode.
 
- Compilers make the source code to Tree and then generate IR after that make Object code with that IR.
+Compilers make the source code to Tree and then generate IR after that make Object code with that IR.
 
 To summarize, the compiler compiles the code by first creating AST, then converting the tree into an IR, and finally generating target code through the intermediate representation.
 
