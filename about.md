@@ -3,9 +3,11 @@ layout: post
 title: About
 permalink: /about/
 comments: true
-languages:
-- english
-- korean
 ---
 
-{% translate_file about.md %}
+Contact  : me@seokho.dev
+
+Github   : https://github.com/DevSDK
+
+CV        :https://devsdk.net/cv
+

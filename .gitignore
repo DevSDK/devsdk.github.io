@@ -7,8 +7,6 @@ _asset_bundler_cache
 *.sublime-project
 *.sublime-workspace
 codekit-config.json
-Gemfile.lock
 node_modules
 npm-debug.log*
-Gemfile.lock
 .editorconfig

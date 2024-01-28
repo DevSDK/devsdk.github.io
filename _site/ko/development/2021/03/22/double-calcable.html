@@ -1,0 +1,331 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chromium, CSS Math Function 에 &lt;angle&gt;의 무한 값을 도입하면서 삽질한 기록이다." />
+<meta property="og:description" content="Chromium, CSS Math Function 에 &lt;angle&gt;의 무한 값을 도입하면서 삽질한 기록이다." />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-22T09:00:01+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2021-03-22T09:00:01+09:00","datePublished":"2021-03-22T09:00:01+09:00","description":"Chromium, CSS Math Function 에 &lt;angle&gt;의 무한 값을 도입하면서 삽질한 기록이다.","headline":"double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.png"},"name":"Seokho Song"},"url":"https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#252a34" />
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#252a34" />
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#252a34" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  double-형의-계산-가능한-범위-그리고-chromium의-maximum-angle">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">2 min read</span>
+
+    <time class="page-date dt-published" datetime="2021-03-22T09:00:01+09:00"><a class="u-url" href="">March 22, 2021</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#chromium" title="Pages tagged Chromium" rel="tag">Chromium</a></li><li class="page-taxonomy"><a href="/ko/tags/#chrome" title="Pages tagged Chrome" rel="tag">Chrome</a></li><li class="page-taxonomy"><a href="/ko/tags/#ieee-754" title="Pages tagged ieee 754" rel="tag">ieee 754</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2021/03/22/double-calcable.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2021/03/22/double-calcable.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			<p>Chromium, CSS Math Function 에 &lt;angle&gt;의 무한 값을 도입하면서 삽질한 기록이다.</p>
+
+<p>삽질을 하게 된 계기는 표현한 최댓값이 “계산 가능한” 값인 줄 알았던 것이다.</p>
+
+<p>또한 현재 코드리뷰는 진행중이기 때문에 값은 얼마든지 변할 수 있다.</p>
+
+<p>하지만 매커니즘이 변하진 않을 것 같다.</p>
+
+<p>Review: <a href="https://chromium-review.googlesource.com/c/chromium/src/+/2774851">https://chromium-review.googlesource.com/c/chromium/src/+/2774851</a></p>
+
+<p>2867080569122160은 -방향으로 오차를 줄이는 방식으로 다시 계산된 값이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/18409763/112242530-648b6100-8c8f-11eb-8021-41c1247058b6.png" alt="Screenshot from 2021-03-24 10-54-26" /></p>
+
+<p>3월 24일 오전, 2개의 LGTM을 받아 머지시켰다.</p>
+
+<hr />
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/angle">&lt;angle&gt;</a>은 각도를 나타내는 CSS 값 타입이다.</p>
+
+<p>새로운 <a href="https://drafts.csswg.org/css-values/#numeric-types">CSS-Values-4</a> 표준에 의하면 &lt;angle&gt;의 최댓값은 표현가능한 범위에서 360값의 배수여야 한다.</p>
+
+<p>360의 배수이면서 특정한 값보다 작으면서 가장 가까운 값을 구하는 방법이 무엇일까?</p>
+
+<p>바로 다음과 같은 식을 이용하면 된다.</p>
+
+\[result = target - target \ mod \  360\]
+
+<p>하지만 double의 최댓값에선 다음과 같은 문제가 발생한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/18409763/111940095-44359800-8b11-11eb-9471-8ba0282e9f62.png" alt="Screenshot_from_2021-03-21_13-30-22" /></p>
+
+<p>이 결과는 우리가 예상한 동작과는 거리가 있어보인다. 실제로, <code class="language-plaintext highlighter-rouge">1.79769e+308 === 1.79769e+308 - 100</code> 은 <code class="language-plaintext highlighter-rouge">true</code> 를 내놓는다.</p>
+
+<p>왜 이런 걸까?</p>
+
+<p>컴퓨터 공학 학부, 혹은 컴퓨터를 처음 입문하게 되면 컴퓨터가 값을 표현하는 자료형의 범위를 배우게 된다.</p>
+
+<p>그중에서 배정밀도 double은 8바이트로써, 범위는 다음과 같다.</p>
+
+<p>±1.7 ×10^-307 이상 ± 3.4 × 10^308 이하</p>
+
+<p><a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE 754</a>에 따르면 배정밀도는 다음과 같은 비트열을 가지게 된다.</p>
+
+<p>위 값은 exponent를 포함한 아래 비트열의 모든 비트를 사용했을 때 나올 수 있는 최댓값이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/18409763/111940123-4f88c380-8b11-11eb-85ad-6d1e37a46068.png" alt="Untitled" /></p>
+
+<p>하지만 실제로 계산할 수 있는 범위는 훨씬 작아지는데, 그 이유는 부동소수점에서 exponent 값을 넘어가게 되면 2의 배수로 증가하기 때문이다. 즉, 일반적으로 우리가 기대하는 연산(사칙연산, 삼각함수 등)이 불가능하다.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">Double-precision floating-point format</a> 의 <strong>Precision limitations on integer values</strong> 에 따르면, 정수에 대응될 수 있는 숫자의 표현 범위는 2^53 ~ -2^53인, 9007199254740992 ~ -9007199254740992이다.</p>
+
+<p>이 아래부터는 chromium에 대한 이야기다.</p>
+
+<hr />
+
+<p>chromium에서 &lt;angle&gt;의 무한 값은 <code class="language-plaintext highlighter-rouge">2867080569122160</code> 로 정하게 되었는데 그 이유는 다음과 같다.</p>
+
+<p>Chromium에서 “각”은 결국 <strong>라디안</strong> 이라는 단위로 계산이 된다. 이는 rotation matrix에서 삼각함수를 사용할 때 활용된다. 이와 반대로 CSS Math Function은 항상 <strong>degree</strong>로 반환한다. 즉, degree 값을 radian으로 변환시켜야 transform matrix로 사용할 수 있다는 이야기가 된다. 이 것은 <a href="https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/platform/wtf/math_extras.h">deg2rad function</a> 함수를 통해 degree를 radian으로 변환하게 되는데 이 식은 다음과 같다.</p>
+
+\[rad = \frac{degree *\pi}{180}\]
+
+<p>여기서 문제는 저 최댓값인 9007199254740992에 원주율을 곱하게 되면 우리가 예상하지 못한 동작을 하게 된다는것 이다. 따라서 다음과 같은 식으로 PI를 곱했을 때 표현 가능한 범위를 넘어가지 않도록 해주었다.</p>
+
+\[base = \frac{9007199254740992}{\pi}\]
+
+\[degree = base - base \ mod \ 360\]
+
+<p>여기서 sin함수를 dgree에 사용했을 때 0.01의 오차를 가지게 되었다. 하지만 이는 충분하지 않다고 생각하여 다음과 같은 스크립트로 0.00001의 오차를 가진 값을 찾아냈다.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//To find nearest value using trigonometric functions</span>
+
+<span class="k">while</span><span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">degree</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mf">0.00001</span> <span class="o">||</span> 
+       <span class="o">!</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">degree</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">degree</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">))</span> <span class="p">{</span>
+    <span class="nx">degree</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">degree</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이렇게 해서 나온 결과가 <code class="language-plaintext highlighter-rouge">2867080569122160</code> 이다.</p>
+
+<p>따라서 값(<code class="language-plaintext highlighter-rouge">-2867080569122160</code> ~ <code class="language-plaintext highlighter-rouge">2867080569122160</code>)을 &lt;angle&gt;의 clamp값으로 선정하였다.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Chromium 새로 개발되는 DOM API Seamless Transitions
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2021/03/29/css-trig-func-begin.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        [CSS-Values-4] 삼각함수 구현 준비
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

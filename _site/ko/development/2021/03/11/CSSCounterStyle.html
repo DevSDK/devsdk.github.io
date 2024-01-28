@@ -1,0 +1,278 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CSS @counter-style | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="CSS @counter-style" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다." />
+<meta property="og:description" content="오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다." />
+<link rel="canonical" href="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html" />
+<meta property="og:url" content="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-11T09:00:01+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CSS @counter-style" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2021-03-11T09:00:01+09:00","datePublished":"2021-03-11T09:00:01+09:00","description":"오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.","headline":"CSS @counter-style","mainEntityOfPage":{"@type":"WebPage","@id":"https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://devsdk.github.io/ko/images/avator.png"},"name":"Seokho Song"},"url":"https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#252a34" />
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#252a34" />
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#252a34" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  css-counter-style">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">CSS @counter-style
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">~1 min read</span>
+
+    <time class="page-date dt-published" datetime="2021-03-11T09:00:01+09:00"><a class="u-url" href="">March 11, 2021</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#chromium" title="Pages tagged Chromium" rel="tag">Chromium</a></li><li class="page-taxonomy"><a href="/ko/tags/#chrome" title="Pages tagged Chrome" rel="tag">Chrome</a></li><li class="page-taxonomy"><a href="/ko/tags/#css" title="Pages tagged CSS" rel="tag">CSS</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+	  <a href="/development/2021/03/11/CSSCounterStyle.html" >English</a> </li>
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2021/03/11/CSSCounterStyle.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			<p>오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/18409763/110739167-fea4df80-8273-11eb-8cf5-0cae939349db.png" alt="Untitled" /></p>
+
+<p>꾸준히 내가 진행중인 CSS Feature를 리뷰해주고 계신 Xiaocheng이 ship 한 기능이다.</p>
+
+<p>Firefox에서는 2014년부터 이미 지원되는 기능이였던 것 같다.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style">https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style</a></p>
+
+<p><a href="https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule">표준에 따르면</a> 아주다양한 방식으로 사용될 수 있을 것 같다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@counter-style</span> <span class="n">footnote</span> <span class="p">{</span>
+  <span class="py">system</span><span class="p">:</span> <span class="n">symbolic</span><span class="p">;</span>
+  <span class="py">symbols</span><span class="p">:</span> <span class="s2">'*'</span> <span class="err">⁑</span> <span class="err">†</span> <span class="err">‡</span><span class="p">;</span>
+  <span class="py">suffix</span><span class="p">:</span> <span class="s1">" "</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">It</span> <span class="nt">will</span> <span class="nt">then</span> <span class="nt">produce</span> <span class="nt">lists</span> <span class="nt">that</span> <span class="nt">look</span> <span class="nt">like</span><span class="o">:</span>
+<span class="o">*</span>   <span class="nt">One</span>
+<span class="err">⁑</span>   <span class="nt">Two</span>
+<span class="err">†</span>   <span class="nt">Three</span>
+<span class="err">‡</span>   <span class="nt">Four</span>
+<span class="o">**</span>  <span class="nt">Five</span>
+<span class="err">⁑⁑</span>  <span class="nt">Six</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/18409763/110739184-082e4780-8274-11eb-8719-9f41aec52665.png" alt="Untitled 1" /></p>
+
+<p>근 시일내 당장 쓸 수는 없고, M91버전부터 사용할 수 있을 것 같다.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html';
+        this.page.identifier = 'https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2021/03/08/chrome90.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Chrome 90 beta is coming, 어떤 기능이 들어올까?
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Chromium 새로 개발되는 DOM API Seamless Transitions
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

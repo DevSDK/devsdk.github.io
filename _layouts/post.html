@@ -25,10 +25,6 @@ layout: default
       <div class="page-content">
         <div class="e-content">
 			<br/>
-			{% if site.lang == "en" %}
-			{% capture announce_md %}{% include post-announce.md %}{% endcapture %}
-			{{ announce_md | markdownify }}
-			{% endif %}
 			{{ content }}
         </div>
 
