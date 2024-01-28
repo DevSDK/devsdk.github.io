@@ -1,4 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.4">Jekyll</generator><link href="https://devsdk.github.io/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://devsdk.github.io/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-01-29T06:33:38+09:00</updated><id>https://devsdk.github.io/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">Jest는 Code Coverage를 어떻게 측정할까? (V8)</title><link href="https://devsdk.github.io/ko/development/2023/09/23/how-to-collect-coverage-jest-v8.html" rel="alternate" type="text/html" title="Jest는 Code Coverage를 어떻게 측정할까? (V8)" /><published>2023-09-23T09:00:01+09:00</published><updated>2023-09-23T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2023/09/23/how-to-collect-coverage-jest-v8</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2023/09/23/how-to-collect-coverage-jest-v8.html">&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.4">Jekyll</generator><link href="https://blog.seokho.dev/ko/atom.xml" rel="self" type="application/atom+xml" /><link href="https://blog.seokho.dev/ko/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-01-29T03:11:15+00:00</updated><id>https://blog.seokho.dev/ko/</id><title type="html">Seokho’s blog</title><subtitle>Development and Tech blog</subtitle><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><entry><title type="html">JS array sort((a,b) =&amp;gt; a &amp;lt; b) 가 정렬을 보장하지 않는 이유</title><link href="https://blog.seokho.dev/ko/development/2024/01/28/issue-14595-function-array-array-sort.html" rel="alternate" type="text/html" title="JS array sort((a,b) =&gt; a &lt; b) 가 정렬을 보장하지 않는 이유" /><published>2024-01-28T15:00:00+00:00</published><updated>2024-01-28T15:00:00+00:00</updated><id>https://blog.seokho.dev/ko/development/2024/01/28/issue-14595-function-array-array-sort</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2024/01/28/issue-14595-function-array-array-sort.html">&lt;p&gt;얼마 전에 crbug에서 기여할 항목을 찾다가 신기한 이슈를 발견했다.&lt;/p&gt;
+
+&lt;p&gt;https://bugs.chromium.org/p/v8/issues/detail?id=14595&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/DevSDK/devsdk.github.io/assets/18409763/ac5b1d07-5dc2-4178-8d4c-f86768e5788b&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;제보된 이슈의 내용을 요약하면 Array.prototype.sort의 동작과 TypedArray.prototype.sort 과 동작이 다르고, 다른 js 엔진과 compare function 동작이 다르다는 것이다. 이게 어떻게 된 일일까?&lt;/p&gt;
+
+&lt;p&gt;다음의 코드를 보았을 때 어떤 실행 결과를 기대하는가?&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;얼핏 보기에는 정렬이 되기를 기대할 것이다.&lt;/p&gt;
+
+&lt;p&gt;하지만 결과는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v8&lt;/code&gt; 을 기준으로 정렬되지 않는다.&lt;/p&gt;
+
+&lt;p&gt;JSC, SpiderMonkey는 정렬을 해준다.&lt;/p&gt;
+
+&lt;p&gt;이 차이는 왜 발생할까?&lt;/p&gt;
+
+&lt;p&gt;ES15(2024) 표준을 살펴보면&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/DevSDK/devsdk.github.io/assets/18409763/cf911834-9232-4e8a-8789-c8f351b45f00&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;5. Let sortedList be ? &lt;strong&gt;SortIndexedProperties(obj, len, SortCompare, SKIP-HOLES)&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;실질적으로 정렬을 수행하는 내용은 SortIndexedProperties 에서 수행하는 것으로 보인다.&lt;/p&gt;
+
+&lt;p&gt;해당 내용을 살펴보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/DevSDK/devsdk.github.io/assets/18409763/978dd1d6-998c-4fc9-a802-ad81427c948f&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;표준에서 abstract operation은 표준에서 쓰는 함수로 읽으면 편하다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;4. Sort items using &lt;strong&gt;an implementation-defined sequence&lt;/strong&gt; of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare and return that Completion Record&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;여기서 주목할 단어는 implementation-defined다. 이 말은 구현 측에서 정의하도록 열어둔다는 뜻이다.&lt;/p&gt;
+
+&lt;p&gt;표준 내용을 조금 더 읽어보면 해당 implementation-defined 만족해야 할 내용이 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;There must be some mathematical permutation π of the non-negative integers less than itemCount, such that for every non-negative integer j less than itemCount, the element old[j] is exactly the same as new[π(j)].&lt;/li&gt;
+    &lt;li&gt;Then for all non-negative integers j and k, each less than itemCount, if ℝ(SortCompare(old[j], old[k])) &amp;lt; 0, then π(j) &amp;lt; π(k).&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;만족해야 할 내용을 요약하면 다음과 같다.&lt;/p&gt;
+
+&lt;p&gt;배열의 길이보다 작은 모든 정수 j, k가 있다고 할 때,&lt;/p&gt;
+
+&lt;p&gt;a = arr[j], b = arr[k], compareFunction(a, b) 호출이  반환한 숫자가 0보다 작은 경우 a, b 순이여야 한다.&lt;/p&gt;
+
+&lt;p&gt;다시 원래의 문제로 돌아가 보자&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;compare 함수가 반환하는 값은 어떤 값일까?&lt;/p&gt;
+
+&lt;p&gt;false 혹은 true다. 이는 ToNumber 스팩에 의해서 최종적으로 0과 1을 소비하게 된다.&lt;/p&gt;
+
+&lt;p&gt;정렬을 수행하는 implementation-defined 이 요구하는 요구사항을 만족하는 값이 아니다. 따라서 이는 구현 측에서 결정이 되며 정렬을 수행하지 않는 것 또한 표준을 만족한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/DevSDK/devsdk.github.io/assets/18409763/eb7cc80d-9912-4c49-821e-15ad28230b1e&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;따라서 이 이슈는 버그로 분류되진 않는다. 구글의 JS 리더 syg@의 더블체크를 받으면서 이슈를 닫았다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="V8" /><category term="Javascript" /><category term="crbug" /><summary type="html">얼마 전에 crbug에서 기여할 항목을 찾다가 신기한 이슈를 발견했다.</summary></entry><entry><title type="html">Jest는 Code Coverage를 어떻게 측정할까? (V8)</title><link href="https://blog.seokho.dev/ko/development/2023/09/23/how-to-collect-coverage-jest-v8.html" rel="alternate" type="text/html" title="Jest는 Code Coverage를 어떻게 측정할까? (V8)" /><published>2023-09-23T00:00:01+00:00</published><updated>2023-09-23T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2023/09/23/how-to-collect-coverage-jest-v8</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2023/09/23/how-to-collect-coverage-jest-v8.html">&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
 
 &lt;p&gt;회사에 커버리지를 중심으로 한 워크플로우를 만들고자 하는데 커버리지가 정확히 무엇인지 알고자 했다.&lt;/p&gt;
 
@@ -341,7 +412,7 @@
 
 &lt;p&gt;https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#method-startPreciseCoverage&lt;/p&gt;
 
-&lt;p&gt;https://docs.google.com/document/d/1wCydi2HEZRF0skDeLb6CH0abZnTyVo5Vz5u-jhwi7es/mobilebasic&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="V8" /><category term="Javascript" /><category term="Jest" /><summary type="html">Motivation</summary></entry><entry><title type="html">CSS 삼각 함수를 배포했다</title><link href="https://devsdk.github.io/ko/development/2022/12/20/css-trigonometric-functions.html" rel="alternate" type="text/html" title="CSS 삼각 함수를 배포했다" /><published>2022-12-20T09:00:01+09:00</published><updated>2022-12-20T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2022/12/20/css-trigonometric-functions</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2022/12/20/css-trigonometric-functions.html">&lt;p&gt;CSS 삼각 함수를 배포했다.&lt;/p&gt;
+&lt;p&gt;https://docs.google.com/document/d/1wCydi2HEZRF0skDeLb6CH0abZnTyVo5Vz5u-jhwi7es/mobilebasic&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="V8" /><category term="Javascript" /><category term="Jest" /><summary type="html">Motivation</summary></entry><entry><title type="html">CSS 삼각 함수를 배포했다</title><link href="https://blog.seokho.dev/ko/development/2022/12/20/css-trigonometric-functions.html" rel="alternate" type="text/html" title="CSS 삼각 함수를 배포했다" /><published>2022-12-20T00:00:01+00:00</published><updated>2022-12-20T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2022/12/20/css-trigonometric-functions</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2022/12/20/css-trigonometric-functions.html">&lt;p&gt;CSS 삼각 함수를 배포했다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img width=&quot;402&quot; alt=&quot;Screenshot 2022-12-20 at 9 08 24 AM&quot; src=&quot;https://user-images.githubusercontent.com/18409763/208580491-09ba5854-aa6a-4149-b305-b9b5b271cfae.png&quot; /&gt;&lt;/p&gt;
 
@@ -385,7 +456,7 @@
   &lt;li&gt;Webkit Bugzilla: &lt;a href=&quot;https://bugs.webkit.org/show_bug.cgi?id=248513&quot;&gt;https://bugs.webkit.org/show_bug.cgi?id=248513&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Gecko Bugzilla: &lt;a href=&quot;https://bugzilla.mozilla.org/show_bug.cgi?id=1802744&quot;&gt;https://bugzilla.mozilla.org/show_bug.cgi?id=1802744&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;W3C/CSSWG: &lt;a href=&quot;https://github.com/w3c/csswg-drafts/issues/8169&quot;&gt;https://github.com/w3c/csswg-drafts/issues/8169&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><category term="Feature" /><category term="css-values-4" /><summary type="html">CSS 삼각 함수를 배포했다.</summary></entry><entry><title type="html">BlinkOn15-Day1</title><link href="https://devsdk.github.io/ko/development/2021/11/20/blinkon15-day1.html" rel="alternate" type="text/html" title="BlinkOn15-Day1" /><published>2021-11-20T09:00:01+09:00</published><updated>2021-11-20T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/11/20/blinkon15-day1</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/11/20/blinkon15-day1.html">&lt;h1 id=&quot;blinkon-15-day1&quot;&gt;BlinkOn 15 Day1&lt;/h1&gt;
+&lt;/ul&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><category term="Feature" /><category term="css-values-4" /><summary type="html">CSS 삼각 함수를 배포했다.</summary></entry><entry><title type="html">BlinkOn15-Day1</title><link href="https://blog.seokho.dev/ko/development/2021/11/20/blinkon15-day1.html" rel="alternate" type="text/html" title="BlinkOn15-Day1" /><published>2021-11-20T00:00:01+00:00</published><updated>2021-11-20T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/11/20/blinkon15-day1</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/11/20/blinkon15-day1.html">&lt;h1 id=&quot;blinkon-15-day1&quot;&gt;BlinkOn 15 Day1&lt;/h1&gt;
 
 &lt;p&gt;블링크온 이라는 크로미움 렌더링 엔진에 대한 컨퍼런스가 이번주 목요일 금요일 새벽 한시부터 4시까지 진행이 되었었다.&lt;/p&gt;
 
@@ -668,7 +739,7 @@
 
 &lt;p&gt;아마도 블링크에 소개되고 쉽 된 기능중 다른 브라우져에서도 지원 될것을 기대하면 한 1~2년 정도 전의 웹 브라우져의 최전선 이였던 피쳐들을 활용할 수 있지 않을까 싶다.&lt;/p&gt;
 
-&lt;p&gt;Day2는 다음에 정리해보고자 한다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="Feature" /><category term="blink" /><category term="conference" /><summary type="html">BlinkOn 15 Day1</summary></entry><entry><title type="html">Chromium Composition과 Layer</title><link href="https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html" rel="alternate" type="text/html" title="Chromium Composition과 Layer" /><published>2021-03-29T09:00:11+09:00</published><updated>2021-03-29T09:00:11+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html">&lt;p&gt;웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.&lt;/p&gt;
+&lt;p&gt;Day2는 다음에 정리해보고자 한다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="Feature" /><category term="blink" /><category term="conference" /><summary type="html">BlinkOn 15 Day1</summary></entry><entry><title type="html">Chromium Composition과 Layer</title><link href="https://blog.seokho.dev/ko/development/2021/03/29/blink-render-composition.html" rel="alternate" type="text/html" title="Chromium Composition과 Layer" /><published>2021-03-29T00:00:11+00:00</published><updated>2021-03-29T00:00:11+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/29/blink-render-composition</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/29/blink-render-composition.html">&lt;p&gt;웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.&lt;/p&gt;
 
 &lt;p&gt;다음은 chromium의 렌더링 과정을 도식화한 것이다.&lt;/p&gt;
 
@@ -771,7 +842,7 @@
 
 &lt;p&gt;&lt;a href=&quot;http://bit.ly/lifeofapixel&quot;&gt;http://bit.ly/lifeofapixel&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&quot;&gt;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="Blink" /><category term="Renderer" /><summary type="html">웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.</summary></entry><entry><title type="html">\[CSS-Values-4] 삼각함수 구현 준비</title><link href="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html" rel="alternate" type="text/html" title="\[CSS-Values-4] 삼각함수 구현 준비" /><published>2021-03-29T09:00:01+09:00</published><updated>2021-03-29T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/29/css-trig-func-begin.html">&lt;p&gt;Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&quot;&gt;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="Blink" /><category term="Renderer" /><summary type="html">웹 브라우져의 화면은 다양한 스테이지를 거쳐 화면에 나오게 된다.</summary></entry><entry><title type="html">\[CSS-Values-4] 삼각함수 구현 준비</title><link href="https://blog.seokho.dev/ko/development/2021/03/29/css-trig-func-begin.html" rel="alternate" type="text/html" title="\[CSS-Values-4] 삼각함수 구현 준비" /><published>2021-03-29T00:00:01+00:00</published><updated>2021-03-29T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/29/css-trig-func-begin</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/29/css-trig-func-begin.html">&lt;p&gt;Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.&lt;/p&gt;
 
 &lt;p&gt;이 기능을 구현하며 스팩을 자주 보게 되었는데, 익숙해 진 것도 있고, 눈에 띄는 기능이 보여서 다음 구현 목표를 css-values-4 스팩에서 찾게 되었다.&lt;/p&gt;
 
@@ -793,7 +864,7 @@
 
 &lt;p&gt;다만 요즘 이래저래 바빠서 2분기까지 완전히 완성하긴 어려울 것 같고, 프로토타이핑 및 문서화 정도까진 가능할 것 같다고 이야기하긴 했는데 얼른 바쁜 게 끝나면 좋겠다.&lt;/p&gt;
 
-&lt;p&gt;Feature 구현을 시작하기 전에 간단하게 블로그에 정리해 보았다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><category term="Feature" /><category term="css-values-4" /><summary type="html">Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.</summary></entry><entry><title type="html">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle</title><link href="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html" rel="alternate" type="text/html" title="double 형의 &quot;계산 가능한 범위&quot; 그리고 chromium의 maximum angle" /><published>2021-03-22T09:00:01+09:00</published><updated>2021-03-22T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/22/double-calcable</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/22/double-calcable.html">&lt;p&gt;Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.&lt;/p&gt;
+&lt;p&gt;Feature 구현을 시작하기 전에 간단하게 블로그에 정리해 보았다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><category term="Feature" /><category term="css-values-4" /><summary type="html">Chromium에 CSS에 대하여 Infinity 와 NaN을 구현하는 프로젝트가 거의 끝나가고 있다. 몇 가지의 이슈를 해결하면 아마 ship 할 수 있을 것 같다.</summary></entry><entry><title type="html">double 형의 “계산 가능한 범위” 그리고 chromium의 maximum angle</title><link href="https://blog.seokho.dev/ko/development/2021/03/22/double-calcable.html" rel="alternate" type="text/html" title="double 형의 &quot;계산 가능한 범위&quot; 그리고 chromium의 maximum angle" /><published>2021-03-22T00:00:01+00:00</published><updated>2021-03-22T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/22/double-calcable</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/22/double-calcable.html">&lt;p&gt;Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.&lt;/p&gt;
 
 &lt;p&gt;삽질을 하게 된 계기는 표현한 최댓값이 “계산 가능한” 값인 줄 알았던 것이다.&lt;/p&gt;
 
@@ -874,7 +945,7 @@
 
 &lt;p&gt;이렇게 해서 나온 결과가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt; 이다.&lt;/p&gt;
 
-&lt;p&gt;따라서 값(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-2867080569122160&lt;/code&gt; ~ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt;)을 &amp;lt;angle&amp;gt;의 clamp값으로 선정하였다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="ieee 754" /><summary type="html">Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.</summary></entry><entry><title type="html">Chromium 새로 개발되는 DOM API Seamless Transitions</title><link href="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html" rel="alternate" type="text/html" title="Chromium 새로 개발되는 DOM API Seamless Transitions" /><published>2021-03-11T09:00:02+09:00</published><updated>2021-03-11T09:00:02+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">&lt;p&gt;오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.&lt;/p&gt;
+&lt;p&gt;따라서 값(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-2867080569122160&lt;/code&gt; ~ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2867080569122160&lt;/code&gt;)을 &amp;lt;angle&amp;gt;의 clamp값으로 선정하였다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="ieee 754" /><summary type="html">Chromium, CSS Math Function 에 &amp;lt;angle&amp;gt;의 무한 값을 도입하면서 삽질한 기록이다.</summary></entry><entry><title type="html">Chromium 새로 개발되는 DOM API Seamless Transitions</title><link href="https://blog.seokho.dev/ko/development/2021/03/11/ChromiumSeamlessTransitions.html" rel="alternate" type="text/html" title="Chromium 새로 개발되는 DOM API Seamless Transitions" /><published>2021-03-11T00:00:02+00:00</published><updated>2021-03-11T00:00:02+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/11/ChromiumSeamlessTransitions</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/11/ChromiumSeamlessTransitions.html">&lt;p&gt;오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.&lt;/p&gt;
 
 &lt;p&gt;2021.03.11 기준으로 아직 한창 개발되고 있는 feature이다. Android Webview와 깊은 연관이 있는 만큼 나중에 완성되면 Google IO 같은 데서 한번 말하지 않을까 라는 생각이 든다. (아닐 수도 있다. ㅎㅎ..)&lt;/p&gt;
 
@@ -928,7 +999,7 @@
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/vmpstr/shared-element-transitions&quot;&gt;https://github.com/vmpstr/shared-element-transitions&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://docs.google.com/document/d/1UmAL_w5oeoFxrMWiw75ScJDQqYd_a20bOEWfbKhhPi8&quot;&gt;https://docs.google.com/document/d/1UmAL_w5oeoFxrMWiw75ScJDQqYd_a20bOEWfbKhhPi8&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><summary type="html">오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.</summary></entry><entry><title type="html">CSS @counter-style</title><link href="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html" rel="alternate" type="text/html" title="CSS @counter-style" /><published>2021-03-11T09:00:01+09:00</published><updated>2021-03-11T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/11/CSSCounterStyle.html">&lt;p&gt;오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.google.com/document/d/1UmAL_w5oeoFxrMWiw75ScJDQqYd_a20bOEWfbKhhPi8&quot;&gt;https://docs.google.com/document/d/1UmAL_w5oeoFxrMWiw75ScJDQqYd_a20bOEWfbKhhPi8&lt;/a&gt;&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><summary type="html">오랜만에 patch들을 pull 받고 빌드하는 시간 동안 Chromium에서 SPA(Single Page App)를 위한 API가 어떤 것들이 있을까 라는 생각으로 feature들을 살펴보던 도중 흥미로운 기능이 현재 막 개발되고 있어서 글을 쓴다.</summary></entry><entry><title type="html">CSS @counter-style</title><link href="https://blog.seokho.dev/ko/development/2021/03/11/CSSCounterStyle.html" rel="alternate" type="text/html" title="CSS @counter-style" /><published>2021-03-11T00:00:01+00:00</published><updated>2021-03-11T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/11/CSSCounterStyle</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/11/CSSCounterStyle.html">&lt;p&gt;오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110739167-fea4df80-8273-11eb-8cf5-0cae939349db.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
 
@@ -956,7 +1027,7 @@
 
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110739184-082e4780-8274-11eb-8719-9f41aec52665.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;근 시일내 당장 쓸 수는 없고, M91버전부터 사용할 수 있을 것 같다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><summary type="html">오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.</summary></entry><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T09:00:01+09:00</published><updated>2021-03-08T09:00:01+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
+&lt;p&gt;근 시일내 당장 쓸 수는 없고, M91버전부터 사용할 수 있을 것 같다.&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><category term="CSS" /><summary type="html">오늘 아침 Blink-Dev Group에서 I2S를 보고 재밌는 CSS Feature가 Ship되는걸 보아서 간단히 메모한다.</summary></entry><entry><title type="html">Chrome 90 beta is coming, 어떤 기능이 들어올까?</title><link href="https://blog.seokho.dev/ko/development/2021/03/08/chrome90.html" rel="alternate" type="text/html" title="Chrome 90 beta is coming, 어떤 기능이 들어올까?" /><published>2021-03-08T00:00:01+00:00</published><updated>2021-03-08T00:00:01+00:00</updated><id>https://blog.seokho.dev/ko/development/2021/03/08/chrome90</id><content type="html" xml:base="https://blog.seokho.dev/ko/development/2021/03/08/chrome90.html">&lt;p&gt;Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.&lt;/p&gt;
 
 &lt;p&gt;이 내용은 &lt;a href=&quot;https://docs.google.com/spreadsheets/d/155euqrhdqVhtbAID7ydaUPjBstLIYZ4PJkpFmqJ6j-o/edit#gid=215381875&quot;&gt;What’s Shipping&lt;/a&gt; 시트를 참고하였다.&lt;/p&gt;
 
@@ -1082,112 +1153,4 @@
 
     &lt;p&gt;Custom Element의 state를  :state() psuedo class에서 접근 할 수 있다.&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><summary type="html">Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.</summary></entry><entry><title type="html">Reflow, Repaint Chromium 입장에서 살펴보기 (왜 transform은 빠를까?)</title><link href="https://devsdk.github.io/ko/development/2021/03/08/ReflowRepaint.html" rel="alternate" type="text/html" title="Reflow, Repaint Chromium 입장에서 살펴보기 (왜 transform은 빠를까?)" /><published>2021-03-08T09:00:00+09:00</published><updated>2021-03-08T09:00:00+09:00</updated><id>https://devsdk.github.io/ko/development/2021/03/08/ReflowRepaint</id><content type="html" xml:base="https://devsdk.github.io/ko/development/2021/03/08/ReflowRepaint.html">&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
-
-&lt;p&gt;Reflow와 Repaint에 대해서 면접 단골 질문이라고 해서 조금 깊이 살펴보도록 한다.&lt;br /&gt;
-최적화와 관련된 이야기며, Message Queue (event loop)에 대한 이해가 필요하다. 그 내용은 &lt;a href=&quot;https://devsdk.github.io/ko/development/2021/02/25/ChromiumEventLoop.html&quot;&gt;여기서&lt;/a&gt; 볼 수 있다. 요약하자면, 만약 js 태스크와 같은 작업이 message queue에서 선점되어 animation frame이 늦어지는 경우 사용자에게 애니메이션이 끊기는 등의 경험을 줄 수 있다. 이런 것을 피하고 최적화할 수 있는 방법에 대해 알아본다.&lt;/p&gt;
-&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of contents&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Reflow, Repaint, Layout, Paint, Composite&lt;/li&gt;
-  &lt;li&gt;CSS Animation&lt;/li&gt;
-  &lt;li&gt;왜 transform을 이용하면 빠를까?&lt;/li&gt;
-  &lt;li&gt;tracing으로 알아보는 실제 layout, paint&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;1-reflow-repaint-layout-paint-composite&quot;&gt;1. Reflow, Repaint, Layout, Paint, Composite&lt;/h1&gt;
-
-&lt;p&gt;이 글에서 Reflow와 Repaint는 Layout과 Paint와 대응된다. Reflow와 Repaint는 firefox의 “Gecko” 진영에서 주로 사용하고, layout과 paint는 safari의 webkit과 chromium의 blink 진영에서 사용한다. 혼동을 피하고자 layout과 paint로 설명하도록 한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;layout은-무엇일까&quot;&gt;Layout은 무엇일까?&lt;/h3&gt;
-
-&lt;p&gt;웹브라우져에는 사실 DOM Tree 말고 렌더 스테이지에서 중요한 역할을 하는 트리가 하나 더 있다. 화면에 실제로 그리기 위해 박스모델과 좌표 계산이 끝난 상태인 Layout Tree라는 것을 관리한다. 이는 DOM Tree와 대응되지 않으며, display : none인 경우에는 아예 Layout Tree에 제외되기도 한다. 이러한 내용이 궁금하다면 &lt;a href=&quot;https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_528&quot;&gt;여기&lt;/a&gt;를 살펴보면 좋을 것 같다. layout 단계 혹은 reflow는 &lt;strong&gt;이 트리를 전체 혹은 일부를 새로 구성하는 것&lt;/strong&gt;을 의미한다. layout이 발생한다는 경우에 대해서는 &lt;a href=&quot;https://sites.google.com/site/getsnippet/javascript/dom/repaints-and-reflows-manipulating-the-dom-responsibly&quot;&gt;이곳에서&lt;/a&gt; 리스트업을 하지만 브라우져 레벨에서 &lt;strong&gt;“항상” layout이 발생하는 것은 아니다.&lt;/strong&gt; 예로 CSS Animation을 들 수 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;paint는-무엇일까&quot;&gt;Paint는 무엇일까?&lt;/h3&gt;
-
-&lt;p&gt;위에서 만든 LayoutTree를 순회하며 Paint Command를 만들고 &lt;a href=&quot;https://skia.org/&quot;&gt;SKIA&lt;/a&gt; 레스터라이저한테 전달하는 단계이다.  이를  추상화하고 줄여서 설명하면 &lt;strong&gt;Layout Tree를 화면에 그리는 단계&lt;/strong&gt;라고 이해해도 좋을 것 같다. 여기서 layout 트리에 대응되는 computed style에서 color와 같은 값을 가져와서 화면을 그리게 된다.
- 이 단계 또한 매우 방대하며, 관심 있다면 &lt;a href=&quot;https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/core/paint/README.md#Current-compositing-algorithm-CompositeBeforePaint&quot;&gt;이 문서&lt;/a&gt;를 보도록 하자.&lt;/p&gt;
-
-&lt;h3 id=&quot;composite&quot;&gt;Composite?&lt;/h3&gt;
-
-&lt;p&gt;Composite은 각각의 분리 가능한 레이어를 분리해서 처리한 뒤 합성하는 것이다. 거시적인 관점에서 &lt;strong&gt;Composite는 Main Thread (Message Queue)에서 벗어나서 다른 Thread Flow를 가지고 화면을 업데이트&lt;/strong&gt; 할 수 있다. 즉 비동기적으로 실행된 후 기존 레이어에 합성된다. 주로 animation과 scroll 등등에서 활용되며, 다른 Thread Flow를 가지기 때문에 main thread에서 block이 일어나도 composite만 사용하는 애니메이션은 계속 재생될 수 있다.&lt;/p&gt;
-
-&lt;p&gt;Composition에 대해서는 &lt;a href=&quot;https://devsdk.github.io/ko/development/2021/03/29/blink-render-composition.html&quot;&gt;이곳에&lt;/a&gt; 정리를 해두었다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110417527-1dbb3a00-80d9-11eb-9724-e26417c8324d.png&quot; alt=&quot;image&quot; /&gt;
-&lt;em&gt;Composition example from &lt;a href=&quot;https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_1213&quot;&gt;Life of Pixels&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;2-css-animation&quot;&gt;2. CSS Animation&lt;/h1&gt;
-
-&lt;p&gt;CSS Animation은 공짜가 아니며 브라우져의 리소스를 사용한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://csstriggers.com/&quot;&gt;https://csstriggers.com/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;위 사이트는 CSS Animation이 렌더 스테이지에서 어떤 단계를 trigger 하는지 보여준다.&lt;/p&gt;
-
-&lt;p&gt;여기서 Layout &amp;gt; Paint &amp;gt; Composite 순으로 cost가 높으며 composite만 있다면 Message Queue와 무관하게 동작하므로 매우 좋은 애니메이션 타겟이 될 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276915-8641e280-8017-11eb-8f9d-777e61cde490.png&quot; alt=&quot;Untitled&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276931-8f32b400-8017-11eb-8b37-f3a5209dd077.png&quot; alt=&quot;Untitled 1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;width의 cost는 Layout, Paint, Composite를 전부 사용한다. 따라서 꽤 높은 비용이라고 할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276946-98bc1c00-8017-11eb-9929-2508783b42b0.png&quot; alt=&quot;Untitled 2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;background-color는 paint, composite를 사용한다.&lt;/p&gt;
-
-&lt;h1 id=&quot;3-왜-transform을-이용하면-빠를까&quot;&gt;3. 왜 transform을 이용하면 빠를까?&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276963-a2458400-8017-11eb-8c3e-029f7f5c0b3c.png&quot; alt=&quot;Untitled 4&quot; /&gt;
-&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276965-a376b100-8017-11eb-962b-e7945a3dd8c2.png&quot; alt=&quot;Untitled 3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;우리는 같은 역할을 하는 두 가지의 코드를 만들 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-jsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-    .b &lt;span class=&quot;si&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;b&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;transform: translateX(200px)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;b&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;position:relative;left:200px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110276977-ad001900-8017-11eb-9022-42350b5a8555.png&quot; alt=&quot;Untitled 5&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;위 코드는 완전히 화면에 동일한 결과를 내놓는다. 하지만 내부적으로 다르게 동작한다.&lt;/p&gt;
-
-&lt;p&gt;컴퓨터는 그래픽을  matrix의 곱으로 표현한다. (&lt;a href=&quot;http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/&quot;&gt;OpenGL examples&lt;/a&gt;) 이는 OpenGL, DirectX 등에 반드시 사용되며 GPU는 이런 연산을 빠르게 하기 위해 설계되었다.&lt;/p&gt;
-
-&lt;p&gt;transform을 사용한 예시중 첫번째 div는 최종 composite에서 &lt;a href=&quot;https://en.wikipedia.org/wiki/Transformation_matrix&quot;&gt;transformation matrix&lt;/a&gt;를 통해 렌더링 되기 전 composite thread에서 GPU의 도움을 받아 계산된다.  아주 빠른 연산이 비동기적으로 일어나 매우 빠른 속도를 보여준다.  어떤 연산이 일어나는지는 &lt;a href=&quot;https://drafts.csswg.org/css-transforms/#mathematical-description&quot;&gt;표준을&lt;/a&gt; 참고하자. 심지어 Main Thread가 다른 태스크에 의해 block 되어도 재생된다.&lt;/p&gt;
-
-&lt;p&gt;left를 사용한 아래 예시는 layout→composite.assign-&amp;gt;paint의 절차를 모두 밟게 된다. 즉 애니메이션으로 사용되기엔 꽤 비싼 cost를 가지고 있다는 소리다.
-(Paint → Composite 는 현재 &lt;a href=&quot;https://bugs.chromium.org/p/chromium/issues/detail?id=471333&quot;&gt;Chromium의 주요 프로젝트중&lt;/a&gt; 하나이다. CAP (Composition After Paiting)이라고 불린다.)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110435489-6c2b0180-80f6-11eb-9c35-82824d8ad351.gif&quot; alt=&quot;Peek 2021-03-09 16-40&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;여기서 즐거운 결론을 낼 수 있다. animation에서 만약 같은 결과를 내는 코드라면 &lt;strong&gt;composite만 사용하는 애니메이션 (i.e.transform)&lt;/strong&gt;을 애용하자.&lt;/p&gt;
-
-&lt;h1 id=&quot;4-tracing으로-알아보는-실제-layout-paint&quot;&gt;4. Tracing으로 알아보는 실제 layout, paint&lt;/h1&gt;
-
-&lt;p&gt;아래부터의 내용은 chromium/chrome의 동작 구조를 직접 살펴보며 위에서 이야기한 내용을 눈으로 봐볼 것이다.&lt;/p&gt;
-
-&lt;p&gt;아래는 width를 이용한 animation을 tracing 한 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110277005-c0ab7f80-8017-11eb-9b93-6fa9b7769b5e.png&quot; alt=&quot;Screenshot_from_2021-03-08_11-45-14&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;CrRendererMain에 바코드처럼 빼곡하게 있는 것들이 바로 layout→paint 그리고 composite를 트리거 하는 단계이다.&lt;/p&gt;
-
-&lt;p&gt;저 바코드의 줄 하나를 확대하면 다음과 같다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110277012-c608ca00-8017-11eb-999d-aa8f220241a2.png&quot; alt=&quot;Screenshot_from_2021-03-08_13-45-51&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;트레이스가 기록된 저 상자는 c++ 구현과 1대1로 대응되며, 필요하다면 소스코드를 볼 수 있다. 이 내용을 보면 &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/local_frame_view.cc;l=3312;drc=3c992b98c58db034eb5af6bc51aac6fb1939d571&quot;&gt;LocalFrameView::UpdateStyleAndLayoutIfNeededRecursive()&lt;/a&gt;이 호출됨으로써 layout과 paint가 끊임없이 일어난다는 것을 알 수 있다.&lt;/p&gt;
-
-&lt;p&gt;만약 DOM Tree의 깊이가 깊어진다면 그만큼의 recursion 호출이 발생한다.&lt;/p&gt;
-
-&lt;p&gt;그렇다면 반대로 transform을 사용한 경우는 어떤 트레이싱을 볼 수 있을까?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/18409763/110277028-cdc86e80-8017-11eb-87dc-550b7e53f85a.png&quot; alt=&quot;Untitled 6&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;앞에 빼곡하게 있는 것은 마우스 때문에 발생한 animation이고 실제로 trigger 돼서 화면에 보인 것은 갑자기 빈 공간이 생기는 부분부터 이다. 여기서 compositor는 전달받은 역할을 &lt;strong&gt;비동기적&lt;/strong&gt;으로 실행하는 것을 볼 수 있다. 이런 이유 때문에 composite만 사용하는 애니메이션은 alert와 같이 main thread가 block 된 상황에서도 정상적으로 렌더 수행이 진행된다.&lt;/p&gt;
-
-&lt;p&gt;오타/질문/틀린 내용이 있다면 언제든지 피드백 바란다. :)&lt;/p&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Web" /><category term="HTML" /><category term="CSS" /><category term="Optimization" /><summary type="html">Overview</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Seokho Song</name><email>0xdevssh@gmail.com</email></author><category term="Chromium" /><category term="Chrome" /><summary type="html">Blink Dev-Group에 있으면서, 새로운 Chrome 버전 M90의 beta가 3월 11일에 나온다고 한다. Chromium의 어떤 새로운 기능들이 Chrome 에 도입될 수 있을지 알아보도록 한다.</summary></entry></feed>

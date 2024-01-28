@@ -15,11 +15,11 @@
 # in the templates via {{ site.myvariable }}.
 theme: jekyll-theme-so-simple
 # remote_theme: mmistakes/so-simple-theme
-locale: en-US
+locale: ko-KR
 title: "Seokho's blog"
 description: "Development and Tech blog"
 baseurl: "" # the subpath of your site, e.g. "/blog"
-url: "https://devsdk.github.io"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url: "https://blog.seokho.dev"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 logo: "/images/avator.png" # path of site logo, e.g. "/assets/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: true
@@ -45,7 +45,7 @@ markdown: kramdown
 feed:
   path: atom.xml
 
-timezone: Asia/Seoul
+timezone: Asian/Seoul
 
 # Pagination - https://jekyllrb.com/docs/pagination/
 paginate: 10
