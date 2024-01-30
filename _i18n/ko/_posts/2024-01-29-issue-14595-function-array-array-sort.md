@@ -9,6 +9,8 @@ languages:
 tags:
 - Chromium
 - V8
+- TC39
+- ECMAScript
 - Javascript
 - crbug
 ---	
