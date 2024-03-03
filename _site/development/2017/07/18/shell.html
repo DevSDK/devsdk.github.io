@@ -1,0 +1,1015 @@
+<html lang="en" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Finally It looks OS! Shell development complete! | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.4" />
+<meta property="og:title" content="Finally It looks OS! Shell development complete!" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="This article should be huge." />
+<meta property="og:description" content="This article should be huge." />
+<link rel="canonical" href="https://blog.seokho.dev/development/2017/07/18/shell.html" />
+<meta property="og:url" content="https://blog.seokho.dev/development/2017/07/18/shell.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-18T11:00:20+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Finally It looks OS! Shell development complete!" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2017-07-18T11:00:20+00:00","datePublished":"2017-07-18T11:00:20+00:00","description":"This article should be huge.","headline":"Finally It looks OS! Shell development complete!","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.seokho.dev/development/2017/07/18/shell.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://blog.seokho.dev/images/avator.png"},"name":"Seokho Song"},"url":"https://blog.seokho.dev/development/2017/07/18/shell.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#252a34" />
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#252a34" />
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#252a34" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  finally-it-looks-os-shell-development-complete">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/about">About</a></li><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li>
+			<li><a href="/ko">한글</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Finally It looks OS! Shell development complete!
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">11 min read</span>
+
+    <time class="page-date dt-published" datetime="2017-07-18T11:00:20+00:00"><a class="u-url" href="">July 18, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/tags/#0sos" title="Pages tagged 0SOS" rel="tag">0SOS</a></li><li class="page-taxonomy"><a href="/tags/#os" title="Pages tagged OS" rel="tag">OS</a></li><li class="page-taxonomy"><a href="/tags/#operating-system" title="Pages tagged Operating System" rel="tag">Operating System</a></li><li class="page-taxonomy"><a href="/tags/#system" title="Pages tagged System" rel="tag">System</a></li><li class="page-taxonomy"><a href="/tags/#cli" title="Pages tagged CLI" rel="tag">CLI</a></li><li class="page-taxonomy"><a href="/tags/#shell" title="Pages tagged Shell" rel="tag">Shell</a></li><li class="page-taxonomy"><a href="/tags/#64bit" title="Pages tagged 64bit" rel="tag">64bit</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+		
+	  	<a href="/development/2017/07/18/shell.html" >English</a> </li>
+		  	
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2017/07/18/shell.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			<p>This article should be huge.</p>
+
+<p>Shell.</p>
+
+<p>Finally, My 0SOS has an initial version CLI.</p>
+
+<p>Now It looks like an OS.</p>
+
+<p>Also, the Source tree grow bigger and bigger.</p>
+
+<p><img src="/uploads/2017-07-18/OS/sourcetree.png" alt="sourcetree" /></p>
+
+<p>Above image was source tree of 0SOS. Many things already implemented. Also, many things need implementation</p>
+
+<p>Anyway, This time It was made here and there. I’ve implemented Printf and SPrint functions in the All-time Cafe where I went before, talking with friends.</p>
+
+<p><img src="/uploads/2017-07-18/OS/caffe.jpg" alt="caffe" /></p>
+
+<p>In fact, I’ve spent talking time more than development time, so It made slowly.</p>
+
+<p>And Next day Also I’ve spent development time and the next day too.</p>
+
+<p>Writing Article on the blog was enjoyment after rushing development time.</p>
+
+<p>I think this article would be written separately.</p>
+
+<p>Ah anyway, 0SOS has a console shell.</p>
+
+<p>Scrolling looks nice.</p>
+
+<p>If you see it an only image, you wouldn’t feel like me, so I prepare a youtube video.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nVrrjFe16NY" frameborder="0" allowfullscreen=""></iframe>
+
+<p>How many time I spent preparing for running a command shell</p>
+
+<p>It needs starting at 16-bit bootloader assembly codes, Preparing to jump 16-bit mode to 32-bit kernel and preparing to jump 32 bit to 64-bit mode, Keyboard driver and Interrupt handling.</p>
+
+<p>In this time, Developing Printf function(also SPrintf for later) and GetCh function is made for input commands. And It would be used on Shell codes.</p>
+
+<p>This time also I don’t refer the book. Well if it works same, it’s fine (And I don’t carry my book cause it’s too heavy)</p>
+
+<p>Variable argument function can be found on Google, So It’s no problem.</p>
+
+<p>But the problem is… I’m not sure it can be used OS development. So I try to search.</p>
+
+<p>After that, I knew it is possible.</p>
+
+<p>So We need to implement output format and escape sequence.</p>
+
+<p>We should print %d and %x that should works number-&gt;charactor on screen or memory.</p>
+
+<p>I think standard function already have an efficient algorithm, so I try to google it and I found magnificent codes.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BOOL</span> <span class="nf">_itoa</span><span class="p">(</span><span class="kt">long</span> <span class="n">_value</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_result</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_base</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">||</span> <span class="n">_base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">)</span> <span class="p">{</span> <span class="o">*</span><span class="n">_result</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">char</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">_result</span><span class="p">,</span> <span class="o">*</span><span class="n">ptr1</span> <span class="o">=</span> <span class="n">_result</span><span class="p">,</span> <span class="n">tmp_char</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">tmp_value</span><span class="p">;</span>
+
+
+    <span class="c1">//It works negative and positive.</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="n">tmp_value</span> <span class="o">=</span> <span class="n">_value</span><span class="p">;</span>
+        <span class="n">_value</span> <span class="o">/=</span> <span class="n">_base</span><span class="p">;</span>
+        <span class="o">*</span><span class="n">ptr</span><span class="o">++</span> <span class="o">=</span> <span class="s">"zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"</span><span class="p">[</span><span class="mi">35</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmp_value</span> <span class="o">-</span> <span class="n">_value</span> <span class="o">*</span> <span class="n">_base</span><span class="p">)];</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">_value</span><span class="p">);</span>
+
+    <span class="c1">//Sign </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tmp_value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span><span class="n">ptr</span><span class="o">++</span> <span class="o">=</span> <span class="sc">'-'</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">ptr</span><span class="o">--</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+    <span class="c1">//Reverse</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">ptr1</span> <span class="o">&lt;</span> <span class="n">ptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">tmp_char</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+        <span class="o">*</span><span class="n">ptr</span><span class="o">--</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptr1</span><span class="p">;</span>
+        <span class="o">*</span><span class="n">ptr1</span><span class="o">++</span> <span class="o">=</span> <span class="n">tmp_char</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>I try to change a little, but it is same structure.</p>
+
+<p>It uses on GCC they said.</p>
+
+<p>Constructing-character table and reserve table for a negative and positive number.</p>
+
+<p>And we use that to make characters from the number.</p>
+
+<p>Now We have an itoa function, let’s implement atoi function to change the character to number.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">BOOL</span> <span class="nf">_atoi</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_number</span><span class="p">,</span> <span class="kt">long</span><span class="o">*</span> <span class="n">_value</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_base</span><span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_number</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">||</span> <span class="n">_base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'-'</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">long</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">((</span><span class="n">c</span> <span class="o">=</span> <span class="n">_number</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">])</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">_ctoi</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="n">_base</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">_base</span> <span class="o">+</span> <span class="n">num</span><span class="p">;</span>
+
+    <span class="p">}</span>
+    <span class="o">*</span><span class="n">_value</span> <span class="o">=</span> <span class="n">sign</span><span class="o">*</span><span class="n">result</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>On the above code, _ctoi function returns a number corresponding to the character. ex) ‘a’ is 10</p>
+
+<p><a href="https://github.com/DevSDK/0SOS/blob/master/02_Kernel64/Source/Utility/String.c">(You can read the full source code.)</a></p>
+
+<p>Returning value takses r = r * base + v per digit.</p>
+
+<p>For example, When ‘202’ value number input:</p>
+
+<p>1) r =  0 * 10  + 2</p>
+
+<p>r = 2</p>
+
+<p>2) r = 2 * 10  + 0</p>
+
+<p>r = 20</p>
+
+<p>3) r = 20 * 10 + 2</p>
+
+<p>r = 202</p>
+
+<p>end.</p>
+
+<p>So It makes the number 202.</p>
+
+<p>No difference if it hexadecimal value or octet.</p>
+
+<p>Anyway, Those functions were implemented in Utility/string.c.</p>
+
+<p>Now we have functions for change the character to number and reverse, so let’s makes Printf and Sprtinf functions.</p>
+
+<p>I defined information of attribute for output and cursor position in a header file.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Console.h</span>
+
+<span class="cp">#ifndef __CONSOLE_H__
+#define __CONSOLE_H__
+#include</span> <span class="cpf">&lt;Types.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define FORMAT_BUFFER_SIZE 200    
+</span>
+<span class="cp">#define PRINT_MEMORY 0x01
+#define PRINT_OUTPUT 0x02
+</span>
+<span class="cp">#define CONSOLE_WIDTH 80
+#define CONSOLE_HEIGHT 25
+</span>
+<span class="cp">#define CONSOLE_VIDEO_MEMORY    0xB8000
+</span>
+<span class="cp">#define CONSOLE_BACKGROUND_BLACK    0x00
+#define CONSOLE_BACKGROUND_BLUE     0x10
+#define CONSOLE_BACKGROUND_GREEN    0x20
+#define CONSOLE_BACKGROUND_CYAN     0x30
+#define CONSOLE_BACKGROUND_RED      0x40
+#define CONSOLE_BACKGROUND_MAGENTA  0x50
+#define CONSOLE_BACKGROUND_BROWN    0x60
+#define CONSOLE_BACKGROUND_WHITE    0x70
+#define CONSOLE_BACKGROUND_BLINK    0x80
+</span>
+<span class="cp">#define CONSOLE_FOREGROUND_DARKBLACK    0x00
+#define CONSOLE_FOREGROUND_DARKBLUE     0x01
+#define CONSOLE_FOREGROUND_DARKGREEN    0x02
+#define CONSOLE_FOREGROUND_DARKCYAN     0x03
+#define CONSOLE_FOREGROUND_DARKRED      0x04
+#define CONSOLE_FOREGROUND_DARKMAGENTA  0x05
+#define CONSOLE_FOREGROUND_DARKBROWN    0x06
+#define CONSOLE_FOREGROUND_DARKWHITE    0x07
+#define CONSOLE_FOREGROUND_BLACK        0x08
+#define CONSOLE_FOREGROUND_BLUE         0x09
+#define CONSOLE_FOREGROUND_GREEN        0x0A
+#define CONSOLE_FOREGROUND_CYAN         0x0B
+#define CONSOLE_FOREGROUND_RED          0x0C
+#define CONSOLE_FOREGROUND_MAGENTA      0x0D
+#define CONSOLE_FOREGROUND_BROWN        0x0E
+#define CONSOLE_FOREGROUND_WHITE        0x0F
+</span>
+
+<span class="cp">#define COLOR_DEFAULT (CONSOLE_BACKGROUND_BLACK|CONSOLE_FOREGROUND_WHITE)
+</span>
+<span class="cp">#pragma pack(push, 1)
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_Struct_ConsoleCursor</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cursor_offset</span><span class="p">;</span>
+    <span class="n">DWORD</span> <span class="n">current_attribute</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">CONSOLESYSTEM</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_Charactor_Struct</span>
+<span class="p">{</span>
+    <span class="n">BYTE</span> <span class="n">bCharactor</span><span class="p">;</span>
+    <span class="n">BYTE</span> <span class="n">bAttribute</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="n">CHARACTER_MEMORY</span><span class="p">;</span>
+
+<span class="cp">#pragma pack(pop)
+</span>
+<span class="k">static</span> <span class="n">CONSOLESYSTEM</span> <span class="n">g_console_system</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="n">COLOR_DEFAULT</span><span class="p">};</span>
+
+
+<span class="kt">void</span> <span class="nf">_PrintStringXY</span><span class="p">(</span><span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Attribute</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">_PrintChar_offset</span><span class="p">(</span><span class="kt">int</span> <span class="n">_offset</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_attribute</span><span class="p">,</span> <span class="kt">char</span> <span class="n">_ch</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">_Printf</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">,</span> <span class="p">...);</span>
+<span class="kt">void</span> <span class="nf">_SPrintf</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">,</span> <span class="p">...);</span>
+<span class="kt">char</span> <span class="nf">_GetCh</span><span class="p">();</span>
+
+<span class="kt">void</span> <span class="nf">__VSPrintf</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_type</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">va_list</span> <span class="n">_arg</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">__NextLine</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">__NextScroll</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">__SetConsole_System</span><span class="p">(</span><span class="n">CONSOLESYSTEM</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">CONSOLESYSTEM</span> <span class="nf">__GetConsole_System</span><span class="p">();</span>
+
+
+<span class="cp">#endif </span><span class="cm">/*__CONSOLE_H__*/</span><span class="cp">
+</span>
+
+</code></pre></div></div>
+
+<p>Uh, too many define.</p>
+
+<p>But as you can see, it’s all attribute value for Framebuffer.</p>
+
+<p>CONSOLESYSTEM g_console_system variable takes cursor position, output color and etc.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Console.c</span>
+
+<span class="kt">void</span> <span class="nf">__UpdateWithCheckConsoleCursor</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span>
+        <span class="n">CONSOLE_HEIGHT</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span><span class="p">)</span>    
+        <span class="p">{</span>
+            <span class="n">__NextScroll</span><span class="p">();</span>    
+            <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">=</span> <span class="n">CONSOLE_WIDTH</span><span class="o">*</span><span class="p">(</span><span class="n">CONSOLE_HEIGHT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>    
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span><span class="o">++</span><span class="p">;</span>    
+        <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">__putch</span><span class="p">(</span><span class="kt">char</span> <span class="n">_ch</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_attribute</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_PrintChar_offset</span><span class="p">(</span><span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span><span class="p">,</span> <span class="n">_attribute</span><span class="p">,</span> <span class="n">_ch</span><span class="p">);</span>
+    <span class="n">__UpdateWithCheckConsoleCursor</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">__PrintOutInteger</span><span class="p">(</span><span class="kt">long</span> <span class="n">_value</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_buffer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_base</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_itoa</span><span class="p">(</span><span class="n">_value</span><span class="p">,</span> <span class="n">_buffer</span><span class="p">,</span> <span class="n">_base</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">_buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">__putch</span><span class="p">(</span><span class="n">_buffer</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">g_console_system</span><span class="p">.</span><span class="n">current_attribute</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">char</span><span class="o">*</span> <span class="nf">__PrintMemInteger</span><span class="p">(</span><span class="kt">long</span> <span class="n">_value</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_base</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">Buffer</span><span class="p">[</span><span class="n">FORMAT_BUFFER_SIZE</span><span class="p">];</span>
+    <span class="n">_itoa</span><span class="p">(</span><span class="n">_value</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="n">_base</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">__StringLength</span><span class="p">(</span><span class="n">Buffer</span><span class="p">);</span>
+    <span class="n">_MemCpy</span><span class="p">(</span><span class="n">_dst</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">_dst</span> <span class="o">+</span> <span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">__VSPrintf</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_type</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">va_list</span> <span class="n">_arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">Buffer</span><span class="p">[</span><span class="n">FORMAT_BUFFER_SIZE</span><span class="p">];</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">dst</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">_dst</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">char</span> <span class="n">output</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>    
+        <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">char</span><span class="o">*</span> <span class="n">str</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">QWORD</span> <span class="n">qvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span> <span class="o">==</span> <span class="sc">'%'</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">ptr</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">)</span>
+            <span class="p">{</span>    
+            <span class="k">case</span> <span class="sc">'d'</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="kt">int</span><span class="p">));</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                    <span class="n">__PrintOutInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                    <span class="n">dst</span> <span class="o">=</span> <span class="n">__PrintMemInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">'o'</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="kt">int</span><span class="p">));</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                    <span class="n">__PrintOutInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                    <span class="n">dst</span> <span class="o">=</span> <span class="n">__PrintMemInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">'x'</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="kt">int</span><span class="p">));</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                    <span class="n">__PrintOutInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                    <span class="n">dst</span> <span class="o">=</span> <span class="n">__PrintMemInteger</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+                    
+                <span class="k">break</span><span class="p">;</span>
+                <span class="c1">//case 'f':</span>
+                <span class="c1">//case 'g':</span>
+                <span class="c1">//TODO: Floating Point</span>
+
+            <span class="k">case</span> <span class="sc">'p'</span><span class="p">:</span>
+                <span class="n">qvalue</span> <span class="o">=</span> <span class="p">(</span><span class="n">QWORD</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span><span class="p">));</span>
+    
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">__putch</span><span class="p">(</span><span class="sc">'0'</span><span class="p">,</span> <span class="n">g_console_system</span><span class="p">.</span><span class="n">current_attribute</span><span class="p">);</span>
+                    <span class="n">__putch</span><span class="p">(</span><span class="sc">'x'</span><span class="p">,</span> <span class="n">g_console_system</span><span class="p">.</span><span class="n">current_attribute</span><span class="p">);</span>
+                    <span class="n">__PrintOutInteger</span><span class="p">(</span><span class="n">qvalue</span><span class="p">,</span> <span class="n">Buffer</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span><span class="p">;</span>
+                    <span class="n">dst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'x'</span><span class="p">;</span>
+                    <span class="n">dst</span> <span class="o">=</span> <span class="n">__PrintMemInteger</span><span class="p">(</span><span class="n">qvalue</span><span class="p">,</span> <span class="n">dst</span><span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+                <span class="p">}</span>
+                    
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">'c'</span><span class="p">:</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span><span class="kt">int</span><span class="p">));</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                    <span class="n">__putch</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">g_console_system</span><span class="p">.</span><span class="n">current_attribute</span><span class="p">);</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ch</span><span class="p">;</span>
+                    <span class="n">dst</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">'s'</span><span class="p">:</span>
+                <span class="n">str</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span><span class="p">));</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_OUTPUT</span><span class="p">)</span>
+                    <span class="n">_Printf</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">_type</span> <span class="o">==</span> <span class="n">PRINT_MEMORY</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">_SPrintf</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+                    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">__StringLength</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+                    <span class="n">dst</span> <span class="o">+=</span> <span class="n">len</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="nl">default:</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>This is the heart of Printf and Sprintf function.</p>
+
+<p>Also, the above codes are helper functions for the implementation of VSPrintf.</p>
+
+<p>Implementations are so different from the book.</p>
+
+<p>Book implemented this using buffer array, but I don’t wanna that.</p>
+
+<p>So I made this to write directly without a buffer.</p>
+
+<p>and __putch.</p>
+
+<p>It processes output characters when it meets % character.</p>
+
+<p>And I implement this separately from Sprintf and Printf function.</p>
+
+<p>When it meets Character ‘%s’, _Sprint and _Printf function are called. Because if it has an escape sequence, it needs to process that.</p>
+
+<p>You can notice about internal of the Printf and Sprintf will call a _VSPrintf function by type.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Console.c</span>
+
+<span class="kt">void</span> <span class="nf">_Printf</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">,</span> <span class="p">...)</span>
+<span class="p">{</span>
+    <span class="kt">va_list</span> <span class="n">_arg</span><span class="p">;</span>
+    <span class="n">va_start</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="n">_str</span><span class="p">);</span>
+    <span class="n">__VSPrintf</span><span class="p">(</span><span class="n">PRINT_OUTPUT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_str</span><span class="p">,</span> <span class="n">_arg</span><span class="p">);</span>
+    <span class="n">va_end</span><span class="p">(</span><span class="n">_arg</span><span class="p">);</span>
+
+    <span class="n">_SetCursor</span><span class="p">(</span><span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">%</span> <span class="n">CONSOLE_WIDTH</span><span class="p">,</span> 
+                <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">/</span> <span class="n">CONSOLE_WIDTH</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">_SPrintf</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">,</span> <span class="p">...)</span>
+<span class="p">{</span>
+    <span class="kt">va_list</span> <span class="n">_arg</span><span class="p">;</span>
+    <span class="n">va_start</span><span class="p">(</span><span class="n">_arg</span><span class="p">,</span> <span class="n">_str</span><span class="p">);</span>
+    <span class="n">__VSPrintf</span><span class="p">(</span><span class="n">PRINT_MEMORY</span><span class="p">,</span> <span class="n">_dst</span><span class="p">,</span> <span class="n">_str</span><span class="p">,</span> <span class="n">_arg</span><span class="p">);</span>
+    <span class="n">va_end</span><span class="p">(</span><span class="n">_arg</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">_PrintStringXY</span><span class="p">(</span><span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_Attribute</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">Address</span> <span class="o">=</span> <span class="p">(</span> <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="p">)</span> <span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">Address</span><span class="o">+=</span> <span class="p">(</span> <span class="n">_y</span> <span class="o">*</span> <span class="mi">80</span> <span class="p">)</span> <span class="o">+</span> <span class="n">_x</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">_str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Address</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="n">_str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">Address</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bAttribute</span> <span class="o">=</span> <span class="n">_Attribute</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">_PrintChar_offset</span><span class="p">(</span><span class="kt">int</span> <span class="n">_offset</span><span class="p">,</span> <span class="n">BYTE</span> <span class="n">_attribute</span><span class="p">,</span> <span class="kt">char</span> <span class="n">_ch</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">Address</span> <span class="o">=</span> <span class="p">(</span> <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="p">)</span> <span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">Address</span><span class="o">+=</span> <span class="n">_offset</span><span class="p">;</span>
+    <span class="n">Address</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="n">_ch</span><span class="p">;</span>
+    <span class="n">Address</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">bAttribute</span> <span class="o">=</span> <span class="n">_attribute</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">__NextLine</span><span class="p">()</span>
+<span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">addoffset</span> <span class="o">=</span><span class="n">CONSOLE_WIDTH</span> <span class="o">-</span> <span class="p">(</span><span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span><span class="o">%</span><span class="n">CONSOLE_WIDTH</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">+</span> <span class="n">addoffset</span> <span class="o">&gt;=</span> <span class="n">CONSOLE_HEIGHT</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span><span class="p">)</span>    
+        <span class="p">{</span>
+            <span class="n">__NextScroll</span><span class="p">();</span>
+            <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">=</span> <span class="n">CONSOLE_WIDTH</span><span class="o">*</span><span class="p">(</span><span class="n">CONSOLE_HEIGHT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="k">else</span>
+        <span class="n">g_console_system</span><span class="p">.</span><span class="n">cursor_offset</span> <span class="o">+=</span> <span class="n">addoffset</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">__NextScroll</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">_MemCpy</span><span class="p">(</span><span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">,</span> 
+        <span class="n">CONSOLE_VIDEO_MEMORY</span> <span class="o">+</span> <span class="n">CONSOLE_WIDTH</span><span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">CHARACTER_MEMORY</span><span class="p">),</span> 
+            <span class="p">(</span><span class="n">CONSOLE_HEIGHT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">CHARACTER_MEMORY</span><span class="p">)</span>  <span class="p">);</span>
+
+    <span class="n">CHARACTER_MEMORY</span><span class="o">*</span> <span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="n">CHARACTER_MEMORY</span><span class="o">*</span><span class="p">)(</span><span class="n">CONSOLE_VIDEO_MEMORY</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">CONSOLE_HEIGHT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">CONSOLE_WIDTH</span> <span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span><span class="n">CONSOLE_WIDTH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">target</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bCharactor</span> <span class="o">=</span> <span class="sc">' '</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>New line and scrolling look a little bit complicated but the principle is simple.</p>
+
+<p>Scrolling is just shifting-down in video memory. (Clear the last line)</p>
+
+<p>And Lastly, I made _GetCh function.</p>
+
+<p>It’s simply worked get character.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Console.c</span>
+<span class="kt">char</span> <span class="nf">_GetCh</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">KEYDATA</span> <span class="n">keydata</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">GetKeyData</span><span class="p">(</span><span class="o">&amp;</span><span class="n">keydata</span><span class="p">)</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">keydata</span><span class="p">.</span><span class="n">Flags</span> <span class="o">&amp;</span> <span class="n">KEY_DOWN</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">return</span> <span class="n">keydata</span><span class="p">.</span><span class="n">ASCIICode</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So Now we are ready for developing Shell.</p>
+
+<p>Let’s see Shell.h.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Shell.c</span>
+<span class="cp">#ifndef __SHELL_H__
+#define __SHELL_H__
+#include</span> <span class="cpf">&lt;Types.h&gt;</span><span class="cp">
+#define SHELL_INPUT_BUFFER_SIZE 500
+#define SHELL_PROMPT_MESSAGE    "0SOS&gt;"
+</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">CommandCallBack</span><span class="p">)</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">parameter</span><span class="p">);</span>
+
+<span class="cp">#pragma pack(push, 1)
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__Struct_ShellCommandEntry</span>
+<span class="p">{</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">Command</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">Comment</span><span class="p">;</span>
+    <span class="n">CommandCallBack</span> <span class="n">command_callback</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SHELLCOMMAND</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__Struct_Shell_Parameters</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">Buffer</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">Length</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">CurrentPosition</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">PARAMETERLIST</span><span class="p">;</span>
+
+<span class="cp">#pragma pack(pop)
+</span>
+
+<span class="c1">//--------------------------------------------------- *</span>
+<span class="kt">void</span> <span class="nf">Command_Help</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">Command_Clear</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">Command_ShutDown</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">Command_TotalRamSize</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">Command_StringToNumber</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="c1">//---------------------------------------------------*</span>
+<span class="k">static</span> <span class="n">SHELLCOMMAND</span> <span class="n">g_ShellCommandTable</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="p">{</span><span class="s">"clear"</span><span class="p">,</span> <span class="s">"clear the consol</span><span class="se">\n</span><span class="s">-f {white, green, cyan,black} front color</span><span class="se">\n</span><span class="s">-b {black, white, blue} back ground</span><span class="se">\n</span><span class="s">"</span>
+    <span class="p">,</span> <span class="n">Command_Clear</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"help"</span><span class="p">,</span> <span class="s">"help for 0SOS"</span><span class="p">,</span> <span class="n">Command_Help</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"shutdown"</span><span class="p">,</span> <span class="s">"Shutdown PC"</span><span class="p">,</span> <span class="n">Command_ShutDown</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"strtod"</span><span class="p">,</span> <span class="s">"String To Hex or Decimal"</span><span class="p">,</span> <span class="n">Command_StringToNumber</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"totalram"</span><span class="p">,</span> <span class="s">"Show Ram Size"</span><span class="p">,</span> <span class="n">Command_TotalRamSize</span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">Clear</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">SetAttribute</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">_attribute</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">StartShell</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">ExecuteCommand</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">CommandBuffer</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">InitalizeParameter</span><span class="p">(</span><span class="n">PARAMETERLIST</span><span class="o">*</span> <span class="n">_List</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">GetNextParameter</span><span class="p">(</span><span class="n">PARAMETERLIST</span><span class="o">*</span> <span class="n">_List</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter_Out</span><span class="p">);</span>
+
+
+
+<span class="cp">#endif </span><span class="cm">/*__SHELL_H__*/</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<p>Shell header file.</p>
+
+<p>The structure is just called StartShell function from Kernel Entry. And process command line with an infinite loop.</p>
+
+<p>You could see something special line.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">CommandCallBack</span><span class="p">)</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">parameter</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Ta-da, function pointer.</p>
+
+<p>That is contained in SHELLCOMMAND and connect commands through the g_ShellCommandTable.</p>
+
+<p>Also, InitializeParameter and GetNextParameter function works registering the parameter characters and get parameter from those characters.</p>
+
+<p>For that, We had PARAMETERLIST structure.</p>
+
+<p>All of the prefix Command_ functions are callback function for the process command line.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Shell.c</span>
+
+<span class="kt">void</span> <span class="nf">StartShell</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">__InitializeMemoryCheck</span><span class="p">();</span>
+    <span class="kt">char</span> <span class="n">CommandBuffer</span><span class="p">[</span><span class="n">SHELL_INPUT_BUFFER_SIZE</span><span class="p">];</span>
+    <span class="n">_SetCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">17</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">CommandBufferIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="n">SHELL_PROMPT_MESSAGE</span><span class="p">);</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">Prompt_length</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">SHELL_PROMPT_MESSAGE</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+           <span class="n">BYTE</span> <span class="n">c</span> <span class="o">=</span> <span class="n">_GetCh</span><span class="p">();</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_BACKSPACE</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">CommandBufferIndex</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+                <span class="n">_GetCursor</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">Prompt_length</span><span class="p">;</span>   
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">dx</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">CommandBufferIndex</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">CommandBuffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">CommandBuffer</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+                <span class="p">}</span>
+                
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">CONSOLE_WIDTH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">_PrintStringXY</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">__GetConsole_System</span><span class="p">().</span><span class="n">current_attribute</span><span class="p">,</span> <span class="s">" "</span><span class="p">);</span>    
+                <span class="p">}</span>
+                
+
+                <span class="n">_SetCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+                <span class="n">_Printf</span><span class="p">(</span><span class="n">SHELL_PROMPT_MESSAGE</span><span class="p">);</span>
+                <span class="n">_Printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">CommandBuffer</span><span class="p">);</span>
+                <span class="k">if</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Prompt_length</span><span class="p">)</span>
+                    <span class="n">_SetCursor</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+                <span class="k">else</span>
+                    <span class="n">_SetCursor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+               
+                <span class="n">CommandBufferIndex</span> <span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">CommandBufferIndex</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">_SetCursor</span><span class="p">(</span><span class="n">Prompt_length</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>                    
+                <span class="p">}</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_ENTER</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">CommandBufferIndex</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">CommandBuffer</span><span class="p">[</span><span class="n">CommandBufferIndex</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+                <span class="n">ExecuteCommand</span><span class="p">(</span><span class="n">CommandBuffer</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">_Printf</span><span class="p">(</span><span class="n">SHELL_PROMPT_MESSAGE</span><span class="p">);</span>
+            <span class="n">CommandBufferIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">_MemSet</span><span class="p">(</span><span class="n">CommandBuffer</span><span class="p">,</span><span class="mi">0</span> <span class="p">,</span> <span class="n">SHELL_INPUT_BUFFER_SIZE</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_LSHIFT</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_RSHIFT</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_CAPSLOCK</span><span class="p">)</span>
+                <span class="o">||</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_NUMLOCK</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_SCROLLLOCK</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_ARROW_LEFT</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+            <span class="n">_GetCursor</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Prompt_length</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">_SetCursor</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_ARROW_RIGHT</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+            <span class="n">_GetCursor</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">CommandBufferIndex</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">_SetCursor</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">KEY_TAB</span><span class="p">)</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="sc">' '</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">CommandBufferIndex</span> <span class="o">&lt;</span> <span class="n">SHELL_INPUT_BUFFER_SIZE</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">CommandBuffer</span><span class="p">[</span><span class="n">CommandBufferIndex</span> <span class="o">++</span> <span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+                <span class="n">_Printf</span><span class="p">(</span><span class="s">"%c"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>    
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Start Shell function.</p>
+
+<p>__InitalieMemoryCheck is implemented in Utility/Memory and set global variable after checking memory size and get that value using __GetTotalRamSize() function.</p>
+
+<p>This will ignore arrows, shift, and capslock.</p>
+
+<p>Until now, When we press kind of shift key, it makes some weird characters.</p>
+
+<p>Now, that problem solved by those codes. (But another alt key makes that, it need to implement)</p>
+
+<p>And Enter the key most important part is processed by the ExecuteCommand function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">void</span> <span class="nf">ExecuteCommand</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">CommandBuffer</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">command_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">__StringLength</span><span class="p">(</span><span class="n">CommandBuffer</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">command_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">command_index</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">;</span> <span class="n">command_index</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">CommandBuffer</span><span class="p">[</span><span class="n">command_index</span><span class="p">]</span> <span class="o">==</span> <span class="sc">' '</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">CommandTableSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">g_ShellCommandTable</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SHELLCOMMAND</span><span class="p">);</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span><span class="n">CommandTableSize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">command_length</span> <span class="o">=</span> <span class="n">__StringLength</span><span class="p">(</span><span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Command</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">command_length</span> <span class="o">==</span> <span class="n">command_index</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">_MemCmp</span><span class="p">(</span><span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Command</span><span class="p">,</span> <span class="n">CommandBuffer</span><span class="p">,</span> <span class="n">command_index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">command_callback</span><span class="p">(</span><span class="n">CommandBuffer</span> <span class="o">+</span> <span class="n">command_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span> 
+    <span class="p">}</span>
+      <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\'</span><span class="s">%s</span><span class="se">\'</span><span class="s"> command not found</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">CommandBuffer</span><span class="p">);</span>  
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>This function simple work separating parameter and command and calling the function from the command table.</p>
+
+<p>It has so many commands so I can’t descript all about that.</p>
+
+<p>So Except help command, <a href="https://github.com/DevSDK/0SOS/blob/master/02_Kernel64/Source/Console/Shell.c">You can see here!</a></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Shell.c</span>
+<span class="kt">void</span> <span class="nf">Command_Help</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">_Parameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"============================= Help ===========================</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">command_table_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">g_ShellCommandTable</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">SHELLCOMMAND</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">max_command_length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span><span class="n">command_table_size</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">__StringLength</span><span class="p">(</span><span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Command</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">max_command_length</span><span class="p">)</span>
+            <span class="n">max_command_length</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">command_table_size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Command</span><span class="p">);</span>
+        <span class="n">_GetCursor</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+        <span class="n">_SetCursor</span><span class="p">(</span><span class="n">max_command_length</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+        <span class="n">_Printf</span><span class="p">(</span><span class="s">" : %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">g_ShellCommandTable</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Comment</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"============================= Help ===========================</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">_Printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When We type ‘help’ characters and press enter key, that function will be called.</p>
+
+<p>I can see a little bit about how massive modern-OS.</p>
+
+<p>If you try this, you need many things for boot.</p>
+
+<p>Anyway, I can see more and more about low-level programming.</p>
+
+<p>But, It takes a lot of time.</p>
+
+<p>and next…. timer device driver and next is finally task…</p>
+
+<p>Let’s do this!</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://blog.seokho.dev/development/2017/07/18/shell.html';
+        this.page.identifier = 'https://blog.seokho.dev/development/2017/07/18/shell.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/development/2017/07/12/InterruptKeyboard.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Keyboard Driver Update-Interrupt
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/development/2017/08/03/timerdriver.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Implemented timer driver.
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

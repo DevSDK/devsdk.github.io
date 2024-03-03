@@ -1,0 +1,354 @@
+<html lang="ko" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>V8에 Float16 관련 기능 추가한 첫번째 이야기 | Seokho’s blog</title>
+<meta name="generator" content="Jekyll v3.9.4" />
+<meta property="og:title" content="V8에 Float16 관련 기능 추가한 첫번째 이야기" />
+<meta name="author" content="Seokho Song" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="오늘 V8에 Float16과 관련된 기능을 머지했습니다. (Float16은 IEEE754에서 정의하는 반정밀도 부동소숫점입니다.)" />
+<meta property="og:description" content="오늘 V8에 Float16과 관련된 기능을 머지했습니다. (Float16은 IEEE754에서 정의하는 반정밀도 부동소숫점입니다.)" />
+<link rel="canonical" href="https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html" />
+<meta property="og:url" content="https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html" />
+<meta property="og:site_name" content="Seokho’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-03-03T09:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="V8에 Float16 관련 기능 추가한 첫번째 이야기" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seokho Song"},"dateModified":"2024-03-03T09:00:00+00:00","datePublished":"2024-03-03T09:00:00+00:00","description":"오늘 V8에 Float16과 관련된 기능을 머지했습니다. (Float16은 IEEE754에서 정의하는 반정밀도 부동소숫점입니다.)","headline":"V8에 Float16 관련 기능 추가한 첫번째 이야기","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://blog.seokho.dev/ko/images/avator.png"},"name":"Seokho Song"},"url":"https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/ko/assets/css/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Seokho&#39;s blog" href="/ko/atom.xml">
+<!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#252a34" />
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#252a34" />
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#252a34" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  v8에-float16-관련-기능-추가한-첫번째-이야기">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/ko/about">About</a></li><li><a href="/ko/">Home</a></li><li><a href="/ko/posts/">Posts</a></li><li><a href="/ko/categories/">Categories</a></li><li><a href="/ko/tags/">Tags</a></li><li><a href="/ko/search/">Search</a></li>
+			<li><a href= "/">En</a></li>
+		
+	  </ul>
+	</nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/ko/" class="site-logo" rel="home" title="Seokho's blog">
+        <img src="/ko/images/avator.png" class="site-logo-img animated fadeInDown" alt="Seokho's blog">
+      </a>
+    
+    
+      <h1 class="site-title animated fadeIn"><a href="/ko/">Seokho's blog</a></h1>
+      <p class="site-description animated fadeIn" itemprop="description">Development and Tech blog</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">V8에 Float16 관련 기능 추가한 첫번째 이야기
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/ko/images/avator.png" class="author-avatar u-photo" alt="Seokho Song"><div class="author-info"><div class="author-name">
+        <span class="p-name">Seokho Song</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-lg" title="Facebook"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">3 min read</span>
+
+    <time class="page-date dt-published" datetime="2024-03-03T09:00:00+00:00"><a class="u-url" href="">March 3, 2024</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title" style="color:#494949">Categories</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a class="p-category" href="/ko/categories/#development" title="Pages filed under development">development</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title" style="color:#484848">Tags</h3>
+  <ul class="page-taxonomies" style="color:gray"><li class="page-taxonomy"><a href="/ko/tags/#chromium" title="Pages tagged Chromium" rel="tag">Chromium</a></li><li class="page-taxonomy"><a href="/ko/tags/#v8" title="Pages tagged V8" rel="tag">V8</a></li><li class="page-taxonomy"><a href="/ko/tags/#tc39" title="Pages tagged TC39" rel="tag">TC39</a></li><li class="page-taxonomy"><a href="/ko/tags/#float16" title="Pages tagged Float16" rel="tag">Float16</a></li><li class="page-taxonomy"><a href="/ko/tags/#ieee754" title="Pages tagged IEEE754" rel="tag">IEEE754</a></li><li class="page-taxonomy"><a href="/ko/tags/#ecmascript" title="Pages tagged ECMAScript" rel="tag">ECMAScript</a></li><li class="page-taxonomy"><a href="/ko/tags/#javascript" title="Pages tagged Javascript" rel="tag">Javascript</a></li>
+  </ul>
+
+
+		  <h3 class="page-taxonomies-title">LANGUAGES</h3>
+  <ul class="page-taxonomies"> 
+	  <li class="page-taxonomy">
+	  
+		
+	  	<a href="/development/2024/03/03/V8-Float16Array.html" >English</a> </li>
+		  	
+	<li class="page-taxonomy">
+	  
+
+		
+			 <a href="/ko/development/2024/03/03/V8-Float16Array.html" >한국어</a> </li>
+	  
+  </ul>
+
+	  </div>
+
+      <div class="page-content">
+        <div class="e-content">
+			<br/>
+			<p>오늘 V8에 Float16과 관련된 기능을 머지했습니다. (<a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">Float16은 IEEE754에서 정의하는 반정밀도 부동소숫점입니다.</a>)</p>
+
+<p>CL: https://chromium-review.googlesource.com/c/v8/v8/+/5082566</p>
+
+<p><img src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/8dec4d39-d284-4805-bebb-3216a6816ceb" alt="image" /></p>
+
+<p>Javascript 엔진에 <code class="language-plaintext highlighter-rouge">Float16Array</code>, <code class="language-plaintext highlighter-rouge">DataView.getFloat16</code>, <code class="language-plaintext highlighter-rouge">DataView.setFloat16</code>, <code class="language-plaintext highlighter-rouge">Math.fround16</code> 을 추가했습니다.</p>
+
+<p>변화한 파일은 총 82개, -409 +1385 에 달하는 꽤 사이즈가 큰 변화였습니다.</p>
+
+<p>이슈를 잡고 머지하기까지 거의 6개월에 걸친 시간이 걸렸네요.</p>
+
+<p>2023년 7월, 주로 Blink에 기여하며 CSS/HTML에 한정되어 있는 기여 대상을 V8을 통해 Javascript에 기여하겠다는 방향을 새롭게 정했습니다.</p>
+
+<p>이미 Blink에 다수 기여하며 커미터 권한을 가지고 있어 Chromium 워크플로우에 익숙하기 때문에 적절한 난이도의 이슈를 잡고 해결해 나가면서 지식을 확장하면 되겠단 판단을 했습니다.</p>
+
+<p>그렇게 <a href="https://bugs.chromium.org/p/v8/issues/detail?id=14012&amp;q=owner%3Ame&amp;can=2">Implement Float16Array</a> 라는 이슈를 발견했고, ArrayBuffer와 전반적인 메모리 관리를 배울 수 있겠다는 생각과, 가뭄에 단비처럼 나타난 구현 테스크란 점을 고려해서 이슈를 붙잡았습니다.</p>
+
+<p>구현을 준비하고 구현하고, 코드 리뷰하는 과정에 다양한 우여곡절이 많았습니다.</p>
+
+<p>전부 담지는 못하겠지만 짤막하게 과정을 적어봤습니다.</p>
+
+<h2 id="구현-과정">구현 과정</h2>
+
+<h3 id="stage-3-표준-살펴보기">Stage-3 표준 살펴보기</h3>
+
+<p>https://tc39.es/proposal-float16array/</p>
+
+<p>우선 표준을 살펴봤습니다.</p>
+
+<p>Float16Array는 <a href="https://tc39.es/process-document/">Stage 3 proposal로써 구현되기를 기대하는 기능</a>으로 표준을 보며 구현하면 될 것이라는 생각을 했습니다.</p>
+
+<p>표준 내용을 보면 알겠지만, 각 타입별로 저장하거나 불러올 때 변환 시 float16 타입이 추가된 점과 DataView, Math에 관련 기능이 추가된다는 점을 알 수 있습니다.</p>
+
+<h3 id="구현-지점-찾기">구현 지점 찾기</h3>
+
+<p>코드를 보며 구현 지점을 찾았습니다. V8은 DRY 원칙을 최대한 지키려고 하여 매크로를 적극적으로 사용하고 있습니다.</p>
+
+<p><img src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/e13d2ede-d1ae-4546-b995-e81647aef41f" alt="image" /></p>
+
+<p>이런 식으로 말이죠.</p>
+
+<p>가끔 chromium source에서 심볼을 못 따라가고 메크로로 prefix나 suffix가 붙는 것 때문에 처음 보면 검색하기 어렵다는 경험을 했습니다. 다만 시간이 흘러 학습되고 나서 구현할 때는 상당히 편하기도 했습니다.</p>
+
+<p>저기에 타입을 추가하면서 컴파일 에러가 발생하는 지점을 찾아 미구현 사항을 보완하며 수정지점을 찾으면 되겠다는 전략을 세웠습니다.</p>
+
+<h3 id="float16-에-대하여">Float16 에 대하여</h3>
+
+<p>위 이미지에서 볼 수 있듯이 C type을 지정해야 합니다. 우선 모든 빌드 Target에 대해 float16을 지원하는지 미지수였고, 이 부분은 컴파일러 옵션과 로우레벨 최적화 관련된 변화가 필요할 것으로 판단했습니다.</p>
+
+<p>관련 변화를 한 번에 하려고 RISC-V 스펙과 x86 스펙을 보면서 구현을 시도하려 했었는데, 생각보다 변화가 필요한 영역이 너무 넓어지는 경향이 있어 관련한 변화는 분리가 가능한 문제로 보고 분리하여 구현하는 게 좋겠다는 의견과 함께 Google의 V8 커미터인 syg@ (감사합니다!) 에게 질문 메일을 남겼고 답변으로 방향을 어느 정도 잡게 되었습니다.</p>
+
+<p>따라서 컴파일러 및 언어(혹은 하드웨어)가 지원하는 Native float 16 타입을 사용하지 않고, 2바이트의 같은 크기를 가진 uint16_t 타입을 활용하여 float16을 구현해야겠단 생각을 했습니다.</p>
+
+<h3 id="변환-로직-구현하기">변환 로직 구현하기</h3>
+
+<p>처음에는 변환 알고리즘을 찾고 이해하는데 시간을 많이 썼습니다. 이미 구현되어 있는 구현체는 꽤 있었고 비트연산과 float 곱셈의 원리를 이용하여 <a href="https://gist.github.com/rygorous/2156668">구현된 로직을</a> 사용하기로 했습니다. (이는 추후 코드 리뷰로 이미 Chromium 내에서 사용하던 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/fp16/src/include/fp16/fp16.h">모듈로</a> 변경됩니다.)</p>
+
+<p>C++로 구현된 구현체뿐만 아닌 <a href="https://v8.dev/docs/csa-builtins">CSA (Code Stub Assembler)</a>로도 해당 구현체를 구현해야 합니다.</p>
+
+<p>어셈블리어로 구현하는 느낌과 유사했습니다. 조금 더 편한 어셈블리어 느낌을 받았습니다.</p>
+
+<p>따라서 아래처럼 C++ 구현체를 CSA 코드로 구현하는 작업도 진행했습니다.</p>
+
+<p><img src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/86d565f2-5ceb-4255-9460-c62b6a79256e" alt="image" /></p>
+
+<h3 id="변환-로직-적용">변환 로직 적용</h3>
+
+<p>이제 메모리에 넣고 뺄 때 위 변환 로직을 적용해야 합니다.</p>
+
+<p>v8에서는 그 부분을 Template Specialization으로 적극 구현되어 있습니다.</p>
+
+<p>따라서 값을 메모리에 넣고 뺄 때 부동 소수점 타입(double, float)을 변환하여 저장할 수 있도록 구현했습니다.</p>
+
+<p><img src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/189ff8c0-6f85-43f3-8a2b-932ba3ae7967" alt="image" /></p>
+
+<p>위 이미지는 elements.cc에서 double 타입을 float16 으로 표현된 uint16_t 값을 반환하는 Template Specialized 함수입니다.</p>
+
+<p>또한 표준에서 정의하는 DataView.getFloat16, DataView.setFloat16, Math.fround16 함수에 해당 변환 로직을 적용합니다.</p>
+
+<p>아래는 DataView의 getFloat16 구현체입니다. <a href="https://v8.dev/docs/torque">torque</a> 라는 언어로 구현되어 있고 컴파일하면 CSA코드로 컴파일됩니다. 따라서 CSA로 구현된 구현체를 연결할 수 있습니다.</p>
+
+<p><img src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/b385da7a-e4c8-41f4-b57f-cc73981cc238" alt="image" /></p>
+
+<h3 id="jit-막기-deoptimize">JIT 막기: Deoptimize</h3>
+
+<p>V8의 <a href="https://v8.dev/docs/turbofan">Turbofan</a>과 <a href="https://v8.dev/blog/maglev">Maglev</a> 파이프라인을 타게 되면 머신코드로 컴파일되는 JIT이 동작하게 됩니다. 아직 float16 타입은 머신에서 지원하지 않고, 추후 개선을 위해 소프트웨어적으로 구현해야 하므로 바이트코드 그래프를 만들 때 의도적으로 float16 타입이면<code class="language-plaintext highlighter-rouge">Deoptimize</code> 노드를 추가하여 최적화 동작을 막도록 했습니다.</p>
+
+<p align="center">
+  <img margin="auto" width="402" alt="image" src="https://github.com/DevSDK/devsdk.github.io/assets/18409763/a8eb1c86-0b57-48b9-a212-83edfe657a54" />
+</p>
+
+<p>JIT 지원을 임시로 막기 위해 별도의 조건 없이 <code class="language-plaintext highlighter-rouge">Deoptimize</code> 노드를 추가하면 deopt loop을 형성하는 문제가 있는데 해결을 위해 작업을 진행할 예정입니다.</p>
+
+<h3 id="테스트코드">테스트코드</h3>
+
+<p>이미 Test262, mjsunit 테스트를 통해 TypedArray에 대한 테스트가 충분히 진행되고 있었습니다. 저는 여기에 Float16Array를 적용하여 실패하는 지점을 보완하고 Float16타입의 특성을 가진 테스트 케이스를 추가하였습니다.</p>
+
+<h3 id="코드-리뷰">코드 리뷰</h3>
+
+<p>코드 리뷰 과정이 거의 3개월 걸린 것 같습니다. 변화량도 많고 비동기로 커뮤니케이션을 진행하다 보니 많은 시간이 소요되었습니다. 리뷰를 통해 많은 부분 개선되고 더 깔끔하게 구현체가 정리된 것 같습니다.</p>
+
+<p>이 글을 빌어 제 CL을 리뷰해 준 syg@, cbruni@, dmercadier@, dmercadier@ 에 감사 인사드립니다!</p>
+
+<h2 id="마무리">마무리</h2>
+
+<p>각 단계마다 길을 잃기도 하고 잘못된 길을 들어가서 한참 헤매는 과정을 겪었습니다. 덕분에 시간은 많이 들었지만 v8의 내부 구조와 경로를 많이 파악할 수 있었습니다. 사이즈도 크고 리뷰도 오래 걸려 처음 v8에 기여를 시작한 CL이지만 다른 기여들이 먼저 머지되었었네요.</p>
+
+<p>직접 d8을 컴파일 하게 되면 <code class="language-plaintext highlighter-rouge">--js_float16array</code> 라는 옵션을 발견할 수 있습니다! 그 옵션과 함께 Float16Array을 사용해 볼 수 있습니다.</p>
+
+<p>실제 유저에게 이 기능이 노출되는 건 아마도 시간이 소요될 것 같습니다. 여전히 Turbofan optimization Loop, Hardware support 등 해결해야 할 문제가 있기 때문입니다. 이 지점도 꾸준히 기여하여 언젠간 Float16Array가 세상에 등장할 수 있도록 노력하겠습니다.</p>
+
+        </div>
+
+        
+
+        
+          
+  <div class="page-comments">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html';
+        this.page.identifier = 'https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html';
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://devsdk.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/ko/development/2024/01/30/js-closure.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> JS 클로저는 표준에서 어떻게 다루고 있을까?
+
+      </span>
+    </a>
+  
+
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://github.com/DevSDK"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="https://www.facebook.com/100006277740856"><i class="fab fa-facebook-square fa-2x" title="Facebook"></i></a><a class="social-icon" href="https://twitter.com/0xdevssh"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://www.linkedin.com/in/seokho-song/"><i class="fab fa-linkedin fa-2x" title="LinkedIn"></i></a><a class="social-icon" href="/ko/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2024 Seokho's blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/ko/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LCG7W119EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LCG7W119EZ');
+</script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
