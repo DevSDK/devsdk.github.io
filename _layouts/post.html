@@ -26,6 +26,17 @@ layout: default
         <div class="e-content">
 			<br/>
 			{{ content }}
+      {% if page.filepath %}
+        {% if site.lang == "en" %}
+
+        {{ "---" | markdownify }}
+        <br/>
+        <h4>To Reader</h4>
+        <div> Thank you for reading this post! If you find some error, misspelling, or something awkward, please feel free to contribute <a href="{{page.filepath}}">here!</a></div>
+        <br/>
+
+        {% endif %}
+			{% endif %}
         </div>
 
         {% if page.share %}
