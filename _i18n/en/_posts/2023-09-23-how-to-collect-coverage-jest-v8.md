@@ -4,6 +4,7 @@ title: How to collect coverage with Jest (V8)
 date:   2023-09-23 00:00:01
 categories: development
 comments: true
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2023-09-23-how-to-collect-coverage-jest-v8.md
 languages:
 - english
 - korean
