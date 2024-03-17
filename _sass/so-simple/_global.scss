@@ -126,7 +126,7 @@
 .site-footer {
   @include clearfix();
   margin: 2em 0;
-  padding: 2em 0;
+  padding: 1em 0;
   text-align: center;
   border-top: 1px solid $border-color;
 
@@ -389,4 +389,17 @@
       background-color: $background-color;
     }
   }
+}
+
+#bmc-wbtn {
+  visibility: hidden;
+  @include breakpoint($large) {
+    visibility:visible;
+  }
+}
+
+#bmc-iframe {
+  height: 620px !important;
+  min-height: unset !important;
+  max-height: 620px;
 }
