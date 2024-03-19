@@ -244,7 +244,7 @@ Therefore, I optimize this by executing when the parameter count is less than eq
     const length = arguments.length;
 // ...
 ```
-You can find the full implementation of `FastMathHypot` [here](https://chromium.googlesource.com/v8/v8/+/2cfc118b6d316f90b4e6c167deeab43d39588522/src/builtins/math.tq#398).
+You can find the full implementation of `FastMathHypot` [here](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/builtins/math.tq;l=398;drc=2cfc118b6d316f90b4e6c167deeab43d39588522).
 
 ## Conclusion
 

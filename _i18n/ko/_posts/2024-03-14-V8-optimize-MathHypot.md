@@ -256,7 +256,7 @@ CSA로 구현하여 비교한 결과 평균적으로 아주 약간 빠른걸 알
 // ...
 ```
 
-`FastMathHypot`의 전체 구현체는 [여기서](https://chromium.googlesource.com/v8/v8/+/2cfc118b6d316f90b4e6c167deeab43d39588522/src/builtins/math.tq#398) 살펴보실 수 있습니다.
+`FastMathHypot`의 전체 구현체는 [여기서](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/builtins/math.tq;l=398;drc=2cfc118b6d316f90b4e6c167deeab43d39588522) 살펴보실 수 있습니다.
 
 ## 결론
 
