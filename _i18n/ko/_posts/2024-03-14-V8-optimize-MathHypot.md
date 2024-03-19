@@ -208,7 +208,7 @@ ToNumber [표준을 보면](https://tc39.es/ecma262/multipage/abstract-operation
 
 ```ts
 for(i = 0; i<length; i++) {
-}`
+}
 ```
 
 위 코드의 삽입으로 200ms 의 지연이 발생 했습니다.

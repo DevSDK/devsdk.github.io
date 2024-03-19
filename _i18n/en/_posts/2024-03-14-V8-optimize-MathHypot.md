@@ -14,6 +14,7 @@ tags:
 - ECMAScript
 - Javascript
 - Optimization
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2024-03-14-V8-optimize-MathHypot.md
 ---
 
 ## Introduction
@@ -205,7 +206,7 @@ On the high probability of identifying the suspected 'loop', I conducted a test 
 
 ```ts
 for(i = 0; i<length; i++) {
-}`
+}
 ```
 
 With this, the 200ms latency occurs. Consequently, I formulated two hypotheses to investigate this happening.
