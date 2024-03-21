@@ -138,7 +138,7 @@ transitioning javascript builtin MathHypot(
 
 ### 가설 2: ToNumber_Inline 의 비용이 높은가?
 
-ToNumber [표준을 보면](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tonumber) 다양한 경우를 분기 처리하고 있어 비용이 비용이 클 수 있다는 가설을 세웠습니다.
+ToNumber [표준을 보면](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tonumber) 다양한 경우를 분기 처리하고 있어 비용이 클 수 있다는 가설을 세웠습니다.
 
 이 가설이 맞는지 테스트 하기 위해 파라미터의 값이 Number 타입인지 체크하고, Float64로  UnsafeCast하여 테스트를 진행했습니다.
 
