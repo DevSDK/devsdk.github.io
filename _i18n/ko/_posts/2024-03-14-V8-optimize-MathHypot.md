@@ -146,7 +146,7 @@ ToNumber [표준을 보면](https://tc39.es/ecma262/multipage/abstract-operation
 
 ### 가설 3: 부차적인 연산의 비용이 높은가?
 
-위 구현을 보면 빗변을 계산하는 구문 이외에 절댓값으로 변환하거나 것과 [Kahan summation](https://en.wikipedia.org/wiki/Kahan_summation_algorithm) 알고리즘을 수행하는 등 별도의 연산이 포함되어 있습니다.
+위 구현을 보면 빗변을 계산하는 구문 이외에 절댓값으로 변환하는 것과 [Kahan summation](https://en.wikipedia.org/wiki/Kahan_summation_algorithm) 알고리즘을 수행하는 등 별도의 연산이 포함되어 있습니다.
 저는 이 부차적인 연산이 성능에 영향을 줄 것 이라는 가설을 세웠습니다.
 
 이러한 알고리즘 구현을 제거하고, 테스트하기 위해 위 함수 상단에 파라미터가 2개인 경우 `sqrt( a ^ 2 + b ^ 2)` 만 계산하도록 구현하고 테스트 해봤습니다.
