@@ -254,11 +254,11 @@ Following is the execution result table:
 | Method | Runtime |
 | --- | --- |
 | * | 104.041ms |
-| hypot | 104.041ms |
+| hypot | 814.667ms |
 | ** | 670.709ms |
 | pow | 674.583ms |
 
-There is about a 194% performance enhancement, reducing the execution time from 1584.417ms to 814.667.
+There is about a 194% performance enhancement, reducing the execution time from 1584.417ms to 814.667ms.
 
 Throughout this optimization, I progressed through hypotheses on memory allocation, ToNumber, extra-operations, and the for-loop. I identified the correct hypothesis and the reasons behind the performance improvement. Finally, I enhanced v8 by removing the overhead from the loop.
 
