@@ -183,7 +183,7 @@ The result was surprisingly fast.
 | Method | Runtime |
 | --- | --- |
 | * | 104.041ms |
-| hypot | 104.041ms |
+| hypot | 814.667ms |
 | ** | 670.709ms |
 | pow | 674.583ms |
 

@@ -184,7 +184,7 @@ ToNumber [표준을 보면](https://tc39.es/ecma262/multipage/abstract-operation
 | Method | Runtime |
 | --- | --- |
 | * | 104.041ms |
-| hypot | 104.041ms |
+| hypot | 814.667ms |
 | ** | 670.709ms |
 | pow | 674.583ms |
 
@@ -260,13 +260,13 @@ CSA로 구현하여 비교한 결과 평균적으로 아주 약간 빠른걸 알
 
 ## 결론
 
-아래는 최적화 이후 실행 시간입니다. 
+아래는 최적화 이후 실행 시간입니다.
 
 
 | Method | Runtime |
 | --- | --- |
 | * | 104.041ms |
-| hypot | 104.041ms |
+| hypot | 814.667ms |
 | ** | 670.709ms |
 | pow | 674.583ms |
 
