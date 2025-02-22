@@ -38,7 +38,7 @@ As you know, JS is executed on the interpreter. But it normally slower than nati
 
 Turbofan is a optimizer to catch up that performance gap.
 
-![[/uploads/2025-02-22/turbofan-pipeline.png]]
+![turbofan pipeline](/uploads/2025-02-22/turbofan-pipeline.png)
 
 In this post, I won't put the all details. Maybe, I'll post later when I can.
 Above picture, there are input which called ByteCodeGraph that is a graph built from V8 Javascript Bytecode. And output results is a machine specific code. When some functions or operations get hot(Executed frequently), It will execute the pipeline and do optimize. And run as machine code.
@@ -203,7 +203,7 @@ This week, I focused on the 'store' path of the source code and graph building t
 
  However I didnt think this graph build/modification is correct. (Because I put some code that not does not seem to be fit)
 
-![[/uploads/2025-02-22/turbofan-node.png]]
+![turbofan nodes](/uploads/2025-02-22/turbofan-node.png)
 
 So I send snyc email to explain above and contain following:
 
@@ -285,7 +285,7 @@ Email content:
 
 And some conversation with the trip. (I took this picture!)
 
-![[/uploads/2025-02-22/japan.png]]
+![Japan](/uploads/2025-02-22/japan.png)
 
 Finally I implemented load path.
 
@@ -375,7 +375,7 @@ CL: [chromium-review.googlesource.com/c/v8/v8/+/6043415](https://chromium-review
 
 And between the merge and preparing the ship, I've been travelling around the States for traveling. I met Shu! And also this CL was has been merged when I stayed in San Jose, CA, USA.
 
-![[/uploads/2025-02-22/guest.jpeg]]
+![Google Guest](/uploads/2025-02-22/guest.jpeg)
 We talked about careers and contributions to V8 stuffs!
 
 Probably, It's better chance to the another post of the blog! I'll write later my traveling.
@@ -390,7 +390,7 @@ We need to +3 LGTMs to ship feature as public on blink-dev google group. It will
 
 Finally, Feb 14 2025, It has been approved on my intent to ship!
 
-![[/uploads/2025-02-22/3lgtms.png]]
+![3 LGTMs](/uploads/2025-02-22/3lgtms.png)
 
 
 
@@ -402,4 +402,4 @@ You can use the new Float16Array in Chrome M135 (released mid March 2025)!
 
 Feature Entry: [https://chromestatus.com/feature/5164400693215232](https://chromestatus.com/feature/5164400693215232)
 
-![[/uploads/2025-02-22/feature-status.png]]
+![Chrome 135](/uploads/2025-02-22/feature-status.png)
