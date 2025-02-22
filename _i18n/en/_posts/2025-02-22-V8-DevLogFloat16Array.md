@@ -268,21 +268,20 @@ The plan of next week was:
 The fifth sync was also very short. Because I have a trip plan to Japan. Until my trip, I implement the hardware support path and also figure out why 'illigal instruction issue'
 
 Email content:
-```
-Hi syg
-I'm going on an away trip this weekend, so I'm trying to sync now.  
-  
-And with hardware support (only for store yet):  
-devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js  
-N =  100000000  
-console.timeEnd: store, 133.083000  
-  
-(It super fast)  
-  
-I kept kJSFloat16TruncateWithBitcast to use instruction selection to fix illigal instruction issue that we mentioned in previous email on arm64.It was caused by by infinite call loop TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...  
-  
-The arm64 native support that kept kJSFloat16TruncateWithBitcast through ReduceIfReachableChange makes the x64 software path that implemented our reducers is broken. I'll have a look at it after my trip.
-```
+
+>Hi syg
+>I'm going on an away trip this weekend, so I'm trying to sync now.
+>
+>And with hardware support (only for store yet):
+>devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+>N =  100000000
+>console.timeEnd: store, 133.083000
+>
+>(It super fast)
+>
+>I kept kJSFloat16TruncateWithBitcast to use instruction selection to fix illigal instruction issue that we mentioned in previous email on arm64. It was caused by by infinite call loop TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...
+>
+>The arm64 native support that kept kJSFloat16TruncateWithBitcast through ReduceIfReachableChange makes the x64 software path that implemented our reducers is broken. I'll have a look at it after my trip.
 
 And some conversation with the trip. (I took this picture!)
 

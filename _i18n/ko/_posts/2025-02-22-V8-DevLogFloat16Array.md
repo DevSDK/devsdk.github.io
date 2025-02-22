@@ -103,8 +103,8 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 > 올해 안에 배포하려면 피드백 루프를 더 강화해야 할 것 같습니다. 
 > 괜찮다면 매주 또는 주기적으로 제가 고려하고 있는 사항이나 막혀 있는 사항을 포함한 업데이트 이메일을 보내도 될까요?
 >
->고맙습니다 
->석호
+>Regard
+>Seokho
 
 
 이 메일을 보낼 때, 제 코드 이해 부족이나 역량을 드러내고 시간을 뺏는 게 아닐까 걱정도 됐고, 기회를 잃게 되지 않을까 두려움도 있었습니다.
@@ -290,38 +290,35 @@ BYTE LENGTH:  2
 다섯 번째 싱크도 시간이 짧았습니다. 일본 여행 계획이 있었거든요. 여행 전까지, 하드웨어 지원 경로를 구현하고, 왜 ‘illegal instruction’ 이슈가 생겼는지 파악했습니다.
 
 Email content:
-```
-Hi syg
-I'm going on an away trip this weekend, so I'm trying to sync now.  
-  
-And with hardware support (only for store yet):  
-devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js  
-N =  100000000  
-console.timeEnd: store, 133.083000  
-  
-(It super fast)  
-  
-I kept kJSFloat16TruncateWithBitcast to use instruction selection to fix illigal instruction issue that we mentioned in previous email on arm64.It was caused by by infinite call loop TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...  
-  
-The arm64 native support that kept kJSFloat16TruncateWithBitcast through ReduceIfReachableChange makes the x64 software path that implemented our reducers is broken. I'll have a look at it after my trip.
-```
 
-```
-Hi syg
-I'm going on an away trip this weekend, so I'm trying to sync now.  
-  
-And with hardware support (only for store yet):  
-devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js  
-N =  100000000  
-console.timeEnd: store, 133.083000  
-  
-  
-(매우 빠릅니다)  
-  
-이전 이메일에서 언급 한 illigal instruction 문제를 해결하기 위해 명령어 선택을 사용하기 위해 kJSFloat16TruncateWithBitcast를 유지했습니다.이 문제는 무한 호출 루프 TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...로 인해 발생했습니다.  
-  
-reduceIfReachableChange를 통해 kJSfloat16TruncateWithBitcast를 유지했던 arm64 네이티브 지원 덕분에 우리의 리듀서를 구현했던 x64 소프트웨어 경로가 깨졌습니다. 여행 후에 한번 살펴보겠습니다
-```
+> Hi syg
+> I'm going on an away trip this weekend, so I'm trying to sync now.
+>
+>And with hardware support (only for store yet):
+>devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+>N =  100000000
+>console.timeEnd: store, 133.083000
+>
+>(It super fast)
+>
+>I kept kJSFloat16TruncateWithBitcast to use instruction selection to fix illigal instruction issue that we mentioned in previous email on arm64.It was caused by by infinite call loop TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...
+>
+> The arm64 native support that kept kJSFloat16TruncateWithBitcast through ReduceIfReachableChange makes the x64 software path that implemented our reducers is broken. I'll have a look at it after my trip.
+
+
+> 안녕하세요. Syg!
+> 이번 주말에 여행을 떠날 예정이라 지금 메일을 보냅니다.
+>
+> 그리고 하드웨어 지원(아직 스토어에만 해당)도 제공됩니다:
+> devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+> N =  100000000
+> console.timeEnd: store, 133.083000
+>
+>(매우 빠릅니다)
+>
+> 이전 이메일에서 언급 한 illigal instruction 문제를 해결하기 위해 명령어 선택을 사용하기 위해 kJSFloat16TruncateWithBitcast를 유지했습니다.이 문제는 무한 호출 루프 TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...로 인해 발생했습니다.
+>
+>reduceIfReachableChange를 통해 kJSfloat16TruncateWithBitcast를 유지했던 arm64 네이티브 지원 덕분에 우리의 리듀서를 구현했던 x64 소프트웨어 경로가 깨졌습니다. 여행 후에 한번 살펴보겠습니다
 
 그리고 일본 여행 관련 얘기도 좀 했어요. (이 사진을 찍었습니다!)
 
