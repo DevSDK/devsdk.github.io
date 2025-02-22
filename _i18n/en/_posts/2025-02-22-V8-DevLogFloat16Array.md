@@ -17,7 +17,7 @@ tags:
 - Float16Array
 ---
 
-## Introduction
+# Introduction
 
 In this post, I share the story of implementing Float16Array as an external contributor in V8 the final JIT optimizations in TurboFan and Turboshaft. Over several months, I engaged in weekly syncs with a Google engineer, Shu-Yu Guo, tackled a complex code review process, and navigated platform-specific issues to boost performance significantly.
 
@@ -361,7 +361,7 @@ const edgeCases = [
 ];
 ```
 
-#### Merged!
+## Merged!
 
 Finally the CL is merged on Jan 27. It was almost half of a year. Now I finally got a little bit familiar with the turbofan/turboshaft pipelines! 
 
@@ -381,7 +381,7 @@ We talked about careers and contributions to V8 stuffs!
 Probably, It's better chance to the another post of the blog! I'll write later my traveling.
 
 Anyway, now we have few steps left to ship this feature.
-#### Prepare to ship
+## Prepare to ship
 
 We need to +3 LGTMs to ship feature as public on blink-dev google group. It will be reviewed by Intended to Ship (AKA I2S).
 
@@ -394,7 +394,7 @@ Finally, Feb 14 2025, It has been approved on my intent to ship!
 
 
 
-#### And... Ship!
+## And... Ship!
 
 Shu fixed some of the bugs found detected by the fuzzers on the blink side. After a week of waiting to check the problems detected by some automation, [I finally flipped the feature flag](https://chromium-review.googlesource.com/c/v8/v8/+/6043415) to enabled by default! Another feature I was involved with has been released to the world.
 

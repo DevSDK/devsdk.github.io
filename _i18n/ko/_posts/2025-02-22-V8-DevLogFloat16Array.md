@@ -17,7 +17,7 @@ tags:
 - Float16Array
 ---
 
-## Introduction
+# Introduction
 
 이 글에서는 외부 기여자로서 V8에 Float16Array를 구현하고, 최종적으로 TurboFan과 Turboshaft에 들어가는 JIT 최적화를 진행한 과정을 공유합니다. 몇 달 동안 구글 엔지니어 Shu-Yu Guo와 주간 싱크를 진행했고, 복잡한 코드 리뷰 과정을 거쳤으며, 플랫폼별 이슈를 해결하면서 성능을 크게 끌어올린 이야기를 전합니다.
 
@@ -401,7 +401,7 @@ const edgeCases = [
 ];
 ```
 
-#### Merged!
+## Merged!
 
 마침내 이 CL은 1월 27일에 머지되었습니다. 거의 반년 걸렸네요. 그래도 이제 Turbofan/Turboshaft 파이프라인에 꽤 익숙해졌습니다!
 
@@ -423,7 +423,7 @@ V8 관련 기여, 그리고 제 커리어에 대한 이야기도 나눴습니다
 
 어쨌든, 이제 이 기능을 릴리스하기 위해 몇 가지 단계를 더 진행해야 합니다.
 
-#### Prepare to ship
+## Prepare to ship
 
 Blink-dev 구글 그룹에서 +3 LGTMs를 받아야 기능을 공개할 수 있습니다. (흔히 말하는 Intended to Ship, I2S)
 
@@ -433,7 +433,7 @@ Blink-dev 구글 그룹에서 +3 LGTMs를 받아야 기능을 공개할 수 있�
 
 ![3 LGTMs](/uploads/2025-02-22/3lgtms.png)
 
-#### And... Ship!
+## And... Ship!
 
 퍼저에서 발견된 버그를 일부 수정하고  쪽에 테스트 케이스를 추가했습니다. 일부 자동화에서 감지된 문제를 확인하기 위해 일주일을 기다렸습니다.
 
