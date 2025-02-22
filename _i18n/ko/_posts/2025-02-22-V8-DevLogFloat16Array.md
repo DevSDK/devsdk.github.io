@@ -19,8 +19,7 @@ tags:
 
 # Introduction
 
-이 글에서는 외부 기여자로서 V8에 Float16Array를 구현하고, 최종적으로 TurboFan과 Turboshaft에 들어가는 JIT 최적화를 진행한 과정을 공유합니다. 몇 달 동안 구글 엔지니어 Shu-Yu Guo와 주간 싱크를 진행했고, 복잡한 코드 리뷰 과정을 거쳤으며, 플랫폼별 이슈를 해결하면서 성능을 크게 끌어올린 이야기를 전합니다.
-
+이 글에서는 V8의 외부 컨트리뷰터로서 Float16Array를 구현한 이야기를 공유하면서 TurboFan과 Turboshaft의 최종 JIT 최적화에 초점을 맞춥니다. 몇 달에 걸쳐 저는 Google 엔지니어 Shu-Yu Guo와 매주 동기화를 진행하며 플랫폼별 과제를 해결하여 상당한 성능 향상을 달성했습니다.
 
 ## What is V8 and TUrBoFan ?
 
@@ -29,7 +28,7 @@ tags:
 **What is V8?**
 
 V8은 JavaScript 코드를 실행하기 위한 자바스크립트 엔진입니다.
-V8에는 자바스크립트와 WASM을 실행하고 최적화하기 위한 대규모 파이프라인이 있으며, Chromium(Chrome, Edge, Whale 등의 기반), Node.js, Deno 등을 구동합니다.
+V8에는 자바스크립트와 WASM을 실행하고 최적화하기 위한 대규모 파이프라인이 있으며, Chromium(Chrome, Edge, Whale 등의 기반), Node.js, Deno 등을 구성합니다.
 
 [V8 (JavaScript engine) - Wikipedia](https://en.wikipedia.org/wiki/V8_(JavaScript_engine))
 
@@ -43,13 +42,13 @@ Turbofan은 이러한 성능 격차를 좁히기 위한 최적화 도구입니�
 
 이 포스트에서는 모든 세부사항을 다루지 않을 겁니다. 기회가 된다면 따로 글을 작성하겠습니다.
 위 그림을 보면, 입력으로 ByteCodeGraph(V8 자바스크립트 바이트코드에서 빌드된 그래프)가 있고, 출력은 타깃 머신별 코드를 생성해냅니다. 
-함수나 연산이 충분히 자주 호출되어 뜨거운 상태가 되면 파이프라인이 실행되어 최적화가 이뤄지고, 결국 머신 코드로 동작하게 됩니다.
+함수나 연산이 충분히 자주 호출되어 뜨거운 상태(자주 호출되는 상태)가 되면 파이프라인이 실행되어 최적화가 이뤄지고, 결국 머신 코드로 동작하게 됩니다.
 
 _Turboshaft_ 는 또 다른 **제어 흐름 그래프 중간 표현(CFG-IR)**으로, Turbofan과 머신 실행 코드 사이에 위치합니다. Turboshaft의 최종 결과는 실행 가능한 머신 코드가 됩니다.
 
 **JIT란?**
 
-JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되는 기술로, 실행하기 전이 아닌, 실행 시점 직전에 코드를 컴파일합니다. 이 방식은 실행되는 환경에 맞춰 코드를 최적화할 수 있으므로, 프로그램이 더 빠르게 동작하도록 돕습니다.
+JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되는 기술로, 실행하기 전이 아닌, 실행 시점 직전에 코드를 컴파일합니다. 이~ 방식은 실행되는 환경에 맞춰 코드를 최적화할 수 있으므로, 프로그램이 더 빠르게 동작하도록 돕습니다.
 
 [Just-in-time compilation - Wikipedia](https://en.wikipedia.org/wiki/Just-in-time_compilation)
 
@@ -64,8 +63,8 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 
 리뷰어들과 저는 변경이 너무 방대하니, 기능 구현과 Turbofan JIT 지원 부분을 분리하기로 합의했습니다. 결국 [여기에서](https://chromium-review.googlesource.com/c/v8/v8/+/5082566/comment/0b15c828_7cd95f6d/) 항상 deoptimization하도록 하는 코드를 추가했는데, 이 코드는 이후 Darius에 의해 [개선되었습니다](https://chromium-review.googlesource.com/c/v8/v8/+/5378406).
 
-2024년 3월 말, 저는 `Float16Array`가 릴리스 준비가 되었다고 판단했고, Shu에게 "Intent to Ship 프로세스를 진행할 준비가 되었느냐"는 메일을 보냈습니다.
-그에 대한 답변은, 제가 위에서 언급한 디옵트 코드를 해결해야 한다는 것이었습니다. 적어도 `fp16.h` 안에 있는 소프트웨어 에뮬레이션 함수를 호출해야 한다고 했죠. 즉, Turbofan 파이프라인 이후에 런타임 함수를 호출하는 형태가 필요했습니다.
+2024년 3월 말, 저는 `Float16Array`가 릴리즈 준비가 되었다고 판단했고, Shu에게 "Intent to Ship 프로세스를 진행할 준비가 되었느냐"는 메일을 보냈습니다.
+그에 대한 답변은, 제가 위에서 언급한 Deoptimization 코드를 해결해야 한다는 것이었습니다. 적어도 `fp16.h` 안에 있는 소프트웨어 에뮬레이션 함수를 호출해야 한다고 했습니다. 즉, Turbofan 파이프라인 이후에 런타임 함수를 호출하는 형태가 필요했습니다.
 
 지금은 그 말이 어떤 의미인지 알지만, 당시에는 "Turbofan이 뭔지, 어떻게 동작하는지"를 알아내야 하는 상황이었습니다. 그래서 일요일 대부분의 시간을 투자해가며 Turbofan 코드를 읽고 작성하기 시작했고, 'float16 값을 변환'하는 빌트인 함수를 호출하는 파이프라인 단계를 구현했습니다.
 
@@ -76,12 +75,13 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 4분기 초, Shu로부터 메일이 왔습니다. Float16Array는 이제 개발이 가능하고, x64와 ARM에서 float16 <-> float64 변환 작업을 Ilya가 진행 중이라는 내용이었습니다.
 
 그래서 “내장 함수를 호출하자”라는 저의 기존 계획을 바꿔 다음과 같은 새로운 계획을 세웠습니다:
-	1.	머신에서 float16 변환을 지원하는 패치가 준비될 때까지 대기
-	2.	변환 코드를 검토해 범위를 파악
-	3.	js-native-context-specialization의 “항상 디옵트” 코드를 제거
-	4.	각 단계마다 Turbofan 노드를 연결해 Float16Array를 지원
-	5.	Ilya가 구현한 노드나 파이프라인과 연결 (어느 단계가 최적인지 조사 필요)
-	6.	float16을 지원하지 않는 머신을 위한 폴백으로 (uint16을 사용하는) 런타임 함수를 호출하는 방안도 고려
+
+1.	머신에서 float16 변환을 지원하는 패치가 준비될 때까지 대기
+2.	변환 코드를 검토해 범위를 파악
+3.	js-native-context-specialization의 "Always Unoptimize" 코드를 제거
+4.	각 단계마다 Turbofan 노드를 연결해 Float16Array를 지원
+5.	Ilya가 구현한 노드나 파이프라인과 연결 (어느 단계가 최적인지 조사 필요)
+6.	float16을 지원하지 않는 머신을 위한 Fallback으로 (uint16을 사용하는) 런타임 함수를 호출하는 방안도 고려
 
 시간은 흘러 11월이 되었고,  코드를 읽고 시간이 있을 때 위의 계획을 구현하려고 노력했습니다. 11월의 어느 날, 업스트림의 일부 변경 사항이 실험용 Float16Array 코드와 부분적으로 충돌하는 것을 발견했습니다. 위에서 언급한 것 처럼 충돌이 일어날 수 있다는 우려가 현실이 된 것 입니다. 그리고 이것이 중복 작업을 만들 수 있다고 생각했습니다. 어떻게 해야할 지 혼란스러웠고,  길을 잃은 것 같았습니다. 
 
@@ -93,7 +93,8 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 >
 >I may need to tighten the feedback loop for myself to release in this year. If you don't mind, can I send some kind of weekly or some periodic update email that might include what I'm considering or what I'm stuck on?
 >
->Regard 
+>Regard
+> 
 >Seokho
 
 > Hi syg,
@@ -104,12 +105,13 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 > 괜찮다면 매주 또는 주기적으로 제가 고려하고 있는 사항이나 막혀 있는 사항을 포함한 업데이트 이메일을 보내도 될까요?
 >
 >Regard
+>
 >Seokho
 
 
 이 메일을 보낼 때, 제 코드 이해 부족이나 역량을 드러내고 시간을 뺏는 게 아닐까 걱정도 됐고, 기회를 잃게 되지 않을까 두려움도 있었습니다.
 
-다행히 그가 좋다고 답해줬습니다. 정말 기뻤어요.
+정말 기쁘게도 다행히 그가 좋다고 답해줬습니다.
 
 # Progression:
 
@@ -120,7 +122,7 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 
 이메일 내용 일부를 발췌하면 다음과 같습니다:
 
-> 3. The plan:  
+> B. The plan:  
 > 
 > Sooo, It seems machine support is now possible thanks to Ilya's changes. I noticed the following in the Turboshaft graph builder:  
 `UNARY_CASE(TruncateFloat64ToFloat16RawBits, TruncateFloat64ToFloat16RawBits)`.  
@@ -131,21 +133,20 @@ JIT(Just-In-Time)는 컴퓨팅에서 성능을 최적화하기 위해 사용되�
 >
 > So... the question is whether my assumption about the remaining task is correct.  
   >
-> 4. Next action plan:  
+> C. Next action plan:
 
 당시 다음 단계에 무엇을 해야할지 불확실한 느낌이 들어 3. 계획 부분에 대해 동기화하기를 기대했습니다.
-
 
 그리고 Shu는 정말 고맙게도 디테일한 계획을 제시해주었습니다. :)
 
 계획 요약:
-	1.	마이크로벤치마크 작성
-	2.	float64->float16 저장(즉 Float16Array에 쓰기) 시의 디옵트 제거
-	3.	필요하다면, 새로운 ‘truncation operator’ 추가
-	4.	해당 새 오퍼레이터를 TruncateFloat64ToFloat16RawBits 오퍼레이터로 낮춤(lower) (즉 소프트웨어 에뮬레이션이 아닌 경로를 동작시키기)
-	5.	지원 안 되는 환경에선 C 함수를 호출하여 truncation 처리(소프트웨어 에뮬레이션 경로)
-	6.	float16->float64 (즉 Float16Array에서 값 읽기)도 같은 방식으로 반복
-	7.	마이크로벤치마크 성능이 향상되었는지 확인
+1.	마이크로벤치마크 작성
+2.	float64->float16 저장(즉 Float16Array에 쓰기) 시의 Deoptimization 제거
+3.	필요하다면, 새로운 ‘truncation operator’ 추가
+4.	해당 새 오퍼레이터를 TruncateFloat64ToFloat16RawBits 오퍼레이터로 낮춤(lower) (즉 소프트웨어 에뮬레이션이 아닌 경로를 동작시키기)
+5.	지원 안 되는 환경에선 C 함수를 호출하여 truncation 처리(소프트웨어 에뮬레이션 경로)
+6.	float16->float64 (즉 Float16Array에서 값 읽기)도 같은 방식으로 반복
+7.	마이크로벤치마크 성능이 향상되었는지 확인
 
 ## Second Week - Execute what we synced
 
@@ -208,7 +209,7 @@ console.timeEnd: store, 2242.493000
 console.timeEnd: load, 1853.342000
 ```
 
-이 주에는 주로 소스 코드의 'store' 경로를 확인하면서, float16 변환을 처리하기 위해 Turbofan 노드를 어떻게 생성할지를 살폈습니다. [turbolizer](https://v8.github.io/tools/head/turbolizer/index.html) 를 사용해 그래프도 확인하고, representation change phase를 디버깅했습니다.
+이번주에는 주로 소스 코드의 'store' 경로를 확인하면서, float16 변환을 처리하기 위해 Turbofan 노드를 어떻게 생성할지를 살폈습니다. [turbolizer](https://v8.github.io/tools/head/turbolizer/index.html) 를 사용해 그래프도 확인하고, representation change phase를 디버깅했습니다.
 
 하지만 제가 생성한 그래프 빌드/수정 방법이 맞는 건지 확신이 서지 않았습니다. (쓰지 말아야 할 코드를 억지로 넣은 느낌이었거든요)
 
@@ -234,7 +235,7 @@ console.timeEnd: load, 1853.342000
 > 
 > 5.2: 소프트웨어/하드웨어 지원 코드를 호출하는 코드를 작성합니다.
 > 
-> 5.3: 플로트32를 표현 변경 단계에서 분리하는 방법을 알아봅니다. 
+> 5.3: Float32를 representation-change 단계에서 분리하는 방법을 알아봅니다. 
 
 
 ## Third Week - Software Emulation Work!
@@ -266,9 +267,9 @@ BYTE LENGTH:  2
 ```
 
 그리고, 다음 주 계획을 공유했죠:
-	1.	그래프 빌딩 개선
-	2.	load 경로 구현
-	3.	몇 가지 이슈 조사…
+1.	그래프 빌딩 개선
+2.	load 경로 구현
+3.	몇 가지 이슈 조사…
 
 ## Forth Week - Weird week
 
@@ -276,14 +277,15 @@ BYTE LENGTH:  2
 
 
 그리고 Shu도 이메일에서 “뉴스에서 봤어요! 격동의 시기인 것 같은데, 이번 CL은 걱정하지 않아도 될 것 같습니다"라고 답을 보냈습니다. 🤣
+
 개인적으로도 이번 주에는 시간이 넉넉하지 않아 작업량이 적었습니다.
 
 그래도 load 경로를 구현하고, `DoNumberToFloat16RawBits`라는 함수를 구현했습니다.
 
 다음 주 계획:
-	1.	마이크로벤치마크 실행
-	2.	제가 제거했던 kJSFloat16TruncateWithBitcast가 정말 필요 없는지 확인
-	3.	“load”에 대한 머신 지원 코드 구현
+1.	마이크로벤치마크 실행
+2.	제가 제거했던 kJSFloat16TruncateWithBitcast가 정말 필요 없는지 확인
+3.	“load”에 대한 머신 지원 코드 구현
 
 ## Fifth Week - Hardware instruction works but another issue come
 
@@ -292,11 +294,15 @@ BYTE LENGTH:  2
 Email content:
 
 > Hi syg
+>
 > I'm going on an away trip this weekend, so I'm trying to sync now.
 >
 >And with hardware support (only for store yet):
+>
 >devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+>
 >N =  100000000
+>
 >console.timeEnd: store, 133.083000
 >
 >(It super fast)
@@ -307,24 +313,28 @@ Email content:
 
 
 > 안녕하세요. Syg!
+>
 > 이번 주말에 여행을 떠날 예정이라 지금 메일을 보냅니다.
 >
 > 그리고 하드웨어 지원(아직 스토어에만 해당)도 제공됩니다:
+>
 > devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+>
 > N =  100000000
+>
 > console.timeEnd: store, 133.083000
 >
 >(매우 빠릅니다)
 >
 > 이전 이메일에서 언급 한 illigal instruction 문제를 해결하기 위해 명령어 선택을 사용하기 위해 kJSFloat16TruncateWithBitcast를 유지했습니다.이 문제는 무한 호출 루프 TrucateFloat64ToFloat16RawBits -> ReduceXXX -> TrucateFloat64...로 인해 발생했습니다.
 >
->reduceIfReachableChange를 통해 kJSfloat16TruncateWithBitcast를 유지했던 arm64 네이티브 지원 덕분에 우리의 리듀서를 구현했던 x64 소프트웨어 경로가 깨졌습니다. 여행 후에 한번 살펴보겠습니다
+>reduceIfReachableChange를 통해 kJSfloat16TruncateWithBitcast를 유지했던 arm64 네이티브 지원 덕분에 구현했던 Reducer의 x64 소프트웨어 경로가 깨졌습니다. 여행 후에 한번 살펴보겠습니다
 
 그리고 일본 여행 관련 얘기도 좀 했어요. (이 사진을 찍었습니다!)
 
 ![Japan](/uploads/2025-02-22/japan.png)
 
-결국 load 경로도 구현했습니다.
+결국 software emulation load 경로도 구현했습니다.
 
 이후, 전체 테스트를 돌려봤습니다.
 
@@ -421,7 +431,7 @@ V8 관련 기여, 그리고 제 커리어에 대한 이야기도 나눴습니다
 
 아마 이 내용은 따로 여행 관련 포스트로 따로 다룰 수도 있을 것 같네요.
 
-어쨌든, 이제 이 기능을 릴리스하기 위해 몇 가지 단계를 더 진행해야 합니다.
+어쨌든, 이제 이 기능을 릴리즈하기 위해 몇 가지 단계를 더 진행해야 합니다.
 
 ## Prepare to ship
 

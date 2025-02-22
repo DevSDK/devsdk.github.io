@@ -19,7 +19,7 @@ tags:
 
 # Introduction
 
-In this post, I share the story of implementing Float16Array as an external contributor in V8 the final JIT optimizations in TurboFan and Turboshaft. Over several months, I engaged in weekly syncs with a Google engineer, Shu-Yu Guo, tackled a complex code review process, and navigated platform-specific issues to boost performance significantly.
+In this post, I share the story of implementing Float16Array as an external contributor to V8, focusing on the final JIT optimizations in TurboFan and Turboshaft. Over several months, I engaged in weekly syncs with Google engineer Shu-Yu Guo and navigated platform-specific challenges to achieve significant performance improvements.
 
 ## What is V8 and TUrBoFan ?
 
@@ -28,7 +28,8 @@ Before we begin, let me briefly introduce turbofan and turboshaft and V8 that I 
 **What is V8?**
 
 V8 is a Javascript Engine to execute javascript code. (Simply)
-V8 has large-scale pipeline to execute and optimize javascript and WASM. It powers Chromium(which is foundation of Chrome, Edge, Whale, ...etc.), Node.js, Deno.
+V8 has large-scale pipeline to execute and optimize javascript and WASM. 
+It powers Chromium(which is foundation of Chrome, Edge, Whale, ...etc.), Node.js, Deno.
 
 [V8 (JavaScript engine) - Wikipedia](https://en.wikipedia.org/wiki/V8_(JavaScript_engine))
 
@@ -41,7 +42,8 @@ Turbofan is a optimizer to catch up that performance gap.
 ![turbofan pipeline](/uploads/2025-02-22/turbofan-pipeline.png)
 
 In this post, I won't put the all details. Maybe, I'll post later when I can.
-Above picture, there are input which called ByteCodeGraph that is a graph built from V8 Javascript Bytecode. And output results is a machine specific code. When some functions or operations get hot(Executed frequently), It will execute the pipeline and do optimize. And run as machine code.
+
+Above picture, there are input called `ByteCodeGraph` that is a graph represents V8 Javascript Bytecode. And output results is a machine specific code. When some functions or operations get hot(Executed frequently), It will execute the pipeline and do optimize. And run as machine code.
 
 Simply, The turbo engine for V8 to make faster. By JIT.
 
@@ -64,10 +66,10 @@ I implemented `Float16Array`, `Math.f16round` and related DataViews defined in t
 
 The reviewers and I agreed that we could separate the implementation of feature and turbofan JIT support due to the changes are already LARGE. As a result, I added always deoptimization code in [here](https://chromium-review.googlesource.com/c/v8/v8/+/5082566/comment/0b15c828_7cd95f6d/). This code thankfully [improved ](https://chromium-review.googlesource.com/c/v8/v8/+/5378406)by Darius.
 
- At the end of Mar 2024, I thought `Float16Array` was ready to ship. I sent an email to Shu asking about "are we ready for the Intent to Ship process?". 
+ At the end of Mar 2024, I thought `Float16Array` was ready to ship. I sent an email to Shu asking about "are we ready for the Intent to Ship process?".
   The response was that we need to address the deoptimization code that I described above. At least we should call our built-in implementation of the software emulation via in `fp16.h`. My understanding was to call the runtime function to call our builtin operation after the turbofan pipeline.  
   
- Now I can tell what that mean. But at the moment, I needed to figure out what and how turbofan work. I started learning and reading, writing turbofan code at most of my free time (especially Sunday). I implemented some pipeline steps to call 'conver float16 value' builtin operation.
+ Now I can tell what that mean. But at the moment, I needed to figure out what and how turbofan work. I started learning and reading, writing turbofan code at most of my free time (especially Sunday). I implemented some pipeline steps to call 'convert float16 value' builtin operation.
 
 And..... Unfortunately, In 2Q 3Q, I have to change my priorities for my spare time prepare for an exam.
 
@@ -77,17 +79,17 @@ Beginning of 4Q, I got an email from Shu:
 Now Float16Array is ready for development and float16 <> float64 conversion for x64 and ARM is in progress by Ilya. 
 
 I changed a plan from 'just calling builtin operation':
-  
-1. Wait until the machine-support conversions are ready
-2. Review the conversion codes, to determine the scope  
-3. Remove the "always unoptimize" code in the js-native-context-specialization  
-4. Add turbofan nodes through the turbofan pipelines per each step to support Float16Array.  
-5. Connect the pipeline or node implemented by Ilya (I may need to investigate which step is the best fit).  
+
+1. Wait until the machine-support conversions are ready.
+2. Review the conversion codes, to determine the scope
+3. Remove the "always unoptimize" code in the js-native-context-specialization
+4. Add turbofan nodes through the turbofan pipelines per each step to support Float16Array.
+5. Connect the pipeline or node implemented by Ilya (I may need to investigate which step is the best fit).
 6. Add a fallback for unsupported float16 machines (I imagined that it can possible to call runtime operation that using uint16 as we previously implemented)
 
-And time has passed to Nov. Until that time I read codes and try to implement above plan when I was available. Some day of Nov, I noticed that some changes at the upstream are partly conflicted with my experimental Float16Array code. I realized that I was worried that something I mentioned can be happen like conflict. And I thought that this possibly can make duplicated work. I was a bit confused how to handle this. I felt like lost my way.
+And time has passed to Nov. Until that time I read codes and try to implement above plan when I was available. Some day of Nov, I noticed that some changes at the upstream are partly conflicted with my experimental Float16Array code. I realized that something I mentioned above the about worrying about can be happen like conflict. And I thought that possibly make duplicate work. I was a bit confused about how to handle this. I felt like lost my way.
 
-So I decided that I need to share more frequently about the implementation status and progress, and where I have blocked. In the mid-Nov. I sent an email to share about the status of my implementation and to ask for a weekly sync expecting some mentoring or managing:
+So I decided that I need to share more frequently about the implementation status and the progress, and where I have blocked. In the mid-Nov. I sent an email to share about the status of my implementation and to ask for a weekly sync expecting some mentoring or managing:
 
 > Hi syg,
 > 
@@ -98,7 +100,7 @@ So I decided that I need to share more frequently about the implementation statu
 >Regard 
 >Seokho
 
-When I sent the above email, I had some small fears about exposing my lack of code understanding or ability. And also of wasting his time and possibly losing an opportunity 
+When I sent the above email, I had some small fears about exposing my lack of code understanding or ability. And also of wasting his time and losing the contribution opportunity.
 
 Thankfully, he said yes. I was very happy.
 
@@ -109,10 +111,10 @@ So finally, I started weekly sync.
 ## First week - Sync the Context
 In the first week, I spent time preparing to provide histories and context above. I opened temporary [WIP CL](https://chromium-review.googlesource.com/c/v8/v8/+/6026409) to provide context. The contents of the email filled up with the above stories haha. And I hit a submit button, hoping to find the way.
 
-Following is part of the email Content:
+Following is part of the email content:
 
-> 3. The plan:  
-> 
+> B. The plan:
+>
 > Sooo, It seems machine support is now possible thanks to Ilya's changes. I noticed the following in the Turboshaft graph builder:  
 `UNARY_CASE(TruncateFloat64ToFloat16RawBits, TruncateFloat64ToFloat16RawBits)`.  
 >
@@ -120,12 +122,11 @@ Following is part of the email Content:
 >
 > Additionally, should we consider retaining software calculations for cases where machines do not support FP16 operations? If so, where would be the best place to handle this in Turbofan?
 >
-> So... the question is whether my assumption about the remaining task is correct.  
-  >
-> 4. Next action plan:  
+> So... the question is whether my assumption about the remaining task is correct.
+>
+> C. Next action plan:  
 
-I feel a bit uncertain about the next steps, so I'm looking forward to syncing with you about 3. The Plan part.
-
+I feel a bit uncertain about the next steps, so I'm looking forward to syncing wit Shu about B. The Plan part.
 
 And Shu suggest detailed plan. Thank you very much :)
 
@@ -192,7 +193,7 @@ console.log("BYTE LENGTH: " ,array.BYTES_PER_ELEMENT)
 
 ```
 
-Execution time (Note that this result is based on always deoptimization):
+Execution time (Note that the result is based on always deoptimization):
 ```
 N =  100000000
 console.timeEnd: store, 2242.493000
@@ -201,11 +202,11 @@ console.timeEnd: load, 1853.342000
 
 This week, I focused on the 'store' path of the source code and graph building to process float16 conversion. While implementing some turbofan nodes, I saw the results on [turbolizer](https://v8.github.io/tools/head/turbolizer/index.html) and spent time to debug the representation change phase. 
 
- However I didnt think this graph build/modification is correct. (Because I put some code that not does not seem to be fit)
+ However, I didnt think this graph build/modification is correct. (Because I put some code that does not seem to be fit)
 
 ![turbofan nodes](/uploads/2025-02-22/turbofan-node.png)
 
-So I send snyc email to explain above and contain following:
+So I send sync email to explain above contain following:
 
 > ...
 > 3. I found a code chunk of calling external reference functions but I need to figure out how to connect with our TruncateFloat64ToFloat16RawBits.
@@ -223,7 +224,7 @@ The third time sync was Dec 1 2024. It was a Sunday and very first snow day in S
 
 I removed `kJSFloat16TruncateWithBitcast` codes which I assumed that was not necessary and it caused ambiguous duplicated name via some macro generated. And finally wrote the lowering reducer to call external reference function call. 
 
-Unfortunately, I faced an issue with illegal hardware instruction
+Unfortunately, I faced an issue with illegal hardware instruction.
 ```bash
 devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.debug/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js  
 zsh: illegal hardware instruction  ./out/arm64.debug/d8 --js-float16array  
@@ -256,7 +257,7 @@ And Shu also said "I saw that on the news! It sounds like a turbulent time; this
 
 Personally I don't have enough time in this week. So my works were a bit small.
 
-I implemented load code path and implement `DoNumberToFloat16RawBits`.
+I implemented software emulation load code path and implement `DoNumberToFloat16RawBits`.
 
 The plan of next week was:
 1. Run the microbenchmark
@@ -270,11 +271,15 @@ The fifth sync was also very short. Because I have a trip plan to Japan. Until m
 Email content:
 
 >Hi syg
+>
 >I'm going on an away trip this weekend, so I'm trying to sync now.
 >
 >And with hardware support (only for store yet):
+>
 >devsdk@Dave ~/workspace/chromium/v8/v8 % ./out/arm64.release/d8 --js-float16array ~/workspace/chromium/playground/float16array_float16.js
+>
 >N =  100000000
+>
 >console.timeEnd: store, 133.083000
 >
 >(It super fast)
@@ -319,7 +324,7 @@ It optimize over 500% for store, and 300% for load!
 Now.... review phase!
 
 Some codes are changed:
-I created `float16-lowering-reducer.h` which is defined as a pipeline phase in turboshaft to create machine code by hardware support. (It has been deleted by [further work](https://chromium-review.googlesource.com/c/v8/v8/+/6227844) though!) And I changed the target that external reference function for changing float64 to float16. And added various edge cases in testcode defined in [tc39/test262](https://github.com/tc39/test262/blob/main/harness/byteConversionValues.js#L55-L69):
+I created `float16-lowering-reducer.h` which is defined as a pipeline phase in turboshaft to create machine code by hardware support. (It has been deleted by [further work](https://chromium-review.googlesource.com/c/v8/v8/+/6227844) though!) And I changed the target that external reference function for changing float64 to float16. Finally, I added various edge cases in testcode defined in [tc39/test262](https://github.com/tc39/test262/blob/main/harness/byteConversionValues.js#L55-L69):
 ```js
 const edgeCases = [
   // an integer which rounds down under ties-to-even when cast to float16
@@ -378,7 +383,7 @@ And between the merge and preparing the ship, I've been travelling around the St
 ![Google Guest](/uploads/2025-02-22/guest.jpeg)
 We talked about careers and contributions to V8 stuffs!
 
-Probably, It's better chance to the another post of the blog! I'll write later my traveling.
+Probably, It's better chance to the another post of the blog! I'll write later about my traveling.
 
 Anyway, now we have few steps left to ship this feature.
 ## Prepare to ship
