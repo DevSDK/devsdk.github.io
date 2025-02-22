@@ -15,6 +15,7 @@ tags:
 - Javascript
 - Optimization
 - Float16Array
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2025-02-22-V8-DevLogFloat16Array.md
 ---
 
 # Introduction
