@@ -22,6 +22,14 @@ filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2
 
 In this post, I share the story of implementing Float16Array as an external contributor to V8, focusing on the final JIT optimizations in TurboFan and Turboshaft. Over several months, I engaged in weekly syncs with Google engineer Shu-Yu Guo and navigated platform-specific challenges to achieve significant performance improvements.
 
+
+## Float16Array
+
+[Float16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) is a TypedArray like [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array) of [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array).
+It works with [16bit floating point numbers (float16, half precision)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format). It provides a more memory-efficient way to handle floating-point data compared to Float32Array and Float64Array, while still maintaining reasonable precision for certain use cases.
+
+The Float16Array is part of an ongoing effort to optimize performance and memory usage in web and JavaScript-based applications, particularly in fields that require fast numerical computations such as WebGPU, WebGL based applications.
+
 ## What is V8 and TUrBoFan ?
 
 Before we begin, let me briefly introduce turbofan and turboshaft and V8 that I contribute.
