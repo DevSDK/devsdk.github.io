@@ -25,10 +25,10 @@ In this post, I share the story of implementing Float16Array as an external cont
 
 ## Float16Array
 
-[Float16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) is a TypedArray like [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array) of [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array).
+[Float16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) is a TypedArray like [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array) or [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array).
 It works with [16bit floating point numbers (float16, half precision)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format). It provides a more memory-efficient way to handle floating-point data compared to Float32Array and Float64Array, while still maintaining reasonable precision for certain use cases.
 
-The Float16Array is part of an ongoing effort to optimize performance and memory usage in web and JavaScript-based applications, particularly in fields that require fast numerical computations such as WebGPU, WebGL based applications.
+The Float16Array can be used to optimize performance and memory usage in web and JavaScript based applications, particularly in fields that require fast numerical computations such as WebGPU, WebGL based applications.
 
 ## What is V8 and TUrBoFan ?
 

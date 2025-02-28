@@ -21,6 +21,14 @@ tags:
 
 이 글에서는 V8의 외부 컨트리뷰터로서 Float16Array를 구현한 이야기를 공유하면서 TurboFan과 Turboshaft의 최종 JIT 최적화에 초점을 맞춥니다. 몇 달에 걸쳐 저는 Google 엔지니어 Shu-Yu Guo와 매주 동기화를 진행하며 플랫폼별 과제를 해결하여 상당한 성능 향상을 달성했습니다.
 
+
+## Float16Array
+
+[Float16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array)는 [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array) 혹은  [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)와 같은 타입 배열입니다. [16비트 부동 소수점 숫자(float16, 반정밀도)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)로 작동합니다. 특정 사용 사례에 적합한 정밀도를 유지하면서 Float32Array 및 Float64Array에 비해 부동 소수점 데이터를 처리하는 메모리 효율적인 방법을 제공합니다.
+
+
+Float16Array는 웹 및 JavaScript 기반 애플리케이션에서 성능과 메모리 사용량을 최적화하는 데 사용할 수 있으며, 특히 WebGPU, WebGL 기반 애플리케이션과 같이 빠른 숫자 연산이 필요한 분야에서 유용하게 사용할 수 있습니다.
+
 ## What is V8 and TUrBoFan ?
 
 본격적으로 시작하기 전에 Turbofan, Turboshaft, 그리고 제가 기여하는 V8에 대해 간략히 소개하겠습니다.
