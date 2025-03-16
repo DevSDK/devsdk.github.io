@@ -12,20 +12,23 @@ tags:
 - Debugging
 ---
 
+# Debugging Note
+
 This post simply contains a debugging note for V8 development for myself.
 Please let me know if you know a more efficient way.
 
 This post will be updated I got something useful.
 
 
-# TOOLS
+## TOOLS
 
-https://v8.github.io/tools/head/
+[https://v8.github.io/tools/head/](https://v8.github.io/tools/head/)
 
-# CSA
+## CSA
 
-## Print
-### Handle\<T\>
+### Print
+
+#### Handle\<T\>
 
 To Print `Handle<T>` in CSA, we can use `HeapConstantNoHole`
 
@@ -55,7 +58,7 @@ DebugPrint: 0x4ca00004859: [String] in ReadOnlySpace: #global
  - construction counter: 0
 ```
 
-### TNode\<Object\>
+#### TNode\<Object\>
 
 We can just put it to Print
  
@@ -65,11 +68,11 @@ Print(node)
 
 Results same with above `Handle<T>`
 
-## Snapshot
+### Snapshot
 
-### snapshot compile error 
+#### snapshot compile error 
 
-#### BIND and label
+##### BIND and label
 
 If BIND occur, it means different code chunk. What if the code chunk is not connected with label it will cause snapshot compile error.
 
@@ -102,9 +105,9 @@ So even though BIND is placed by the execution flow, we should jump to the BIND.
 ```
 
 
-# Runtime
+## Runtime
 
-## StackTrace
+### StackTrace
 
 Print stack trace:
 
