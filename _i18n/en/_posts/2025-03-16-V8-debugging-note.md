@@ -158,7 +158,7 @@ example results:
 ```
 
 
-## Turbofan
+## Turbofan/TurboShaft
 
 * [Turbolizer](https://v8.github.io/tools/head/turbolizer/index.html)
 
