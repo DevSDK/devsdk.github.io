@@ -70,6 +70,26 @@ Print(node)
 
 Results same with above `Handle<T>`
 
+## Torque (.tq file)
+
+### Print
+
+you can find the Print() functions in [base.tq](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/builtins/base.tq;l=714-721?q=base.tq)
+
+It is same with CSA's.
+
+```
+extern macro Print(constexpr string): void;
+extern macro Print(constexpr string, Object): void;
+extern macro Print(Object): void;
+extern macro Print(constexpr string, uintptr): void;
+extern macro Print(constexpr string, float64): void;
+extern macro PrintErr(constexpr string): void;
+extern macro PrintErr(constexpr string, Object): void;
+extern macro PrintErr(Object): void;
+```
+
+
 ### Snapshot
 
 #### snapshot compile error 
