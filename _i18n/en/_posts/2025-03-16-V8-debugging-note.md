@@ -39,6 +39,8 @@ To Print `Handle<T>` in CSA, we can use `HeapConstantNoHole`
   Print(temp);
 ```
 
+Result:
+
 ```
 DebugPrint: 0x4ca00004859: [String] in ReadOnlySpace: #global
 0x4ca00000155: [Map] in ReadOnlySpace
@@ -72,7 +74,7 @@ Results same with above `Handle<T>`
 
 #### snapshot compile error 
 
-##### BIND and label
+##### BIND and Label
 
 If BIND occur, it means different code chunk. What if the code chunk is not connected with label it will cause snapshot compile error.
 
