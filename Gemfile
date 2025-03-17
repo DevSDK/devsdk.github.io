@@ -6,4 +6,5 @@ gem "kramdown-parser-gfm"
 gem 'nokogiri', '~> 1.10.0'
 gem 'jemoji'
 gem 'jekyll-multiple-languages-plugin'
+gem 'jekyll-toc'
 gemspec

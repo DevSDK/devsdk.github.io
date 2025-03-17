@@ -25,6 +25,14 @@ layout: default
       <div class="page-content">
         <div class="e-content">
 			<br/>
+      {% if page.toc %}
+        <div id="table-of-contents">
+          <h3>
+            Table of contents
+          </h3>
+          {% toc %}
+        </div>
+      {% endif %}
 			{{ content }}
       {% if page.filepath %}
         {% if site.lang == "en" %}
