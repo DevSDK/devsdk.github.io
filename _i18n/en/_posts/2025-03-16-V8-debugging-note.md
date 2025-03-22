@@ -188,20 +188,31 @@ GDB/LLDB command map: [https://lldb.llvm.org/use/map.html](https://lldb.llvm.org
 
 ### Example in CLI
 ```bash
-devsdk@MacBook-Pro ~/workspace/chromium/v8/v8 % lldb -- out/arm64.release/d8 ~/workspace/chromium/playground/temp.js
-(lldb) target create "out/arm64.release/d8"
-Current executable set to '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.release/d8' (arm64).
+devsdk@MacBook-Pro ~/workspace/chromium/v8/v8/out/arm64.debug % lldb -- d8 ~/workspace/chromium/playground/temp.js
+(lldb) target create "d8"
+Current executable set to '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.debug/d8' (arm64).
 (lldb) settings set -- target.run-args  "/Users/devsdk/workspace/chromium/playground/temp.js"
-(lldb) b src/parsing/parser-base.h:6492
+(lldb) b src/parsing/parser-base.h:5910
 Breakpoint 1: 2 locations.
 (lldb) r
-Process 29972 launched: '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.release/d8' (arm64)
-Process 29972 stopped
+Process 49637 launched: '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.debug/d8' (arm64)
+0
+Process 49637 stopped
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.2
-    frame #0: 0x00000001006814ec d8`v8::internal::ParserBase<v8::internal::Parser>::ParseStatement(v8::internal::ZoneList<v8::internal::AstRawString const*>*, v8::internal::ZoneList<v8::internal::AstRawString const*>*, v8::internal::AllowLabelledFunctionStatement) at parser-base.h:6492:17 [opt]
+    frame #0: 0x0000000113664f94 libv8.dylib`v8::internal::ParserBase<v8::internal::PreParser>::ParseBlock(this=0x000000014ae04a30, labels=0x0000000000000000, block_scope=0x000000014b010430) at parser-base.h:5910:3
+   5907	    body->set_scope(scope()->FinalizeBlockScope());
+   5908	  }
+   5909
+-> 5910	  body->InitializeStatements(statements, zone());
+   5911	  return body;
+   5912	}
+   5913
 Target 0: (d8) stopped.
-warning: d8 was compiled with optimization - stepping may behave oddly; variables may not be available.
-(lldb)
+(lldb) p body
+(v8::internal::ParserBase<v8::internal::PreParser>::BlockT) {
+  v8::internal::PreParserStatement = (code_ = kUnknownStatement)
+  scope_ = nullptr
+}
 ```
 
 ### VS Code Debugger Setup
