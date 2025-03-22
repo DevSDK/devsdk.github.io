@@ -226,6 +226,7 @@ blockquote {
   padding: 2em 3em;
   background-color: mix(#fff, $accent-color, 95%);
   border-left: solid 0.5em $accent-color;
+  word-break: break-word;
 
   *:last-child {
     margin-bottom: 0;
