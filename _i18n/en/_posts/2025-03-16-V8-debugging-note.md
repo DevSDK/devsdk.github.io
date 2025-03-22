@@ -174,6 +174,58 @@ example results:
 
 
 
-## lldb
+## LLDB/GDB
 
-coming soon..
+We can use `lldb` or `gdb` to debug v8 (and chromium too).
+
+The source must be compiled in debug build to create Debugging Symbols.
+
+By debugger, you can stop the specific position of the source code and print the value. Even you can execute method and print the result like:
+
+`(lldb) p this->ToString()`
+
+GDB/LLDB command map: [https://lldb.llvm.org/use/map.html](https://lldb.llvm.org/use/map.html)
+
+### Example in CLI
+```bash
+devsdk@MacBook-Pro ~/workspace/chromium/v8/v8 % lldb -- out/arm64.release/d8 ~/workspace/chromium/playground/temp.js
+(lldb) target create "out/arm64.release/d8"
+Current executable set to '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.release/d8' (arm64).
+(lldb) settings set -- target.run-args  "/Users/devsdk/workspace/chromium/playground/temp.js"
+(lldb) b src/parsing/parser-base.h:6492
+Breakpoint 1: 2 locations.
+(lldb) r
+Process 29972 launched: '/Users/devsdk/workspace/chromium/v8/v8/out/arm64.release/d8' (arm64)
+Process 29972 stopped
+* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.2
+    frame #0: 0x00000001006814ec d8`v8::internal::ParserBase<v8::internal::Parser>::ParseStatement(v8::internal::ZoneList<v8::internal::AstRawString const*>*, v8::internal::ZoneList<v8::internal::AstRawString const*>*, v8::internal::AllowLabelledFunctionStatement) at parser-base.h:6492:17 [opt]
+Target 0: (d8) stopped.
+warning: d8 was compiled with optimization - stepping may behave oddly; variables may not be available.
+(lldb)
+```
+
+### VS Code Debugger Setup
+```json5
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "(lldb) Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/out/arm64.debug/d8",
+      "args": ["/Users/devsdk/workspace/chromium/playground/temp.js"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/out/arm64.debug",
+      "environment": [],
+      "sourceFileMap" : {"../../src/": "${workspaceFolder}/src/"},
+      "externalConsole": false,
+      "MIMode": "lldb"
+    }
+  ]
+}
+
+```
