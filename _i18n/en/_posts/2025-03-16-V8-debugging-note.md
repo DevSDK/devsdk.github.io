@@ -205,7 +205,7 @@ warning: d8 was compiled with optimization - stepping may behave oddly; variable
 ```
 
 ### VS Code Debugger Setup
-```json5
+```json
 {
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
