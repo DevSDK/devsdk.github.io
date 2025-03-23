@@ -241,6 +241,8 @@ Target 0: (d8) stopped.
 
 ```
 
+---
+
 ## src/base
 
 ### ThreadedList\<T\>
@@ -254,7 +256,7 @@ The linkage (i.e., next pointers) is embedded directly within the object rather 
 
 To use an object `type T` with `ThreadedList<T>`, the class must expose the following static member functions:
 
-```cpp  
+```cpp
   static T** next(T* t) { return t->next(); }
   static T** start(T** t) { return t; }
   static T* const* start(T* const* t) { return t; }
@@ -290,7 +292,6 @@ because both lists are sharing the same `next()` pointer from Variable.
 To make this work correctly:
 
 ```cpp
-
 class Variable {
   public:
   // ...
