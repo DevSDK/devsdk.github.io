@@ -11,6 +11,7 @@ tags:
 - V8
 - Debugging
 toc: true
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2025-03-16-V8-debugging-note.md
 ---
 
 # Debugging Note
