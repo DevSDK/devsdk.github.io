@@ -240,3 +240,75 @@ Target 0: (d8) stopped.
 }
 
 ```
+
+## src/base
+
+### ThreadedList\<T\>
+
+ThreadedList is a linked list where each object acts as its own node—this is known as an intrusive linked list.
+
+The linkage (i.e., next pointers) is embedded directly within the object rather than stored in a separate node wrapper.
+
+> ⚠️ Note: Despite the name, ThreadedList is not related to thread safety or multithreading.
+> It simply refers to “threading” objects together in a list.
+
+To use an object `type T` with `ThreadedList<T>`, the class must expose the following static member functions:
+
+```cpp  
+  static T** next(T* t) { return t->next(); }
+  static T** start(T** t) { return t; }
+  static T* const* start(T* const* t) { return t; }
+```
+
+These functions tell the list how to get and follow the next pointer in the object.
+
+You can also customize the pointer accessor logic by specifying a second template parameter. For example:
+
+```cpp
+ base::ThreadedList<Variable, Variable::VarListNext>;
+```
+
+If you’re facing an issue where `Add` fails because the tail is not `nullptr`,
+
+you’re likely trying to use the object in multiple lists at once.
+
+For example,
+
+```cpp
+class Something {
+  // ...
+  base::ThreadedList<Variable> local_;
+  base::ThreadedList<Variable> var_list_;
+  // ...
+}
+```
+
+This can cause Add to fail and not work as expected,
+
+because both lists are sharing the same `next()` pointer from Variable.
+
+To make this work correctly:
+
+```cpp
+
+class Variable {
+  public:
+  // ...
+
+  struct VarListNext {
+    static Variable** next(Variable* t) { return &t->var_next_; }
+    static Variable** start(Variable** t) { return t; }
+  };
+  // ...
+  private:
+   Variable* next_;   // Used by local_
+   Variable* var_next_; // Used by var_list_
+}
+
+class Something {
+  base::ThreadedList<Variable> local_;
+  base::ThreadedList<Variable, Variable::VarListNext> var_list_; 
+};
+```
+
+Now each list uses its own next pointer, and the object can safely belong to both lists.
