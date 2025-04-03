@@ -174,6 +174,26 @@ example results:
 [Search `DECL_TURBOSHAFT_PHASE_CONSTANTS` or `DECL_TURBOSHAFT_PHASE_CONSTANTS_WITH_LEGACY_NAME`.](https://source.chromium.org/search?q=DECL_TURBOSHAFT_PHASE_CONSTANTS%20path:v8&sq=&ss=chromium%2Fchromium%2Fsrc)
 
 
+## Assertions
+
+###  DisallowGarbageCollection
+
+Assert when GC potential operations occur.
+
+Only for debugging build.
+
+```
+  {
+    DisallowGarbageCollection no_gc;
+
+    // some gc-safe operations.
+    // e.g., Accessing char in the string.
+
+    // if memory is allocated that could call GC in this block in here,
+    // it will assert.
+  }
+
+```
 
 ## LLDB/GDB
 
