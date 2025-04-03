@@ -182,7 +182,7 @@ Assert when GC potential operations occur.
 
 Only for debugging build.
 
-```
+```cpp
   {
     DisallowGarbageCollection no_gc;
 
