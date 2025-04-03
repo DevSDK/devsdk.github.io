@@ -187,7 +187,7 @@ Only for debugging build.
     DisallowGarbageCollection no_gc;
 
     // some gc-safe operations.
-    // e.g., Accessing char in the string.
+    // e.g., Accessing char in the HeapObject of string.
 
     // if memory is allocated that could call GC in this block in here,
     // it will assert.
