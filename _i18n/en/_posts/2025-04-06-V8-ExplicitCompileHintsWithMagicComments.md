@@ -9,6 +9,7 @@ languages:
 tags:
 - Chromium
 - V8
+filepath: https://blog.seokho.dev/development/2025/04/06/V8-ExplicitCompileHintsWithMagicComments.html
 ---
 
 While following Chrome's development status, I found an [interesting feature](https://chromestatus.com/feature/5100466238652416) that will be shipped in Chrome M136 and V8 v13.6.
