@@ -11,7 +11,7 @@ tags:
 - V8
 ---
 
-While following Chrome's development status, I found an interesting feature that will be shipped in Chrome M136 and V8 v13.6.
+While following Chrome's development status, I found an [interesting feature](https://chromestatus.com/feature/5100466238652416) that will be shipped in Chrome M136 and V8 v13.6.
 
 It's called **Explicit Compile Hints with Magic Comments**.
 
