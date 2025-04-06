@@ -11,14 +11,14 @@ tags:
 - V8
 ---
 
-While following Chrome's development status, I found an interesting feature that will be shipped in Chrome M136.
+While following Chrome's development status, I found an interesting feature that will be shipped in Chrome M136 and V8 v13.6.
 
 It's called **Explicit Compile Hints with Magic Comments**.
 
 So let's see what it is.
 
 
-Currently v8 parses a [function lazily](https://v8.dev/blog/preparser) to reduce initial load times and optimize performance by only parsing code when it's executed.
+Currently, v8 parses a [function lazily](https://v8.dev/blog/preparser) to reduce initial load times and optimize performance by only parsing code when it's executed.
 
 To force eager parsing (parsing immediately), developers often use Immediately Invoked Function Expressions ([IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)):
   ```js 
@@ -27,7 +27,7 @@ To force eager parsing (parsing immediately), developers often use Immediately I
   })();
   ```
 
-There are well known ways to eagerly parse a module via IIFEs, using heuristic algorithms called Possibly Invoked Function Expressions ([PIFE](https://v8.dev/blog/preparser#pife)).
+This is a well-known way of eager parsing via heuristic algorithms called Possibly Invoked Function Expressions ([PIFE](https://v8.dev/blog/preparser#pife)).
 
 But [the WICG proposal](https://github.com/WICG/explicit-javascript-compile-hints-file-based?tab=readme-ov-file#the-pife-heuristic) said to use PIFE have some issues:
 
@@ -68,9 +68,10 @@ Let's break down in V8.
                     name_literal ==
                         base::StaticOneByteVector("allFunctionsCalledOnLoad") &&
                     hash_or_at_sign == '#' && c0_ != '=') {
+            // Over Here!
             saw_magic_comment_compile_hints_all_ = true;
-          // I assume below marking compiler hint per function.
-          // I'm not sure this feature behind the feature flag.
+          // I assume below is marking compiler hint per function.
+          // I'm not sure if this feature is behind the feature flag.
           } else if (name_literal ==
                         base::StaticOneByteVector("functionsCalledOnLoad") &&
                     hash_or_at_sign == '#') {
