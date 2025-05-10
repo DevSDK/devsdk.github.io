@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Became V8 committer
+title: V8 커미터가 되었습니다
 date:   2025-05-10 9:00:00+0900
 categories: development
 comments: true

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Became V8 committer
+title: Became a V8 committer
 date:   2025-05-10 9:00:00+0900
 categories: development
 comments: true
