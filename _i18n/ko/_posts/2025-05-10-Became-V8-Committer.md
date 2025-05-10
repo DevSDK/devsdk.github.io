@@ -30,4 +30,6 @@ filepath:
 
 앞으로도 커미터로서 계속 최선을 다하겠습니다.
 
+[기여 목록 보기](https://chromium-review.googlesource.com/q/owner:seokho@chromium.org+repo:v8/v8+-status:abandoned)
+
 ![Render example](/uploads/2025-05-10/mail.png)

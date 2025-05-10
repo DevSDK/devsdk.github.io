@@ -30,5 +30,7 @@ I'm hopeful that my small contributions can help make the world a little better 
 
 I'll keep putting in the effort, just like I always have.
 
+You can see the [Contribution List](https://chromium-review.googlesource.com/q/owner:seokho@chromium.org+repo:v8/v8+-status:abandoned)
+
 ![Render example](/uploads/2025-05-10/mail.png)
 
