@@ -26,6 +26,8 @@ I still remember when I said, "I'll become a V8 committer someday." And now, I a
 
 This project has taught me so much and introduced me to some amazing people.
 
+I'm hopeful that my small contributions can help make the world a little better and safer and faster.
+
 I'll keep putting in the effort, just like I always have.
 
 ![Render example](/uploads/2025-05-10/mail.png)
