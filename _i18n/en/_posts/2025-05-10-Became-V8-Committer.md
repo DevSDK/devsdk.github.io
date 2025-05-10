@@ -19,7 +19,7 @@ Over the past two years, I’ve spent most of my spare time contributing to the 
 
 Here are some of the things I've worked on:
 1.	Implemented Float16Array as a major new feature
-2.	Optimized various operations in the JIT compiler
+2.	Optimized several operations, including JIT compiler
 3.	Fixed long-standing bugs, including 7-year-old spec mismatches
 
 I still remember when I said, "I'll become a V8 committer someday." And now, I am.
