@@ -19,7 +19,10 @@ filepath:
 
 그동안 기여한 주요 내용은 다음과 같습니다.
 1. 주요 기능인 Float16Array 구현
+  * [V8에 Float16 관련 기능 추가한 첫번째 이야기](https://blog.seokho.dev/ko/development/2024/03/03/V8-Float16Array.html)
+  * [Float16Array Turbofan Pipeline 개발기 — Weekly Sync with V8 Leader](https://blog.seokho.dev/ko/development/2025/02/21/V8-DevLogFloat16Array.html)
 2. 최적화를 통한 일부 연산 성능 향상
+  * [V8의 Math.hypot 최적화 하기 - 반복의 숨은 비용](https://blog.seokho.dev/ko/development/2024/03/18/V8-optimize-MathHypot.html)
 3.  스팩과 다르게 동작하는 잘못된 동작 수정(7년간 방치된 버그 해결)
 
 누군가한테 “V8 커미터가 되겠다”고 말했던 것 같은데 이제 그 목표를 이뤘네요.

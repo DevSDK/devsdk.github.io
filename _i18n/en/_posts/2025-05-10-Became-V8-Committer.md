@@ -19,7 +19,10 @@ Over the past two years, I’ve spent most of my spare time contributing to the 
 
 Here are some of the things I've worked on:
 1.	Implemented Float16Array as a major new feature
+  * [The first journey of implementing Float16Array into V8](https://blog.seokho.dev/development/2024/03/03/V8-Float16Array.html)
+  * [Float16Array Turbofan Pipeline DevLog — Weekly Sync with V8 Leader](https://blog.seokho.dev/development/2025/02/21/V8-DevLogFloat16Array.html)
 2.	Optimized several operations, including JIT compiler
+  * [Optimize V8 Math.hypot - Hidden cost of the loop](https://blog.seokho.dev/development/2024/03/18/V8-optimize-MathHypot.html)
 3.	Fixed long-standing bugs, including 7-year-old spec mismatches
 
 I still remember when I said, "I'll become a V8 committer someday." And now, I am.
