@@ -24,6 +24,10 @@ Here are some of the things I've worked on:
 
 I still remember when I said, "I'll become a V8 committer someday." And now, I am.
 
+I'm surprised that there are only 75 committers worldwide, including me.
+
+![count](/uploads/2025-05-10/members.png)
+
 This project has taught me so much and introduced me to some amazing people.
 
 I'm hopeful that my small contributions can help make the world a little better and safer and faster.
