@@ -193,7 +193,7 @@ For more read about backgrounds and beginning of this project: [Land ahoy: leavi
 
 For a few years, I contributed JS feature surface layer area of the V8 project. However, I realized that  memory managements and actual JIT compiler were still 'black box' to me. As opportunities to implement new ECMAScript features became harder to find as an external contributor. So I decided to expand my contribution area to look inside the black box and expand my opportunities.
 
-I remembered that Darius had reviewed the JIT part of my Float16Array CLs. And he recently published the article on v8.dev about turbolev. I sent him an email to see if I can help something.
+I remembered that Darius had reviewed the JIT part of my [Float16Array](https://blog.seokho.dev/development/2025/02/21/V8-DevLogFloat16Array.html) CLs. And he recently published the article on v8.dev about turbolev. I sent him an email to see if I can help something.
 
 
 >Hi Darius,
@@ -334,7 +334,7 @@ Now, when it JIT compiles this code, the `Float64Sqrt` node will generate machin
 
 For Top-Tier turbolev compilation:
 
-The Float64Sqrt node consumed by turbolev-graph-builder.
+The `Float64Sqrt` node consumed by turbolev-graph-builder.
 
 [turbolev-graph-builder.cc](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/compiler/turboshaft/turbolev-graph-builder.cc;l=4225-4229;drc=1be580e8347d0656f0f5b4d4dcdcd16ac582be3d)
 ```cpp
