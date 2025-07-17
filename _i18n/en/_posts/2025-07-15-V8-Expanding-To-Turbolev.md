@@ -23,7 +23,7 @@ This post will describe **how I expanded my contribution area and merged my firs
 ## Backgrounds
 ### V8 and JIT
 
-V8 is the Javascript Engine that powers Chrome, NodeJS, Deno, ... and more.  It has multi tiering JIT compiler. A just-in-time (JIT) compilation is compilation (of computer code) during execution of a program (at run time) rather than before execution. [FYI: Wikipidiea]
+V8 is the Javascript Engine that powers Chrome, NodeJS, Deno, ... and more.  It has multi tiering JIT compiler. A just-in-time (JIT) compilation is compilation (of computer code) during execution of a program (at run time) rather than before execution. [FYI: [Wikipedia](https://en.wikipedia.org/wiki/Just-in-time_compilation)]
 
 For example, below code will create bytecode and executed in the Virtual Machine. I.e., Not a actual machine instruction.
 

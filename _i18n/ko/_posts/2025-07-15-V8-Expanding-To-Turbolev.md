@@ -25,7 +25,7 @@ filepath:
 ## Backgrounds
 ### V8과 JIT
 
-V8은 크롬, NodeJS, Deno 등 많은 곳에서 사용되는 자바스크립트 엔진입니다. V8은 multi-tiering JIT 컴파일러를 가지고 있습니다. Just-in-time, 즉 JIT 컴파일은 프로그램 실행 전이 아닌 실행 중에 코드를 실시간으로 컴파일하는 방식입니다. [FYI: Wikipidiea]
+V8은 크롬, NodeJS, Deno 등 많은 곳에서 사용되는 자바스크립트 엔진입니다. V8은 multi-tiering JIT 컴파일러를 가지고 있습니다. Just-in-time, 즉 JIT 컴파일은 프로그램 실행 전이 아닌 실행 중에 코드를 실시간으로 컴파일하는 방식입니다. [FYI: [Wikipedia](https://en.wikipedia.org/wiki/Just-in-time_compilation)]
 
 예를 들어, 아래 코드는 바이트코드로 컴파일 되어 바이트 코드가 가상 머신에서 실행됩니다. 다시 말해 실제 기계어가 아니라는 뜻 입니다.
 
