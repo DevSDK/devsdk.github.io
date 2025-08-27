@@ -83,7 +83,7 @@ Canvas API의 [context.font property](https://developer.mozilla.org/en-US/docs/W
 그 다음 pdfjs가 PDF 바이너리에서 폰트를 파싱하고 로드하는 방식을 살펴봤다.
 
 * PDF 바이너리 읽기
-- [CID fonts](https://en.wikipedia.org/wiki/PostScript_fonts#CID) 파싱 (
+- [CID fonts](https://en.wikipedia.org/wiki/PostScript_fonts#CID) 파싱 
     
     - CFF Parser: [https://github.com/mozilla/pdf.js/blob/master/src/core/cff_parser.js](https://github.com/mozilla/pdf.js/blob/master/src/core/cff_parser.js)
     - 결과는 메타데이터와 Uint8Array 폰트 데이터다.
@@ -248,7 +248,7 @@ if(nativeFontFace.family === 'g_d1_f5') {
 
 ![reproduction](/uploads/2025-08-27/reproduction.png)
 
-이슈를 제보하고 chromium slack에서 공유했다. 누군가가 이것이 폰트 컴포넌트나 SKIA와 관련이 있을 것 같다고 지적했다.
+이슈를 제보하고 chromium slack에 공유했다. 누군가가 이것이 폰트 컴포넌트나 SKIA와 관련이 있을 것 같다고 말해줬다.
 
 ![slack](/uploads/2025-08-27/slack.png)
 

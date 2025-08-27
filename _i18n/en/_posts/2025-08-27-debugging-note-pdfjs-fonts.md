@@ -85,7 +85,7 @@ Now we understand how pdfjs handled the font.
 I then examined how pdfjs parses and loads fonts from the PDF binary.
 
 * Reading the PDF binary
-- Parse [CID fonts](https://en.wikipedia.org/wiki/PostScript_fonts#CID)  (
+- Parse [CID fonts](https://en.wikipedia.org/wiki/PostScript_fonts#CID) 
     
     - CFF Parser: [https://github.com/mozilla/pdf.js/blob/master/src/core/cff_parser.js](https://github.com/mozilla/pdf.js/blob/master/src/core/cff_parser.js)
     - The results are metadata and Uint8Array font data.
