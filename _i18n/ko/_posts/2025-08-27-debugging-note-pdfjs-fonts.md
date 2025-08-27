@@ -255,3 +255,8 @@ if(nativeFontFace.family === 'g_d1_f5') {
 그럼 다음은?
 
 지금은 적절한 엔지니어가 이 이슈를 담당하기를 기다리고 있다. 만약 한동안 할당되지 않는다면, 아마도 이 이슈 자체를 직접 더 깊이 파볼 계획이다.
+
+
+Update: drott 이 이슈를 가져갔다! googlefonts/fontations 에 이슈를 올렸다고 한다. M131 부터 발생한거로 추정된다고 한다.
+
+![update](/uploads/2025-08-27/update.png)

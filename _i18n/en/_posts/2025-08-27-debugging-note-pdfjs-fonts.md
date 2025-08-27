@@ -266,3 +266,6 @@ So what's next?
 
 Now, I'm waiting for the right engineer to pick up this. If it remains unassigned for a while, probably, I plan to dig deeper into the issue itself.
 
+Update: drott takes this issue! He filed an issue to googlefonts/fontations. And suspected that started from M131.
+
+![update](/uploads/2025-08-27/update.png)
