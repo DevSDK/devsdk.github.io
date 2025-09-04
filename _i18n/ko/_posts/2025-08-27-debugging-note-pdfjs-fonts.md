@@ -15,6 +15,7 @@ tags:
 
 최근에 회사 프론트엔드 제품에서 발견한 이슈를 chromium 이슈 트레커 crbug에 제보했다. 이 블로그 포스트에서는 브라우저 이슈라고 파악한 과정과 최소한의 재현 코드로 리포트한 방법을 간략히 공유하려고 한다.
 
+issue: [https://issues.chromium.org/u/1/issues/439716343](https://issues.chromium.org/u/1/issues/439716343)
 
 
 얼마 전 CS팀에서 일부 사용자들이 Android 기기에서 PDF를 볼 때 텍스트가 깨진다고 공유했다.
@@ -256,7 +257,26 @@ if(nativeFontFace.family === 'g_d1_f5') {
 
 지금은 적절한 엔지니어가 이 이슈를 담당하기를 기다리고 있다. 만약 한동안 할당되지 않는다면, 아마도 이 이슈 자체를 직접 더 깊이 파볼 계획이다.
 
+---
 
-Update: drott 이 이슈를 가져갔다! googlefonts/fontations 에 이슈를 올렸다고 한다. M131 부터 발생한거로 추정된다고 한다.
+### 업데이트!
+
+Dominik 이 이슈를 가져갔다! googlefonts/fontations 에 이슈를 올렸다고 한다. M131 부터 발생한거로 추정된다고 한다.
 
 ![update](/uploads/2025-08-27/update.png)
+
+---
+
+### 그리고 또 다른 업데이트!
+
+![fixed](/uploads/2025-08-27/fixed.png)
+
+업스트림에서 문제가 수정되었다. 새로운 폰트 엔진(아마 M131에서 활성화된 것으로 보인다)에서 나온 버그였다.
+
+![font](/uploads/2025-08-27/font.png)
+
+문제가 있었던 PDF에서 이슈가 해결된 것을 확인했다!
+
+이 변경은 10월 말에 릴리스되는 M142에 포함되어 배포될 예정이다.
+
+![release](/uploads/2025-08-27/release.png)

@@ -266,6 +266,28 @@ So what's next?
 
 Now, I'm waiting for the right engineer to pick up this. If it remains unassigned for a while, probably, I plan to dig deeper into the issue itself.
 
-Update: drott takes this issue! He filed an issue to googlefonts/fontations. And suspected that started from M131.
+---
+
+### Updates
+
+Dominik takes this issue! He filed an issue to [googlefonts/fontations](https://github.com/googlefonts/fontations). And suspected that started from M131.
 
 ![update](/uploads/2025-08-27/update.png)
+
+
+---
+
+### And another update!
+
+![fixed](/uploads/2025-08-27/fixed.png)
+
+It has been fixed at the upstream. It was a bug from the new font engine (that seems to be enabled on M131).
+
+
+![font](/uploads/2025-08-27/font.png)
+
+I can verify the issue has been resolved for the problematic pdf!
+
+This change will be shipped in the M142 at the end of October.
+
+![release](/uploads/2025-08-27/release.png)
