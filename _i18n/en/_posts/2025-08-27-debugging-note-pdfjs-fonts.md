@@ -283,6 +283,7 @@ Dominik takes this issue! He filed an issue to [googlefonts/fontations](https://
 
 It has been fixed at the upstream. It was a bug from the new font engine (that seems to be enabled on M131).
 
+This fix is significant because it addresses not only the canvas issue, but also the specific font render issue on the web platform.
 
 ![font](/uploads/2025-08-27/font.png)
 
