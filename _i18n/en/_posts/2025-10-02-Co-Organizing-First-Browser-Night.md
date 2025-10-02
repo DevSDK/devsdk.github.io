@@ -75,7 +75,7 @@ We jocked that these people were all of the browser engineers in south korea.
 
 The lightning talk session:
 
-| 발표자 (Speaker)     | Topic                                                                  |
+| Speaker           | Topic                                                                  |
 | :---------------- | :--------------------------------------------------------------------- |
 | Sangwoo Ko        | YouTubing with Chromium                                                |
 | Seokho Song       | My Journey to Becoming a Committer for Both Chromium and V8            |
