@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Co-Organizing Browser Night for the browser developer meetup in South Korea
+title: Co-Organizing Browser Night, the browser developer meetup in South Korea
 date:   2025-10-02 9:00:00+0900
 categories: development
 comments: true
