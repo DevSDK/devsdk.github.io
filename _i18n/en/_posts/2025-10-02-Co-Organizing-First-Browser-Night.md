@@ -6,7 +6,6 @@ categories: development
 comments: true
 languages:
 - english
-- korean
 tags:
 - Chromium
 - Browser
