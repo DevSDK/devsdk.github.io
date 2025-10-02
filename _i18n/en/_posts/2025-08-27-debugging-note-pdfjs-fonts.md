@@ -11,6 +11,7 @@ tags:
 - Chromium
 - Frontend
 - pdf
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2025-08-27-debugging-note-pdfjs-fonts.md
 ---
 
 Recently, [I filed an issue](https://issues.chromium.org/u/1/issues/439716343) to crbug.com which is discovered in our frontend product. In this blog post, I'll share how I figured out it as a browser issue and how I reported it with the minimal reproduction code.

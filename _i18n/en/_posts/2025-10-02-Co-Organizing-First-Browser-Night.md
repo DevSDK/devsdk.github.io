@@ -11,6 +11,7 @@ tags:
 - Browser
 - Open Source
 - Community
+filepath: https://github.com/DevSDK/devsdk.github.io/blob/main/_i18n/en/_posts/2025-10-02-Co-Organizing-First-Browser-Night.md
 ---
 
 ### The Beginning...
