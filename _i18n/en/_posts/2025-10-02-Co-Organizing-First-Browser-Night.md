@@ -24,6 +24,8 @@ One of the topics we talked about was 'what if we hold a browser engineer meetup
 
 So after a while, at the end of the March, we chatted about that on KakaoTalk (which is chat application like line or signals). And we scheduled for initial meeting.
 
+One of us had experience organizing developer meetups, so we got off to a great start.
+
 I am so excited about this because I felt there was lack of space for browser engineers in south korea.
 
 Yeah, this journey had begun.
