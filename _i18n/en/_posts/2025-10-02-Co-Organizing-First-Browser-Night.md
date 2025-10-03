@@ -108,8 +108,15 @@ There are some pictures from event:
 
 ![me!](/uploads/2025-10-02/me.JPG)
 
-*me!*
+*my lighting talk!*
 
+![cup](/uploads/2025-10-02/cup.jpg)
+
+*cup!*
+
+![browser devs](/uploads/2025-10-02/group-photo.jpg)
+
+*browser folks!*
 
 ### Looking back
 
