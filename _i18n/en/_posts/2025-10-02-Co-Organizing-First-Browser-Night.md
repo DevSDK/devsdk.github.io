@@ -120,9 +120,11 @@ There are some pictures from event:
 
 ### Looking back
 
-So yeah. The first Browser Night was a sccusses.
+So yeah. The first Browser Night was a success.
 
 The all sessions were very exciting and helpful and fun.
+
+The networking session was very fun, and everyone enjoyed chatting with each other. We had been a little worried about breaking the ice, but that concern was completely unnecessary.
 
 Based on the feedback form, we got a **4.87** out of 5 for overall satisfaction.
 
