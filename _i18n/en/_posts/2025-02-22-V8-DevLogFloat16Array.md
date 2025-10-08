@@ -90,7 +90,7 @@ Now Float16Array is ready for development and float16 <> float64 conversion for 
 I changed a plan from 'just calling builtin operation':
 
 1. Wait until the machine-support conversions are ready.
-2. Review the conversion codes, to determine the scope
+2. Review the conversion codes, to determine the scope.
 3. Remove the "always unoptimize" code in the js-native-context-specialization
 4. Add turbofan nodes through the turbofan pipelines per each step to support Float16Array.
 5. Connect the pipeline or node implemented by Ilya (I may need to investigate which step is the best fit).
