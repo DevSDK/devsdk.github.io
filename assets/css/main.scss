@@ -6,3 +6,20 @@ sitemap: false
 @charset "utf-8";
 
 @import "so-simple";
+
+/* Code blocks use a light version of Monokai. */
+@import "monokai-light";
+
+/* The code background is barely distinguishable from the white page. */
+div.highlighter-rouge,
+figure.highlight {
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Inline code stays light so it reads well inside paragraphs. */
+code.highlighter-rouge {
+  color: #24292f;
+  background-color: #eff1f3;
+}

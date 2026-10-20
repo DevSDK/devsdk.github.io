@@ -1,0 +1,66 @@
+// Light take on Monokai (Sublime): tokens get the same colors as in
+// `rougify style monokai.sublime`, darkened to stay readable (4.5:1 or more)
+// on a light background. Rouge's own `base16.monokai.light` keeps the dark
+// theme's colors, which are unreadable on light (strings are 1.5:1).
+
+$monokai-light-bg: #f6f8fa;      // neutral gray; Monokai's own #f8f8f2 looks yellow
+$monokai-light-text: #272822;    // Monokai's background color
+$monokai-light-comment: #656d76;
+$monokai-light-pink: #be185d;    // keywords, operators, tags
+$monokai-light-cyan: #0e7490;    // types, declarations, constants
+$monokai-light-green: #4d7c0f;   // functions, classes, attributes
+$monokai-light-orange: #c2410c;  // strings, regexes, builtins
+$monokai-light-purple: #7c3aed;  // numbers, escapes, symbols
+$monokai-light-error: #960050;
+
+.highlight {
+  color: $monokai-light-text;
+  background-color: $monokai-light-bg;
+}
+
+.highlight .hll {
+  background-color: #eaeef2;
+}
+
+// Plain names and punctuation; overrides the theme's per-token colors.
+.highlight .n, .highlight .nx, .highlight .nn, .highlight .nl, .highlight .ni,
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi, .highlight .vm,
+.highlight .bp, .highlight .py, .highlight .w, .highlight .p, .highlight .l,
+.highlight .ld {
+  color: inherit;
+}
+
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cp,
+.highlight .cpf, .highlight .c1, .highlight .cs {
+  color: $monokai-light-comment;
+}
+
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kv, .highlight .o,
+.highlight .ow, .highlight .nt {
+  color: $monokai-light-pink;
+}
+
+.highlight .kc, .highlight .kd, .highlight .kr, .highlight .kt, .highlight .no {
+  color: $monokai-light-cyan;
+}
+
+.highlight .na, .highlight .nc, .highlight .nd, .highlight .ne, .highlight .nf,
+.highlight .fm {
+  color: $monokai-light-green;
+}
+
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .dl, .highlight .sd,
+.highlight .s2, .highlight .sh, .highlight .si, .highlight .sx, .highlight .s1,
+.highlight .sr, .highlight .nb {
+  color: $monokai-light-orange;
+}
+
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi,
+.highlight .il, .highlight .mo, .highlight .mx, .highlight .sc, .highlight .se,
+.highlight .ss {
+  color: $monokai-light-purple;
+}
+
+.highlight .err, .highlight .gr, .highlight .gt {
+  color: $monokai-light-error;
+}
