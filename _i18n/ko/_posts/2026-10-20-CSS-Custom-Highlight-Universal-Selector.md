@@ -157,7 +157,9 @@ inline unsigned CSSSelector::SpecificityForOneSelector() const {
 
 API에 대한 더 자세한 내용은 MDN을 참고(아직 업데이트 안 돼 있을 수 있음): [CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API)
 
-이 기능은 Chrome 158에 포함되어 2026년 11월 4일에 출시될 예정이다. 자세한 내용은 [Chrome Platform Status 항목](https://chromestatus.com/feature/5174965228929024), [구현 CL](https://chromium-review.googlesource.com/c/chromium/src/+/8235619), [DevTools 지원 CL](https://chromium-review.googlesource.com/c/devtools/devtools-frontend/+/8577240)에서 확인할 수 있다.
+2026년 10월 20일, Intent to Ship에서 Blink API owner 3명의 LGTM을 받았고 배포 CL을 머지했다. 이 기능은 Chrome 158에 포함되어 2026년 11월 4일에 출시될 예정이다.
+
+자세한 내용은 [Chrome Platform Status 항목](https://chromestatus.com/feature/5174965228929024), [구현 CL](https://chromium-review.googlesource.com/c/chromium/src/+/8235619), [DevTools 지원 CL](https://chromium-review.googlesource.com/c/devtools/devtools-frontend/+/8577240)에서 확인할 수 있다.
 
 ## 마치며
 

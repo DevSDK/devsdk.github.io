@@ -164,7 +164,9 @@ The registered custom highlight `bar` will paint `color: red` because it falls b
 
 For more on the API, see MDN [CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API) (it may not be updated yet).
 
-This feature will be shipped in Chrome M158, scheduled for November 4, 2026. You can find the details in the [feature entry](https://chromestatus.com/feature/5174965228929024), the [feature implementation](https://chromium-review.googlesource.com/c/chromium/src/+/8235619), and the [DevTools support implementation](https://chromium-review.googlesource.com/c/devtools/devtools-frontend/+/8577240).
+On October 20, 2026, the Intent to Ship received three LGTMs from the Blink API owners, and I merged the shipping CL. This feature will be shipped in Chrome M158, scheduled for November 4, 2026.
+
+You can find the details in the [feature entry](https://chromestatus.com/feature/5174965228929024), the [feature implementation](https://chromium-review.googlesource.com/c/chromium/src/+/8235619), and the [DevTools support implementation](https://chromium-review.googlesource.com/c/devtools/devtools-frontend/+/8577240).
 
 ## Acknowledgments
 
