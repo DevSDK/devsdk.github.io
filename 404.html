@@ -1,5 +1,15 @@
+---
+permalink: /404.html
+---
 <!-- Icons purchased via Iconfinder under Basic License -->
 <head>
+{% include google-analytics.html %}
+<script>
+  // GA4 records the missing URL and the referring page with this event.
+  if (typeof gtag === 'function') {
+    gtag('event', 'page_not_found');
+  }
+</script>
 <link rel="stylesheet" type="text/css" href="/assets/css/404.css">
 <script src="/assets/js/404.js"></script>
 </head>

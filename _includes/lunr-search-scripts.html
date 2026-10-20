@@ -71,6 +71,7 @@
     console.log(jQuery.type(idx));
 
     $(document).ready(function () {
+      var searchTimer, lastSearchTerm;
       $('input#search').on('keyup', function () {
         var resultdiv = $('#results');
         var query = $(this).val().toLowerCase();
@@ -101,6 +102,17 @@
             '</article>';
           resultdiv.append(searchitem);
         }
+
+        // Results update on every keystroke, so report the term to GA4 only
+        // once the reader stops typing.
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(function () {
+          var term = query.trim();
+          if (term && term !== lastSearchTerm && typeof gtag === 'function') {
+            lastSearchTerm = term;
+            gtag('event', 'search', { search_term: term });
+          }
+        }, 1000);
       });
     });
   </script>
